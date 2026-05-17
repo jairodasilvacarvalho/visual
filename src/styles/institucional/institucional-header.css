@@ -1,0 +1,301 @@
+﻿/* =========================================================
+   INSTITUCIONAL — HEADER PREMIUM INDEPENDENTE
+========================================================= */
+
+.institucional-header,
+.institucional-header * {
+  box-sizing: border-box;
+}
+
+.institucional-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+
+  width: 100%;
+  height: 66px;
+
+  display: grid;
+  grid-template-columns: 220px 1fr 220px;
+  align-items: center;
+
+  padding: 0 72px;
+
+  background: rgba(5, 8, 22, 0.76);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+  backdrop-filter: blur(18px);
+}
+
+.institucional-logo {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+  text-decoration: none;
+}
+
+.institucional-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 44px;
+}
+
+.institucional-nav a {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+
+  transition: color 0.25s ease;
+}
+
+.institucional-nav a:hover {
+  color: #ffffff;
+}
+
+.institucional-header-button {
+  justify-self: end;
+
+  height: 38px;
+  padding: 0 24px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 8px;
+
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.institucional-header-button:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: #ffffff;
+}
+
+.institucional-header-user-area {
+  justify-self: end;
+
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.institucional-header-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255,255,255,0.08);
+  box-shadow:
+    0 10px 24px rgba(0,0,0,0.35),
+    0 0 20px rgba(59,130,246,0.12);
+}
+
+
+.institucional-header-user-area {
+  padding-right: 6px;
+}
+
+.institucional-header-button {
+  border-radius: 12px;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,0.04),
+      rgba(255,255,255,0.02)
+    );
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.06),
+    0 8px 20px rgba(0,0,0,0.24);
+}
+
+.institucional-header-button:hover {
+  transform: translateY(-1px);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.08),
+    0 12px 28px rgba(0,0,0,0.34);
+}
+
+.institucional-header-avatar {
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.institucional-header-avatar:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 14px 32px rgba(0,0,0,0.42),
+    0 0 24px rgba(59,130,246,0.18);
+}
+
+
+.institucional-logo {
+  position: relative;
+
+  display: inline-flex;
+  align-items: center;
+
+  gap: 10px;
+
+  text-shadow:
+    0 0 18px rgba(59,130,246,0.18);
+}
+
+.institucional-logo::before {
+  content: "";
+
+  width: 14px;
+  height: 14px;
+
+  border-radius: 4px;
+
+  background:
+    radial-gradient(
+      circle,
+      #60a5fa,
+      #2563eb
+    );
+
+  box-shadow:
+    0 0 12px rgba(59,130,246,0.55),
+    0 0 22px rgba(37,99,235,0.28);
+}
+
+
+.institucional-nav a {
+  position: relative;
+}
+
+.institucional-nav a::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  bottom: -8px;
+
+  width: 0%;
+  height: 2px;
+
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #60a5fa,
+      #2563eb
+    );
+
+  transition: width 0.25s ease;
+}
+
+.institucional-nav a:hover::after {
+  width: 100%;
+}
+
+/* =========================================================
+   HEADER — REFINAMENTO CINEMATOGRÁFICO
+========================================================= */
+
+.institucional-header {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(4, 8, 20, 0.88) 0%,
+      rgba(5, 10, 24, 0.72) 100%
+    ) !important;
+
+  backdrop-filter: blur(18px);
+
+  border-bottom:
+    1px solid rgba(59, 130, 246, 0.08);
+
+  box-shadow:
+    0 10px 40px rgba(0,0,0,0.22),
+    0 1px 0 rgba(255,255,255,0.03) inset;
+}
+
+.institucional-header::after {
+  content: '';
+
+  position: absolute;
+  left: 0;
+  bottom: 0;
+
+  width: 100%;
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(59,130,246,0.22),
+      transparent
+    );
+
+  opacity: 0.9;
+}
+
+
+/* =========================================================
+   HEADER — BOTAO REGISTRAR PREMIUM
+========================================================= */
+
+.institucional-header-register{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  height:44px;
+  padding:0 20px;
+
+  border-radius:14px;
+
+  background:linear-gradient(
+    135deg,
+    #2563eb 0%,
+    #1d4ed8 100%
+  );
+
+  color:#ffffff;
+  font-size:0.95rem;
+  font-weight:600;
+  text-decoration:none;
+
+  box-shadow:
+    0 10px 24px rgba(37,99,235,0.28),
+    inset 0 1px 0 rgba(255,255,255,0.10);
+
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    opacity 180ms ease;
+}
+
+.institucional-header-register:hover{
+  transform:translateY(-1px);
+
+  box-shadow:
+    0 14px 32px rgba(37,99,235,0.34),
+    inset 0 1px 0 rgba(255,255,255,0.14);
+}
+

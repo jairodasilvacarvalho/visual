@@ -1,0 +1,550 @@
+/* =========================================================
+   INSTITUCIONAL — BASE GLOBAL
+========================================================= */
+
+.institucional-home {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top, rgba(37, 99, 235, 0.12), transparent 35%),
+    #050816;
+
+  color: #ffffff;
+  overflow-x: hidden;
+}
+
+/* =========================================================
+   INSTITUCIONAL — HERO SECTION
+========================================================= */
+
+.institucional-hero-section {
+  width: 100%;
+  max-width: 1400px;
+
+  margin: 0 auto;
+
+  padding:
+    105px
+    48px
+    80px;
+
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  align-items: center;
+  gap: 56px;
+}
+
+/* =========================================================
+   INSTITUCIONAL — HERO CONTENT
+========================================================= */
+
+.institucional-hero-content {
+  max-width: 720px;
+}
+
+/* =========================================================
+   INSTITUCIONAL — BADGE
+========================================================= */
+
+.institucional-hero-badge {
+  display: inline-flex;
+
+  padding:
+    10px
+    18px;
+
+  border-radius: 999px;
+
+  background: rgba(37, 99, 235, 0.12);
+
+  border: 1px solid rgba(96, 165, 250, 0.16);
+
+  color: #93c5fd;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  margin-bottom: 22px;
+}
+
+/* =========================================================
+   INSTITUCIONAL — TÍTULO
+========================================================= */
+
+.institucional-hero-title {
+  font-size: 72px;
+  line-height: 1.02;
+  font-weight: 800;
+  letter-spacing: -2px;
+
+  margin-bottom: 22px;
+}
+
+/* =========================================================
+   INSTITUCIONAL — DESCRIÇÃO
+========================================================= */
+
+.institucional-hero-description {
+  font-size: 19px;
+  line-height: 1.9;
+
+  color: rgba(255, 255, 255, 0.78);
+
+  max-width: 720px;
+
+  margin-bottom: 42px;
+}
+
+/* =========================================================
+   INSTITUCIONAL — ACTIONS
+========================================================= */
+
+.institucional-hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+/* =========================================================
+   INSTITUCIONAL — PRIMARY BUTTON
+========================================================= */
+
+.institucional-primary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 56px;
+
+  padding:
+    0
+    32px;
+
+  border-radius: 8px;
+
+  background: linear-gradient(
+    135deg,
+    #2563eb,
+    #1d4ed8
+  );
+
+  color: #ffffff;
+
+  font-weight: 700;
+
+  text-decoration: none;
+
+  box-shadow:
+    0 15px 40px rgba(37, 99, 235, 0.28);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.institucional-primary-button:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 22px 50px rgba(37, 99, 235, 0.36);
+}
+
+/* =========================================================
+   INSTITUCIONAL — SECONDARY BUTTON
+========================================================= */
+
+.institucional-secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 56px;
+
+  padding:
+    0
+    28px;
+
+  border-radius: 8px;
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  background: rgba(255, 255, 255, 0.03);
+
+  color: #ffffff;
+
+  text-decoration: none;
+
+  transition:
+    background 0.25s ease,
+    border 0.25s ease;
+}
+
+.institucional-secondary-button:hover {
+  background: rgba(255, 255, 255, 0.06);
+
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+/* =========================================================
+   INSTITUCIONAL — CHAT PREVIEW
+========================================================= */
+
+.institucional-hero-preview {
+  display: flex;
+  justify-content: center;
+}
+
+/* =========================================================
+   INSTITUCIONAL — PLANS SECTION
+========================================================= */
+
+.institucional-plans-section {
+  padding:
+    40px
+    48px
+    120px;
+}
+
+/* =========================================================
+   INSTITUCIONAL — ANIMAÇÕES
+========================================================= */
+
+
+
+@keyframes testimonialMarquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+
+
+
+
+
+
+
+
+.institucional-hero-section {
+  position: relative;
+  isolation: isolate;
+}
+
+
+
+.institucional-hero-title {
+  font-size: clamp(4rem, 5.2vw, 5.8rem);
+  line-height: 0.94;
+  letter-spacing: -0.05em;
+
+  color: #ffffff;
+
+  text-shadow:
+    0 8px 30px rgba(0,0,0,0.35);
+}
+
+.institucional-hero-description {
+  max-width: 760px;
+
+  font-size: 1.16rem;
+  line-height: 1.9;
+
+  color: rgba(226,232,240,0.86);
+}
+
+.institucional-hero-preview {
+  position: relative;
+  z-index: 2;
+
+  transform:
+    translateY(-52px)
+    scale(1.01);
+}
+
+
+
+
+
+
+
+
+
+/* =========================================================
+   HERO — EFEITO PNG CINEMATOGRÁFICO
+========================================================= */
+
+
+
+
+
+
+/* =========================================================
+   HERO — PROFUNDIDADE CINEMATOGRÁFICA
+========================================================= */
+
+.institucional-hero-section{
+  position:relative;
+  overflow:hidden;
+}
+
+
+
+
+
+
+
+.institucional-hero-content{
+  position:relative;
+  isolation:isolate;
+}
+
+.institucional-hero-content::before{
+  content:"";
+  position:absolute;
+  top:50%;
+  left:52%;
+  transform:translate(-50%,-50%);
+  width:620px;
+  height:620px;
+  border-radius:50%;
+  background:
+    radial-gradient(circle,
+      rgba(37,99,235,0.12) 0%,
+      rgba(37,99,235,0.06) 28%,
+      rgba(37,99,235,0.02) 48%,
+      transparent 72%);
+  filter:blur(55px);
+  z-index:-1;
+  pointer-events:none;
+}
+
+
+/* =========================================================
+   HERO — AJUSTE FINAL DO TÍTULO
+========================================================= */
+
+.institucional-hero-title{
+  font-size: clamp(3.7rem, 6.4vw, 6rem);
+  line-height: 0.94;
+  letter-spacing: -0.055em;
+  max-width: 720px;
+}
+
+
+/* =========================================================
+   HERO — REFINO DE ESPAÇAMENTO DO CONTEÚDO
+========================================================= */
+
+.institucional-hero-description{
+  margin-top: 22px;
+  max-width: 720px;
+}
+
+.institucional-hero-actions{
+  margin-top: 34px;
+}
+
+
+/* =========================================================
+   HERO — ESCALA MAIS PREMIUM DO TÍTULO
+========================================================= */
+
+.institucional-hero-title{
+  font-size: clamp(2.8rem, 4.7vw, 4.6rem);
+  line-height: 0.98;
+  max-width: 540px;
+}
+
+
+/* =========================================================
+   HERO — SUBTÍTULO PREMIUM
+========================================================= */
+
+.institucional-hero-description{
+  max-width: 560px;
+  font-size: 1.08rem;
+  line-height: 1.9;
+  color: rgba(255,255,255,0.72);
+  letter-spacing: 0.01em;
+}
+
+
+/* =========================================================
+   HERO — CTA PREMIUM
+========================================================= */
+
+.institucional-primary-button{
+  min-width: 210px;
+  height: 58px;
+  border-radius: 16px;
+  box-shadow:
+    0 18px 42px rgba(37,99,235,0.32),
+    inset 0 1px 0 rgba(255,255,255,0.22);
+}
+
+.institucional-secondary-button{
+  min-width: 128px;
+  height: 58px;
+  border-radius: 16px;
+}
+
+
+/* =========================================================
+   HERO — AJUSTE FINO ENTRE TÍTULO E DESCRIÇÃO
+========================================================= */
+
+.institucional-hero-description{
+  margin-top: 14px;
+}
+
+.institucional-hero-actions{
+  margin-top: 28px;
+}
+
+
+/* =========================================================
+   HERO — FORÇAR ESPAÇAMENTO COMPACTO
+========================================================= */
+
+.institucional-hero-description{
+  margin-top: 8px !important;
+}
+
+.institucional-hero-actions{
+  margin-top: 22px !important;
+}
+
+
+/* =========================================================
+   HERO — FRAME PREMIUM DO SIMULADOR
+========================================================= */
+
+.institucional-phone-frame{
+  box-shadow:
+    0 40px 90px rgba(0,0,0,0.72),
+    0 0 60px rgba(37,99,235,0.10),
+    inset 0 2px 0 rgba(255,255,255,0.06);
+}
+
+
+/* =========================================================
+   HERO — REFLEXO PREMIUM SUPERIOR
+========================================================= */
+
+.institucional-phone-frame::before{
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 14px;
+  right: 14px;
+  height: 2px;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,0.18),
+    transparent
+  );
+
+  border-radius: 999px;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   HERO — REFORCO CONTROLADO DO REFLEXO DO FRAME
+========================================================= */
+
+.institucional-phone-frame::before{
+  top: 8px;
+  left: 22px;
+  right: 22px;
+  height: 3px;
+
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255,255,255,0.08) 18%,
+    rgba(255,255,255,0.24) 50%,
+    rgba(255,255,255,0.08) 82%,
+    transparent 100%
+  );
+
+  opacity: 0.85;
+}
+
+
+/* =========================================================
+   HERO — VIDRO INTERNO PREMIUM DO SIMULADOR
+========================================================= */
+
+.institucional-phone-screen{
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.035), transparent 22%),
+    #071014;
+}
+
+
+/* =========================================================
+   HERO — BOLHAS PREMIUM DO SIMULADOR
+========================================================= */
+
+.institucional-chat-bubble{
+  box-shadow:
+    0 10px 24px rgba(0,0,0,0.22),
+    inset 0 1px 0 rgba(255,255,255,0.045);
+}
+
+.institucional-chat-bubble.user{
+  box-shadow:
+    0 12px 28px rgba(37,99,235,0.26),
+    inset 0 1px 0 rgba(255,255,255,0.10);
+}
+
+
+/* =========================================================
+   HERO — MICRO PERSPECTIVA CINEMATOGRAFICA
+========================================================= */
+
+.institucional-phone-frame{
+  transform:
+    perspective(1400px)
+    rotateY(-4deg)
+    rotateX(1deg);
+}
+
+
+/* =========================================================
+   HERO — EQUILIBRIO PREMIUM ENTRE TEXTO E SIMULADOR
+========================================================= */
+
+.institucional-hero-content{
+  max-width: 560px;
+}
+
+.institucional-hero-preview{
+  margin-left: 42px;
+}
+
+
+/* =========================================================
+   HERO — AJUSTE FINO DA POSICAO DO SIMULADOR
+========================================================= */
+
+.institucional-hero-preview{
+  margin-left: 12px;
+}
+
+
+/* =========================================================
+   HERO — POSICAO FINAL DO SIMULADOR
+========================================================= */
+
+.institucional-hero-preview{
+  margin-left: -18px;
+}
+

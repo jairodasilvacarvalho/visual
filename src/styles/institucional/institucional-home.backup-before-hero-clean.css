@@ -1,0 +1,1019 @@
+﻿/* =========================================================
+   INSTITUCIONAL — BASE GLOBAL
+========================================================= */
+
+.institucional-home {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top, rgba(37, 99, 235, 0.12), transparent 35%),
+    #050816;
+
+  color: #ffffff;
+  overflow-x: hidden;
+}
+
+/* =========================================================
+   INSTITUCIONAL — HERO SECTION
+========================================================= */
+
+.institucional-hero-section {
+  width: 100%;
+  max-width: 1400px;
+
+  margin: 0 auto;
+
+  padding:
+    105px
+    48px
+    80px;
+
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  align-items: center;
+  gap: 56px;
+}
+
+/* =========================================================
+   INSTITUCIONAL — HERO CONTENT
+========================================================= */
+
+.institucional-hero-content {
+  max-width: 720px;
+}
+
+/* =========================================================
+   INSTITUCIONAL — BADGE
+========================================================= */
+
+.institucional-hero-badge {
+  display: inline-flex;
+
+  padding:
+    10px
+    18px;
+
+  border-radius: 999px;
+
+  background: rgba(37, 99, 235, 0.12);
+
+  border: 1px solid rgba(96, 165, 250, 0.16);
+
+  color: #93c5fd;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  margin-bottom: 28px;
+}
+
+/* =========================================================
+   INSTITUCIONAL — TÍTULO
+========================================================= */
+
+.institucional-hero-title {
+  font-size: 72px;
+  line-height: 1.02;
+  font-weight: 800;
+  letter-spacing: -2px;
+
+  margin-bottom: 28px;
+}
+
+/* =========================================================
+   INSTITUCIONAL — DESCRIÇÃO
+========================================================= */
+
+.institucional-hero-description {
+  font-size: 19px;
+  line-height: 1.9;
+
+  color: rgba(255, 255, 255, 0.78);
+
+  max-width: 720px;
+
+  margin-bottom: 42px;
+}
+
+/* =========================================================
+   INSTITUCIONAL — ACTIONS
+========================================================= */
+
+.institucional-hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+/* =========================================================
+   INSTITUCIONAL — PRIMARY BUTTON
+========================================================= */
+
+.institucional-primary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 56px;
+
+  padding:
+    0
+    32px;
+
+  border-radius: 18px;
+
+  background: linear-gradient(
+    135deg,
+    #2563eb,
+    #1d4ed8
+  );
+
+  color: #ffffff;
+
+  font-weight: 700;
+
+  text-decoration: none;
+
+  box-shadow:
+    0 15px 40px rgba(37, 99, 235, 0.28);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.institucional-primary-button:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 22px 50px rgba(37, 99, 235, 0.36);
+}
+
+/* =========================================================
+   INSTITUCIONAL — SECONDARY BUTTON
+========================================================= */
+
+.institucional-secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 56px;
+
+  padding:
+    0
+    28px;
+
+  border-radius: 18px;
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  background: rgba(255, 255, 255, 0.03);
+
+  color: #ffffff;
+
+  text-decoration: none;
+
+  transition:
+    background 0.25s ease,
+    border 0.25s ease;
+}
+
+.institucional-secondary-button:hover {
+  background: rgba(255, 255, 255, 0.06);
+
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+/* =========================================================
+   INSTITUCIONAL — CHAT PREVIEW
+========================================================= */
+
+.institucional-hero-preview {
+  display: flex;
+  justify-content: center;
+}
+
+/* =========================================================
+   INSTITUCIONAL — PLANS SECTION
+========================================================= */
+
+.institucional-plans-section {
+  padding:
+    40px
+    48px
+    120px;
+}
+
+/* =========================================================
+   INSTITUCIONAL — ANIMAÇÕES
+========================================================= */
+
+
+
+@keyframes testimonialMarquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+
+
+
+
+
+
+
+
+.institucional-hero-section {
+  position: relative;
+  isolation: isolate;
+}
+
+.institucional-hero-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(circle at 75% 35%, rgba(37, 99, 235, 0.16), transparent 32%),
+    radial-gradient(circle at 20% 35%, rgba(59, 130, 246, 0.08), transparent 34%);
+}
+
+.institucional-hero-preview {
+  position: relative;
+}
+
+.institucional-hero-preview::before {
+  content: "";
+  position: absolute;
+  inset: 8% 12%;
+  border-radius: 50%;
+  background: rgba(37, 99, 235, 0.14);
+  filter: blur(90px);
+  z-index: -1;
+}
+
+
+.institucional-hero-title {
+  text-shadow:
+    0 4px 18px rgba(255,255,255,0.04),
+    0 12px 40px rgba(37, 99, 235, 0.10);
+}
+
+
+.institucional-hero-badge {
+  backdrop-filter: blur(12px);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.04),
+    0 10px 30px rgba(37, 99, 235, 0.12);
+}
+
+.institucional-hero-section::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(37, 99, 235, 0.16),
+      transparent 55%
+    );
+
+  pointer-events: none;
+
+  z-index: 0;
+}
+
+.institucional-hero-content,
+.institucional-hero-preview {
+  position: relative;
+  z-index: 1;
+}
+
+.institucional-hero-section::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(37, 99, 235, 0.16),
+      transparent 55%
+    );
+
+  pointer-events: none;
+
+  z-index: 0;
+}
+
+.institucional-hero-content,
+.institucional-hero-preview {
+  position: relative;
+  z-index: 1;
+}
+
+/* =========================================================
+   SIMULADOR — INTEGRAÇÃO CINEMATOGRÁFICA
+========================================================= */
+
+.institucional-hero-visual-wrapper {
+  position: relative;
+}
+
+.institucional-hero-visual-wrapper::before {
+  content: '';
+
+  position: absolute;
+  left: 50%;
+  top: 52%;
+
+  width: 520px;
+  height: 520px;
+
+  transform: translate(-50%, -50%);
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(37,99,235,0.24) 0%,
+      rgba(37,99,235,0.12) 34%,
+      transparent 72%
+    );
+
+  filter: blur(55px);
+
+  opacity: 0.95;
+
+  z-index: -2;
+  pointer-events: none;
+}
+
+.institucional-chat-demo {
+  border:
+    1px solid rgba(255,255,255,0.04);
+
+  box-shadow:
+    0 45px 120px rgba(0,0,0,0.65),
+    0 0 0 1px rgba(255,255,255,0.03) inset,
+    0 0 60px rgba(37,99,235,0.16);
+
+  backdrop-filter: blur(16px);
+}
+
+.institucional-chat-demo::after {
+  content: '';
+
+  position: absolute;
+  inset: 0;
+
+  border-radius: inherit;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,0.03),
+      transparent 20%
+    );
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   HERO — EQUILÍBRIO VISUAL
+========================================================= */
+
+.institucional-hero-grid {
+  align-items: center;
+}
+
+.institucional-hero-content {
+  max-width: 760px;
+}
+
+.institucional-hero-title {
+  letter-spacing: -3px;
+
+  text-shadow:
+    0 10px 35px rgba(0,0,0,0.45);
+}
+
+.institucional-hero-description {
+  max-width: 720px;
+
+  color:
+    rgba(226,232,240,0.92);
+}
+
+.institucional-hero-visual-wrapper {
+  transform: scale(1.03);
+}
+
+.institucional-chat-demo {
+  transform:
+    perspective(1400px)
+    rotateY(-4deg)
+    rotateX(1deg);
+
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.institucional-chat-demo:hover {
+  transform:
+    perspective(1400px)
+    rotateY(-1deg)
+    translateY(-4px);
+}
+
+
+/* =========================================================
+   CTA PREMIUM
+========================================================= */
+
+.institucional-hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.institucional-primary-button {
+  position: relative;
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb,
+      #3b82f6
+    );
+
+  border:
+    1px solid rgba(255,255,255,0.08);
+
+  box-shadow:
+    0 18px 45px rgba(37,99,235,0.32),
+    0 0 0 1px rgba(255,255,255,0.04) inset;
+
+  transition:
+    transform 0.28s ease,
+    box-shadow 0.28s ease,
+    filter 0.28s ease;
+}
+
+.institucional-primary-button::before {
+  content: '';
+
+  position: absolute;
+  top: 0;
+  left: -120%;
+
+  width: 70%;
+  height: 100%;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,255,255,0.22),
+      transparent
+    );
+
+  transform: skewX(-18deg);
+
+  transition:
+    left 0.7s ease;
+}
+
+.institucional-primary-button:hover::before {
+  left: 150%;
+}
+
+.institucional-primary-button:hover {
+  transform:
+    translateY(-3px);
+
+  filter: brightness(1.04);
+
+  box-shadow:
+    0 24px 60px rgba(37,99,235,0.40),
+    0 0 0 1px rgba(255,255,255,0.06) inset;
+}
+
+.institucional-secondary-button {
+  border:
+    1px solid rgba(255,255,255,0.08);
+
+  background:
+    rgba(255,255,255,0.02);
+
+  backdrop-filter: blur(10px);
+
+  transition:
+    transform 0.28s ease,
+    border-color 0.28s ease,
+    background 0.28s ease;
+}
+
+.institucional-secondary-button:hover {
+  transform:
+    translateY(-3px);
+
+  border-color:
+    rgba(59,130,246,0.22);
+
+  background:
+    rgba(59,130,246,0.06);
+}
+
+
+/* =========================================================
+   TIPOGRAFIA CINEMATOGRÁFICA
+========================================================= */
+
+.institucional-hero-title {
+  font-size: clamp(4.8rem, 7vw, 7.4rem);
+
+  line-height: 0.92;
+
+  font-weight: 900;
+
+  letter-spacing: -4px;
+
+  color: #ffffff;
+
+  text-shadow:
+    0 8px 24px rgba(0,0,0,0.38),
+    0 18px 60px rgba(37,99,235,0.12);
+}
+
+.institucional-hero-title span {
+  position: relative;
+
+  display: inline-block;
+
+  color:
+    rgba(255,255,255,0.96);
+}
+
+.institucional-hero-description {
+  font-size: 1.18rem;
+
+  line-height: 1.9;
+
+  letter-spacing: -0.2px;
+
+  color:
+    rgba(226,232,240,0.88);
+}
+
+.institucional-hero-badge {
+  border:
+    1px solid rgba(59,130,246,0.16);
+
+  background:
+    rgba(37,99,235,0.08);
+
+  box-shadow:
+    0 10px 30px rgba(37,99,235,0.12),
+    0 0 0 1px rgba(255,255,255,0.03) inset;
+
+  backdrop-filter: blur(12px);
+}
+
+
+/* =========================================================
+   CORREÇÃO DE EQUILÍBRIO DO HERO
+========================================================= */
+
+.institucional-hero-title {
+  font-size: clamp(4.1rem, 6vw, 6.2rem) !important;
+
+  line-height: 0.94 !important;
+
+  max-width: 720px;
+}
+
+.institucional-hero-description {
+  margin-top: 28px;
+}
+
+.institucional-hero-actions {
+  margin-top: 34px;
+}
+
+.institucional-hero-grid {
+  min-height: calc(100vh - 92px);
+
+  padding-top: 42px;
+
+  align-items: center;
+}
+
+.institucional-hero-visual-wrapper {
+  transform:
+    scale(1.01)
+    translateY(-12px) !important;
+}
+
+
+/* =========================================================
+   HALO CINEMATOGRÁFICO + GLOW ORGÂNICO
+========================================================= */
+
+.institucional-hero-section::before {
+  background:
+    radial-gradient(circle at 8% 12%, rgba(59,130,246,0.24), transparent 24%),
+    radial-gradient(circle at 18% 20%, rgba(37,99,235,0.16), transparent 32%),
+    radial-gradient(circle at 78% 48%, rgba(59,130,246,0.12), transparent 42%);
+}
+
+.institucional-hero-visual-wrapper::after {
+  content: '';
+
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: 820px;
+  height: 820px;
+
+  transform: translate(-50%, -50%);
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(37,99,235,0.16) 0%,
+      rgba(37,99,235,0.08) 28%,
+      transparent 62%
+    );
+
+  box-shadow:
+    0 0 0 1px rgba(59,130,246,0.08),
+    0 0 0 120px rgba(59,130,246,0.025),
+    0 0 0 240px rgba(59,130,246,0.018);
+
+  filter: blur(1px);
+
+  opacity: 0.9;
+
+  pointer-events: none;
+  z-index: -3;
+}
+
+.institucional-hero-visual-wrapper::before {
+  background:
+    radial-gradient(
+      circle,
+      rgba(37,99,235,0.32) 0%,
+      rgba(37,99,235,0.14) 36%,
+      transparent 72%
+    ) !important;
+}
+
+.institucional-chat-demo {
+  position: relative;
+}
+
+.institucional-chat-demo::before {
+  content: '';
+
+  position: absolute;
+  left: 50%;
+  bottom: -34px;
+
+  width: 70%;
+  height: 24px;
+
+  transform: translateX(-50%);
+
+  background:
+    radial-gradient(
+      ellipse,
+      rgba(37,99,235,0.32),
+      transparent 72%
+    );
+
+  filter: blur(14px);
+
+  opacity: 0.9;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   RINGS CINEMATOGRÁFICOS
+========================================================= */
+
+.institucional-hero-visual-wrapper {
+  position: relative;
+}
+
+.institucional-hero-visual-wrapper .hero-ring {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  border-radius: 999px;
+
+  transform: translate(-50%, -50%);
+
+  pointer-events: none;
+}
+
+.institucional-hero-visual-wrapper .hero-ring-1 {
+  width: 520px;
+  height: 520px;
+
+  border:
+    1px solid rgba(59,130,246,0.12);
+
+  box-shadow:
+    0 0 40px rgba(59,130,246,0.06);
+}
+
+.institucional-hero-visual-wrapper .hero-ring-2 {
+  width: 700px;
+  height: 700px;
+
+  border:
+    1px solid rgba(59,130,246,0.08);
+}
+
+.institucional-hero-visual-wrapper .hero-ring-3 {
+  width: 880px;
+  height: 880px;
+
+  border:
+    1px solid rgba(59,130,246,0.05);
+}
+
+.hero-ring-dot {
+  position: absolute;
+
+  width: 6px;
+  height: 6px;
+
+  border-radius: 999px;
+
+  background:
+    rgba(96,165,250,0.9);
+
+  box-shadow:
+    0 0 12px rgba(96,165,250,0.8);
+}
+
+.hero-ring-dot-1 {
+  top: 12%;
+  right: 18%;
+}
+
+.hero-ring-dot-2 {
+  bottom: 20%;
+  left: 10%;
+}
+
+.hero-ring-dot-3 {
+  top: 58%;
+  right: 8%;
+}
+
+
+/* =========================================================
+   CORREÇÃO: RINGS REAIS SEM JSX + REMOVER BORDAS LATERAIS
+========================================================= */
+
+.institucional-home-page::before,
+.institucional-home-page::after {
+  display: none !important;
+}
+
+.institucional-hero-visual-wrapper {
+  position: relative;
+  isolation: isolate;
+}
+
+.institucional-hero-visual-wrapper::after {
+  content: '';
+
+  position: absolute;
+  left: 50%;
+  top: 50%;
+
+  width: 760px;
+  height: 760px;
+
+  transform: translate(-50%, -50%);
+
+  border-radius: 50%;
+
+  background:
+    repeating-radial-gradient(
+      circle,
+      transparent 0 118px,
+      rgba(59,130,246,0.13) 119px 120px,
+      transparent 121px 210px
+    ),
+    radial-gradient(
+      circle,
+      rgba(37,99,235,0.20) 0%,
+      rgba(37,99,235,0.09) 32%,
+      transparent 68%
+    );
+
+  filter: blur(0.3px);
+
+  opacity: 0.85;
+
+  z-index: -1;
+  pointer-events: none;
+}
+
+.institucional-chat-demo {
+  position: relative;
+  z-index: 2;
+}
+
+
+/* =========================================================
+   RINGS VISÍVEIS ATRÁS DO SIMULADOR
+========================================================= */
+
+.institucional-hero-section {
+  background:
+    radial-gradient(circle at 76% 52%, rgba(37,99,235,0.26) 0%, rgba(37,99,235,0.10) 18%, transparent 34%),
+    repeating-radial-gradient(circle at 76% 52%, transparent 0 120px, rgba(59,130,246,0.16) 121px 122px, transparent 123px 210px),
+    radial-gradient(circle at 8% 12%, rgba(59,130,246,0.20), transparent 24%),
+    linear-gradient(180deg, #030712 0%, #050B18 42%, #071224 100%) !important;
+}
+
+.institucional-hero-grid,
+.institucional-hero-content,
+.institucional-hero-visual-wrapper,
+.institucional-chat-demo {
+  position: relative;
+  z-index: 2;
+}
+
+
+/* =========================================================
+   AJUSTE FINO DOS RINGS
+========================================================= */
+
+.institucional-hero-section {
+  background:
+    radial-gradient(circle at 76% 52%, rgba(37,99,235,0.18) 0%, rgba(37,99,235,0.07) 12%, transparent 24%),
+    repeating-radial-gradient(circle at 76% 52%, transparent 0 82px, rgba(59,130,246,0.10) 83px 84px, transparent 85px 145px),
+    radial-gradient(circle at 8% 12%, rgba(59,130,246,0.16), transparent 22%),
+    linear-gradient(180deg, #030712 0%, #050B18 42%, #071224 100%) !important;
+}
+
+
+/* =========================================================
+   RINGS VISÍVEIS REAIS
+========================================================= */
+
+.institucional-hero-section {
+  background:
+    radial-gradient(circle at 76% 52%, rgba(37,99,235,0.22) 0%, rgba(37,99,235,0.10) 14%, transparent 26%),
+
+    radial-gradient(circle at 76% 52%, transparent 0 180px, rgba(59,130,246,0.18) 181px, transparent 183px),
+
+    radial-gradient(circle at 76% 52%, transparent 0 290px, rgba(59,130,246,0.14) 291px, transparent 293px),
+
+    radial-gradient(circle at 76% 52%, transparent 0 410px, rgba(59,130,246,0.10) 411px, transparent 413px),
+
+    radial-gradient(circle at 8% 12%, rgba(59,130,246,0.16), transparent 22%),
+
+    linear-gradient(180deg, #030712 0%, #050B18 42%, #071224 100%) !important;
+}
+
+
+/* =========================================================
+   AJUSTE FINAL DOS RINGS
+========================================================= */
+
+.institucional-hero-section {
+  background:
+    radial-gradient(circle at 76% 52%, rgba(37,99,235,0.20) 0%, rgba(37,99,235,0.08) 10%, transparent 20%),
+
+    radial-gradient(circle at 76% 52%, transparent 0 135px, rgba(59,130,246,0.16) 136px, transparent 138px),
+
+    radial-gradient(circle at 76% 52%, transparent 0 225px, rgba(59,130,246,0.12) 226px, transparent 228px),
+
+    radial-gradient(circle at 76% 52%, transparent 0 325px, rgba(59,130,246,0.08) 326px, transparent 328px),
+
+    radial-gradient(circle at 8% 12%, rgba(59,130,246,0.14), transparent 20%),
+
+    linear-gradient(180deg, #030712 0%, #050B18 42%, #071224 100%) !important;
+}
+
+
+/* =========================================================
+   HERO — AJUSTE FINO DE COMPOSIÇÃO
+========================================================= */
+
+.institucional-hero-title {
+  font-size: clamp(3.8rem, 5.45vw, 5.65rem) !important;
+  line-height: 0.96 !important;
+}
+
+.institucional-hero-description {
+  margin-top: 24px !important;
+}
+
+.institucional-hero-actions {
+  margin-top: 28px !important;
+  transform: translateY(-8px);
+}
+
+.institucional-hero-visual-wrapper {
+  transform:
+    scale(1.01)
+    translateY(-42px) !important;
+}
+
+.institucional-hero-section {
+  background:
+    radial-gradient(circle at 76% 48%, rgba(37,99,235,0.21) 0%, rgba(37,99,235,0.08) 11%, transparent 22%),
+
+    radial-gradient(circle at 76% 48%, transparent 0 150px, rgba(59,130,246,0.16) 151px, transparent 153px),
+
+    radial-gradient(circle at 76% 48%, transparent 0 250px, rgba(59,130,246,0.12) 251px, transparent 253px),
+
+    radial-gradient(circle at 76% 48%, transparent 0 360px, rgba(59,130,246,0.08) 361px, transparent 363px),
+
+    radial-gradient(circle at 8% 12%, rgba(59,130,246,0.14), transparent 20%),
+
+    linear-gradient(180deg, #030712 0%, #050B18 42%, #071224 100%) !important;
+}
+
+
+/* =========================================================
+   HALO PREMIUM ESTILO CINEMATOGRÁFICO
+========================================================= */
+
+.institucional-hero-visual-wrapper {
+  transform:
+    scale(1.01)
+    translateY(-68px) !important;
+}
+
+.institucional-hero-section {
+  background:
+    radial-gradient(circle at 76% 47%, rgba(59,130,246,0.28) 0%, rgba(59,130,246,0.12) 10%, transparent 22%),
+
+    radial-gradient(circle at 76% 47%, transparent 0 155px, rgba(59,130,246,0.22) 156px, transparent 158px),
+
+    radial-gradient(circle at 76% 47%, transparent 0 255px, rgba(59,130,246,0.16) 256px, transparent 258px),
+
+    radial-gradient(circle at 76% 47%, transparent 0 360px, rgba(59,130,246,0.10) 361px, transparent 363px),
+
+    radial-gradient(circle at 70% 42%, rgba(96,165,250,0.12), transparent 6%),
+
+    radial-gradient(circle at 83% 58%, rgba(96,165,250,0.10), transparent 5%),
+
+    radial-gradient(circle at 73% 67%, rgba(96,165,250,0.08), transparent 4%),
+
+    radial-gradient(circle at 8% 12%, rgba(59,130,246,0.14), transparent 20%),
+
+    linear-gradient(180deg, #030712 0%, #050B18 42%, #071224 100%) !important;
+}
+
+
+/* =========================================================
+   AJUSTE — SUBIR SIMULADOR
+========================================================= */
+
+.institucional-hero-visual-wrapper {
+  transform:
+    scale(1.01)
+    translateY(-98px) !important;
+}
+
+
+/* =========================================================
+   AJUSTE REAL — SUBIR SIMULADOR DIRETAMENTE
+========================================================= */
+
+.institucional-chat-demo {
+  margin-top: -40px !important;
+}
+
