@@ -10,8 +10,8 @@ export default function ChatPreview() {
     { type: "bot", text: "Clique em Começar agora e ative seu agente em poucos minutos.", time: "09:20" }
   ];
 
-  const [visibleMessages, setVisibleMessages] = useState([]);
-  const [index, setIndex] = useState(0);
+  const [visibleMessages, setVisibleMessages] = useState(messages.slice(0,2));
+  const [index, setIndex] = useState(2);
   const [typing, setTyping] = useState(false);
 
   useEffect(() => {
