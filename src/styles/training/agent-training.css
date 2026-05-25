@@ -62,7 +62,7 @@
 
 .agent-training-main-panel {
   min-width: 0;
-}
+  }
 
 .agent-training-progress-card {
   display: none;
@@ -83,7 +83,7 @@
 }
 
 .agent-training-chat-window {
-  flex: 1;
+  flex: 0.94;
   min-height: 0;
   display: flex;
   flex-direction: column;
@@ -91,7 +91,7 @@
 
 .agent-training-chat-window__header {
   width: min(560px, calc(100% - 64px));
-  margin: 28px auto 0;
+  margin: 12px auto 0;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -108,11 +108,11 @@
 }
 
 .agent-training-chat-window__messages {
-  flex: 1;
+  flex: 0.94;
   min-height: 220px;
   width: min(560px, calc(100% - 64px));
   margin: 0;
-  padding: 10px 0 14px;
+  padding: 18px 0 14px;
   overflow-y: auto;
   overflow-x: hidden;
   display: flex;
@@ -164,7 +164,7 @@
 }
 
 .training-message--user .training-message__bubble {
-  background: rgba(37, 99, 235, 0.22);
+  background: linear-gradient(180deg, rgba(37,99,235,0.24) 0%, rgba(29,78,216,0.18) 100%); box-shadow: 0 10px 24px rgba(15,23,42,0.34), inset 0 1px 0 rgba(255,255,255,0.04); border: 1px solid rgba(96,165,250,0.08);
 }
 
 .training-typing {
@@ -207,7 +207,7 @@
 
 .agent-training-input {
   width: min(560px, calc(100% - 64px));
-  margin: 8px auto 44px;
+  margin: 0 auto 28px;
 }
 
 .agent-training-input__container {
@@ -217,14 +217,14 @@
   align-items: center;
   gap: 10px;
   border-radius: 8px;
-  background: rgba(8, 15, 32, 0.92);
+  background: linear-gradient(180deg, rgba(12,20,40,0.96) 0%, rgba(7,12,26,0.98) 100%); border: 1px solid rgba(148,163,184,0.13);
   box-shadow:
-    0 20px 60px rgba(2, 6, 23, 0.72),
+    0 18px 42px rgba(2,6,23,0.54), 0 0 0 1px rgba(59,130,246,0.04),
     inset 0 1px 0 rgba(255,255,255,0.04);
 }
 
 .agent-training-input__textarea {
-  flex: 1;
+  flex: 0.94;
   height: 100%;
   min-height: 0;
   padding: 10px 0 0 18px;
@@ -245,7 +245,7 @@
 .agent-training-input__button {
   width: 58px;
   min-width: 58px;
-  height: 48px;
+  height: 44px;
   border: 0;
   border-radius: 8px;
   display: grid;
@@ -318,7 +318,7 @@
   border-radius: 12px;
   padding: 14px;
   background: linear-gradient(180deg, rgba(15,23,42,0.98) 0%, rgba(6,12,26,0.995) 100%); border: 1px solid rgba(59,130,246,0.06); box-shadow: inset 0 1px 0 rgba(255,255,255,0.025), 0 10px 30px rgba(2,6,23,0.24);
-  border: 1px solid rgba(59,130,246,0.08);
+  border: 1px solid rgba(148,163,184,0.10);
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -328,7 +328,7 @@
   border-radius: 12px;
   padding: 14px;
   background: linear-gradient(180deg, rgba(15,23,42,0.98) 0%, rgba(6,12,26,0.995) 100%); border: 1px solid rgba(59,130,246,0.06); box-shadow: inset 0 1px 0 rgba(255,255,255,0.025), 0 10px 30px rgba(2,6,23,0.24);
-  border: 1px solid rgba(59,130,246,0.08);
+  border: 1px solid rgba(148,163,184,0.10);
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -355,7 +355,7 @@
 
 
 .training-message--assistant .training-message__bubble{
-  background: transparent !important;
+  background: rgba(10,15,28,0.42) !important;
   border: none !important;
   box-shadow: none !important;
   padding: 0 !important;
@@ -368,7 +368,7 @@
 }
 
 .training-message--assistant .training-message__content{
-  background: transparent !important;
+  background: rgba(10,15,28,0.42) !important;
 }
 
 
@@ -380,7 +380,7 @@
   border-radius: 12px;
   padding: 14px 14px;
   background: linear-gradient(180deg, rgba(15,23,42,0.98) 0%, rgba(6,12,26,0.995) 100%); border: 1px solid rgba(59,130,246,0.06); box-shadow: inset 0 1px 0 rgba(255,255,255,0.025), 0 10px 30px rgba(2,6,23,0.24);
-  border: 1px solid rgba(59,130,246,0.08);
+  border: 1px solid rgba(148,163,184,0.10);
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -415,7 +415,7 @@
   border-radius: 12px;
   padding: 14px;
   background: linear-gradient(180deg, rgba(15,23,42,0.98) 0%, rgba(6,12,26,0.995) 100%); border: 1px solid rgba(59,130,246,0.06); box-shadow: inset 0 1px 0 rgba(255,255,255,0.025), 0 10px 30px rgba(2,6,23,0.24);
-  border: 1px solid rgba(59,130,246,0.08);
+  border: 1px solid rgba(148,163,184,0.10);
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -440,7 +440,7 @@
 .agent-training-insight-panel__tone-box,
 .agent-training-insight-panel__tip-box{
   background:linear-gradient(180deg, rgba(11,18,36,0.98) 0%, rgba(5,10,22,0.99) 100%);
-  border:1px solid rgba(59,130,246,0.08);
+  border: 1px solid rgba(148,163,184,0.10);
   border-radius:12px;
   padding: 16px;
   box-shadow:
@@ -557,7 +557,7 @@
   margin:0;
   color:#cbd5e1;
   font-size:13px;
-  line-height:1.6;
+  line-height: 1.35;
 }
 
 
@@ -641,10 +641,10 @@
 
 
 .agent-training-conversation-panel__footer-note{
-  margin: 8px auto 18px;
+  margin: 4px auto 4px;
   width: min(560px, calc(100% - 64px));
   text-align: center;
-  color: rgba(148,163,184,0.68);
+  color: rgba(225,235,255,0.72);
   font-size: 12px;
   line-height: 1.4;
 }
@@ -709,7 +709,7 @@
 
 
 .agent-training-conversation-panel__footer-note{
-  margin-top: 8px !important;
+  margin-top: 14px !important;
 }
 
 
@@ -739,10 +739,10 @@
 
 
 .agent-training-input__container{
-  border: 1px solid rgba(59,130,246,0.08);
+  border: 1px solid rgba(148,163,184,0.10);
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,0.03),
-    0 0 24px rgba(37,99,235,0.08);
+    0 14px 34px rgba(2,6,23,0.28), inset 0 1px 0 rgba(255,255,255,0.03);
 }
 
 .agent-training-input__textarea::placeholder{
@@ -761,165 +761,54 @@
   white-space: pre-wrap;
   overflow-wrap: break-word;
   word-break: break-word;
+  padding-left: 14px !important;
 }
-
 
 .agent-training-chat-window__messages{
-  gap: 22px;
-}
-
-.agent-training-message--user{
-  align-self: flex-end;
-  max-width: 72%;
-  margin-top: -4px;
-}
-
-.agent-training-message--assistant{
-  max-width: 78%;
-}
-
-
-.training-message--user{
-  justify-content: flex-start !important;
-}
-
-.training-message--user .training-message__avatar{
-  order: 0 !important;
-}
-
-.training-message--user .training-message__bubble{
-  max-width: 520px;
+  width: min(760px, calc(100% - 96px)) !important;
+  margin: 0 auto !important;
+  justify-content: center !important;
+  gap: 12px !important;
+  padding-bottom: 4px !important;
 }
 
 .training-message{
-  margin-bottom: 18px;
-}
-
-
-.training-message--user{
-  padding-left: 360px;
-}
-
-
-.training-message--user{
-  padding-left: 0 !important;
-  justify-content: flex-end !important;
   width: 100% !important;
+  gap: 10px !important;
+  margin-bottom: 0 !important;
+}
+
+.training-message--assistant{
+  justify-content: center !important;
+}
+
+.training-message--user{
+  justify-content: flex-end !important;
+  padding-left: 0 !important;
 }
 
 .training-message--user .training-message__avatar{
   order: 2 !important;
-  margin-left: 10px;
+  margin-left: 10px !important;
 }
-
-.training-message--user .training-message__bubble{
-  max-width: 520px !important;
-  min-width: auto !important;
-  white-space: normal;
-  word-break: normal;
-  overflow-wrap: break-word;
-}
-
-.agent-training-chat-window__messages{
-  width: min(760px, calc(100% - 96px)) !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-}
-
-
-.agent-training-input-wrapper{
-  width: min(760px, calc(100% - 96px)) !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-}
-
-.agent-training-input{
-  width: 100% !important;
-}
-
-
-.agent-training-input{
-  width: min(760px, calc(100% - 96px)) !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-}
-
-
-.agent-training-message{
-  margin-bottom: 18px !important;
-}
-
-.agent-training-message--assistant + .agent-training-message--user{
-  margin-top: 10px !important;
-}
-
-.agent-training-message--user + .agent-training-message--assistant{
-  margin-top: 14px !important;
-}
-
-
-.agent-training-message{
-  margin-bottom: 6px !important;
-}
-
-.agent-training-message--assistant + .agent-training-message--user{
-  margin-top: 2px !important;
-}
-
-.agent-training-message--user + .agent-training-message--assistant{
-  margin-top: 6px !important;
-}
-
-.agent-training-chat-window__messages{
-  gap: 0 !important;
-}
-
-
-.agent-training-chat-window__messages{
-  justify-content: flex-start !important;
-  gap: 28px !important;
-}
-
-
-.training-message{
-  margin-bottom: 0 !important;
-}
-
-
-.agent-training-chat-window__messages{
-  padding-bottom: 48px !important;
-}
-
 
 .training-message--assistant .training-message__bubble{
   max-width: 620px !important;
 }
 
 .training-message--user .training-message__bubble{
-  max-width: 420px !important;
+  max-width: 400px !important;
+  white-space: normal !important;
+  overflow-wrap: break-word !important;
+  word-break: normal !important;
 }
 
-
-.agent-training-input-wrapper{
-  width: min(720px, calc(100% - 96px)) !important;
+.agent-training-input-wrapper,
+.agent-training-input{
+  width: min(760px, calc(100% - 96px)) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
 }
-
-
-.agent-training-chat-window__messages{
-  width: min(720px, calc(100% - 96px)) !important;
-}
-
-
-.training-message{
-  gap: 8px !important;
-}
-
-
-.agent-training-input__textarea{
-  padding-left: 14px !important;
-}
-
-
 .agent-training-side-card{
   background: linear-gradient(180deg, rgba(10,16,30,0.94) 0%, rgba(6,10,22,0.98) 100%) !important;
   box-shadow: 0 10px 30px rgba(0,0,0,0.28) !important;
@@ -937,23 +826,23 @@
   align-items:flex-start;
   justify-content:space-between;
   gap:32px;
-  margin-bottom:22px;
+  margin-bottom: 22px;
 }
 
 .agent-training-main-header h1{
   margin:0;
-  font-size:2rem;
+  font-size: 1.78rem;
   font-weight:700;
-  line-height:1.1;
+  line-height: 1.02;
   color:#f8fbff;
   letter-spacing:-0.03em;
 }
 
 .agent-training-main-header p{
   margin: 6px 0 0;
-  font-size: 0.88rem;
+  font-size: 0.82rem;
   color: rgba(210,220,255,0.54);
-  line-height:1.6;
+  line-height: 1.35;
 }
 
 .agent-training-save-button{
@@ -991,23 +880,23 @@
   align-items:flex-start;
   justify-content:space-between;
   gap:32px;
-  margin-bottom:22px;
+  margin-bottom: 22px;
 }
 
 .agent-training-main-header h1{
   margin:0;
-  font-size:2rem;
+  font-size: 1.78rem;
   font-weight:700;
-  line-height:1.1;
+  line-height: 1.02;
   color:#f8fbff;
   letter-spacing:-0.03em;
 }
 
 .agent-training-main-header p{
   margin: 6px 0 0;
-  font-size: 0.88rem;
+  font-size: 0.82rem;
   color: rgba(210,220,255,0.54);
-  line-height:1.6;
+  line-height: 1.35;
 }
 
 .agent-training-save-button{
@@ -1061,17 +950,17 @@
 
 
 .agent-training-chat-window__messages{
-    max-width:920px;
-    margin:0 auto;
-    padding:34px 42px 18px;
+    max-width: 760px !important;
+    margin: 0 auto !important;
+    padding: 18px 0 12px;
 }
 
 .agent-training-message{
-    margin-bottom:22px;
+    margin-bottom: 22px;
 }
 
 .agent-training-conversation-panel{
-    padding-bottom:18px;
+    padding-bottom: 4px;
 }
 
 .agent-training-main-header > div{
@@ -1147,4 +1036,307 @@
   width:15px !important;
   height:15px !important;
   flex-shrink:0 !important;
+}
+
+.agent-training-input__container{
+  transition:
+    border-color 0.22s ease,
+    box-shadow 0.22s ease,
+    transform 0.22s ease;
+}
+
+.agent-training-input__container:focus-within{
+  border-color: rgba(96,165,250,0.22);
+  box-shadow:
+    0 20px 48px rgba(2,6,23,0.58),
+    0 0 0 1px rgba(59,130,246,0.08),
+    0 0 22px rgba(37,99,235,0.10);
+  transform: translateY(-1px);
+}
+
+.agent-training-input__button{
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
+}
+
+.agent-training-input__button:hover{
+  transform: translateY(-1px);
+  filter: brightness(1.04);
+}
+
+
+@keyframes trainingMessageFade {
+  from{
+    opacity: 0;
+    transform: translateY(10px) scale(0.985);
+  }
+
+  to{
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.training-message{
+  animation: trainingMessageFade 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+
+.training-message__bubble{
+  border: 1px solid rgba(255,255,255,0.04);
+  box-shadow:
+    0 10px 30px rgba(2,6,23,0.28),
+    inset 0 1px 0 rgba(255,255,255,0.03);
+  backdrop-filter: blur(10px);
+}
+
+.training-message--assistant .training-message__bubble{
+  background:
+    linear-gradient(
+      180deg,
+      rgba(14,22,40,0.92) 0%,
+      rgba(8,14,28,0.96) 100%
+    ) !important;
+}
+
+.training-message--user .training-message__bubble{
+  background:
+    linear-gradient(
+      180deg,
+      rgba(37,99,235,0.34) 0%,
+      rgba(29,78,216,0.24) 100%
+    ) !important;
+}
+
+
+.agent-training-chat-window{
+  position: relative;
+  overflow: hidden;
+}
+
+.agent-training-chat-window::before{
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(37,99,235,0.10) 0%,
+      rgba(37,99,235,0.04) 22%,
+      transparent 60%
+    );
+  filter: blur(48px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.agent-training-chat-window > *{
+  position: relative;
+  z-index: 1;
+}
+
+
+.agent-training-input{
+  transform: translateY(40px) !important;
+}
+
+
+.agent-training-chat-window__messages{
+  width: min(760px, calc(100% - 96px)) !important;
+  max-width: 760px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  align-items: stretch !important;
+}
+
+.training-message{
+  width: 100% !important;
+}
+
+.training-message--assistant{
+  justify-content: flex-start !important;
+}
+
+.training-message--user{
+  justify-content: flex-end !important;
+}
+
+
+
+
+.agent-training-input__button { transform: translateX(27%) !important; }
+.agent-training-input__button:hover { transform: translateX(27%) translateY(-1px) !important; }
+
+.agent-training-input__button { transform: translateX(25%) !important; }
+.agent-training-input__button:hover { transform: translateX(25%) translateY(-1px) !important; }
+
+.agent-training-input__button { transform: translateX(35%) !important; }
+.agent-training-input__button:hover { transform: translateX(35%) translateY(-1px) !important; }
+
+.agent-training-input__button { transform: translateX(50%) !important; }
+.agent-training-input__button:hover { transform: translateX(50%) translateY(-1px) !important; }
+
+/* Ajuste premium: remove background azul das mensagens da IA */
+.training-message--assistant .training-message__bubble {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  padding-left: 0 !important;
+}
+/* Ajuste premium: desce apenas o conteÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¾Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¾ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¦ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Âºdo interno do header */
+.agent-training-main-header > div:first-child,
+.agent-training-save-button {
+  transform: translateY(8px) !important;
+}
+
+.agent-training-main-title {
+  font-size: 29px !important;
+  line-height: 1.08 !important;
+}
+
+.agent-training-main-subtitle {
+  margin-top: 6px !important;
+  line-height: 1.35 !important;
+}
+/* Refinamento premium: integraÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¾Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â§ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¾Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â£o visual do topo */
+.agent-training-conversation-panel {
+  padding-top: 18px !important;
+}
+
+.agent-training-controls {
+  margin-top: 10px !important;
+  margin-bottom: 4px !important;
+  padding-bottom: 14px !important;
+  border-bottom: 1px solid rgba(90, 143, 224, 0.08) !important;
+}
+
+.agent-training-chat-window {
+  margin-top: 12px !important;
+}
+
+.agent-training-main-header {
+  margin-bottom: 6px !important;
+}
+
+.agent-training-main-subtitle {
+  opacity: 0.78 !important;
+}
+
+.training-message--assistant .training-message__content {
+  opacity: 0.96 !important;
+  letter-spacing: -0.01em !important;
+}
+/* Refinamento premium: compactaÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â§ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â£o vertical do chat */
+.agent-training-chat-window__messages {
+  padding-top: 26px !important;
+  gap: 22px !important;
+}
+
+.training-message {
+  margin-bottom: 2px !important;
+}
+
+.training-message--assistant {
+  margin-bottom: -2px !important;
+}
+
+.training-message__row {
+  align-items: flex-start !important;
+}
+
+.agent-training-chat-window {
+  justify-content: flex-start !important;
+}
+
+.agent-training-input {
+  margin-top: 18px !important;
+}
+/* Refinamento premium: suaviza glow central */
+.agent-training-chat-window::before {
+  opacity: 0.38 !important;
+  filter: blur(90px) !important;
+  transform: translate(-50%, -46%) scale(1.08) !important;
+}
+
+.agent-training-chat-window {
+  background:
+    radial-gradient(circle at top, rgba(26, 64, 140, 0.16), transparent 48%),
+    linear-gradient(180deg, rgba(5, 10, 24, 0.96) 0%, rgba(2, 6, 18, 0.985) 100%) !important;
+}
+/* Refinamento premium: remove linha de status visual */
+.agent-training-chat-window__header {
+  display: none !important;
+}
+/* Refinamento premium: alinhamento horizontal das mensagens */
+.training-message--assistant {
+  padding-left: 6px !important;
+}
+
+.training-message--user {
+  padding-right: 26px !important;
+}
+
+.training-message--user .training-message__row {
+  gap: 12px !important;
+}
+
+.training-message--assistant .training-message__row {
+  gap: 12px !important;
+}
+
+.training-message__bubble {
+  max-width: 620px !important;
+}
+/* Refinamento premium: integra input ao fluxo da conversa */
+.agent-training-input {
+  margin-top: 4px !important;
+}
+
+.agent-training-chat-window__messages {
+  padding-bottom: 6px !important;
+}
+
+.agent-training-chat-window {
+  padding-bottom: 18px !important;
+}
+/* Refinamento premium: input mais sofisticado */
+.agent-training-input__container {
+  min-height: 58px !important;
+  border-radius: 16px !important;
+  background: linear-gradient(
+    180deg,
+    rgba(9, 18, 42, 0.92) 0%,
+    rgba(5, 11, 28, 0.96) 100%
+  ) !important;
+  border: 1px solid rgba(90, 143, 224, 0.14) !important;
+}
+
+.agent-training-input__textarea {
+  padding-top: 17px !important;
+  font-size: 16px !important;
+}
+
+.agent-training-input__button {
+  width: 54px !important;
+  height: 54px !important;
+  border-radius: 14px !important;
+}
+/* CorreÃ§Ã£o enterprise: menos arredondamento no input */
+.agent-training-input__container {
+  border-radius: 10px !important;
+}
+
+.agent-training-input__button {
+  border-radius: 9px !important;
+}
+
+.training-message--user .training-message__bubble {
+  border-radius: 10px !important;
+}
+/* Correção enterprise: botão salvar menos arredondado */
+.agent-training-save-button {
+  border-radius: 10px !important;
 }
