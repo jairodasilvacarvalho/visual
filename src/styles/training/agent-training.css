@@ -1972,3 +1972,79 @@ body,
   display: none !important;
 }
 
+
+/* Refinamento premium: distribuição vertical profissional da conversa */
+.agent-training-chat-window__messages{
+  justify-content: flex-start !important;
+  padding-top: 42px !important;
+  padding-bottom: 10px !important;
+  gap: 16px !important;
+}
+
+.training-message{
+  margin-bottom: 0 !important;
+}
+
+.agent-training-input{
+  margin-top: 18px !important;
+}
+
+/* Refinamento premium: conversa mais densa e equilibrada */
+.agent-training-chat-window__messages{
+  padding-top: 26px !important;
+  gap: 14px !important;
+}
+
+/* Refinamento premium: ancora visual da conversa */
+.agent-training-chat-window{
+  padding-top: 6px !important;
+}
+
+.agent-training-conversation-panel{
+  padding-top: 10px !important;
+}
+
+/* Refinamento premium: scrollbar invisível da conversa */
+.agent-training-chat-window__messages{
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+.agent-training-chat-window__messages::-webkit-scrollbar{
+  width: 4px;
+}
+
+.agent-training-chat-window__messages::-webkit-scrollbar-track{
+  background: transparent;
+}
+
+.agent-training-chat-window__messages::-webkit-scrollbar-thumb{
+  background: transparent;
+  border-radius: 999px;
+  transition: background 0.25s ease;
+}
+
+ .agent-training-conversation-panel:hover .agent-training-chat-window__messages::-webkit-scrollbar-thumb{
+  background: rgba(8,19,46,0.95);
+}
+
+/* Refinamento premium: scrollbar aparece ao entrar no painel */
+.agent-training-conversation-panel:hover .agent-training-chat-window__messages{
+  scrollbar-color: rgba(8,19,46,0.95) transparent !important;
+}
+
+.agent-training-conversation-panel:hover .agent-training-chat-window__messages::-webkit-scrollbar-thumb{
+  background: rgba(8,19,46,0.95) !important;
+}
+
+/* Correção sidebar: evita corte do texto Base de Conhecimento */
+.agent-training-sidebar__nav-item span{
+  min-width: 0 !important;
+  white-space: nowrap !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+}
+
+.agent-training-sidebar__nav-item{
+  padding-right: 14px !important;
+}
