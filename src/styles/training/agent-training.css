@@ -1,4 +1,4 @@
-/* AI Sales - Training Studio
+﻿/* AI Sales - Training Studio
    CSS limpo, isolado e sem regras duplicadas.
 */
 
@@ -14,7 +14,7 @@
 
 .agent-training-shell {
   display: grid;
-  grid-template-columns: 250px minmax(860px, 1fr) 300px;
+  grid-template-columns: 278px minmax(760px, 1fr) 300px;
   gap: 10px;
   height: 100vh;
   max-width: none;
@@ -1166,17 +1166,13 @@
 
 
 
-.agent-training-input__button { transform: translateX(27%) !important; }
-.agent-training-input__button:hover { transform: translateX(27%) translateY(-1px) !important; }
 
-.agent-training-input__button { transform: translateX(25%) !important; }
-.agent-training-input__button:hover { transform: translateX(25%) translateY(-1px) !important; }
 
-.agent-training-input__button { transform: translateX(35%) !important; }
-.agent-training-input__button:hover { transform: translateX(35%) translateY(-1px) !important; }
 
-.agent-training-input__button { transform: translateX(50%) !important; }
-.agent-training-input__button:hover { transform: translateX(50%) translateY(-1px) !important; }
+
+
+
+
 
 /* Ajuste premium: remove background azul das mensagens da IA */
 .training-message--assistant .training-message__bubble {
@@ -1319,19 +1315,13 @@
   font-size: 16px !important;
 }
 
-.agent-training-input__button {
-  width: 54px !important;
-  height: 54px !important;
-  border-radius: 14px !important;
-}
+
 
 .agent-training-input__container {
   border-radius: 10px !important;
 }
 
-.agent-training-input__button {
-  border-radius: 9px !important;
-}
+
 
 .training-message--user .training-message__bubble {
   border-radius: 10px !important;
@@ -1396,7 +1386,7 @@
 
 
 .agent-training-input__textarea {
-  padding-right: 22px !important;
+  padding-right: 18px !important;
 }
 
 
@@ -1430,3 +1420,555 @@
 .training-message--assistant .training-message__bubble {
   padding-left: 0 !important;
 }
+
+/* =========================================================
+   PREMIUM ENTERPRISE SIDEBAR
+========================================================= */
+
+.agent-training-sidebar{
+  width: 278px !important;
+  min-width: 278px !important;
+  max-width: 278px !important;
+  height: 100vh;
+  padding: 22px 18px !important;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  
+  
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(6,12,26,0.98) 0%,
+      rgba(2,7,18,0.99) 100%
+    ) !important;
+
+  border-right: 1px solid rgba(59,130,246,0.10);
+
+  scrollbar-width: thin;
+}
+
+
+
+.agent-training-sidebar:hover{
+  scrollbar-width: thin;
+}
+
+
+
+
+
+.agent-training-sidebar__brand{
+  display:flex;
+  align-items:center;
+  gap:14px;
+
+  margin-bottom: 34px;
+  padding: 4px 6px 0;
+}
+
+.agent-training-sidebar__logo{
+  width:42px;
+  height:42px;
+  border-radius:14px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  color:#ffffff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb 0%,
+      #1d4ed8 100%
+    );
+
+  box-shadow:
+    0 10px 30px rgba(37,99,235,0.34);
+}
+
+.agent-training-sidebar__brand strong{
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: rgba(248,250,252,0.96);
+}
+
+.agent-training-sidebar__nav{
+  display:flex !important;
+  flex-direction:column;
+  gap:30px;
+}
+
+.agent-training-sidebar__group{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.agent-training-sidebar__group-title{
+  padding: 0 10px;
+
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:0.16em;
+
+  color:rgba(148,163,184,0.54);
+}
+
+.agent-training-sidebar__group-items{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.agent-training-sidebar__nav-item{
+  width:100%;
+  min-height:52px;
+
+  padding: 0 14px !important;
+
+  display:flex;
+  align-items:center;
+  gap:14px;
+
+  border-radius:14px;
+  border:1px solid transparent;
+
+  color:rgba(226,232,240,0.76);
+
+  transition:
+    background .18s ease,
+    border-color .18s ease,
+    transform .18s ease,
+    color .18s ease;
+
+  white-space: nowrap;
+}
+
+.agent-training-sidebar__nav-item svg{
+  flex-shrink:0;
+}
+
+.agent-training-sidebar__nav-item span{
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.agent-training-sidebar__nav-item:hover{
+  background: rgba(255,255,255,0.03);
+  border-color: rgba(59,130,246,0.10);
+
+  color: rgba(248,250,252,0.96);
+
+  transform: translateX(2px);
+}
+
+.agent-training-sidebar__nav-item--active{
+  background:
+    linear-gradient(
+      90deg,
+      rgba(37,99,235,0.22) 0%,
+      rgba(37,99,235,0.08) 100%
+    ) !important;
+
+  border:1px solid rgba(59,130,246,0.18);
+
+  color:#ffffff !important;
+
+  box-shadow:
+    inset 1px 0 0 rgba(96,165,250,0.34),
+    0 8px 28px rgba(37,99,235,0.12);
+}
+
+.agent-training-sidebar__user{
+  margin-top:auto;
+
+  display:flex;
+  align-items:center;
+  gap:14px;
+
+  padding:16px;
+  border-radius:18px;
+
+  background: rgba(255,255,255,0.03);
+
+  border:1px solid rgba(59,130,246,0.08);
+}
+
+.agent-training-sidebar__avatar{
+  width:44px;
+  height:44px;
+  border-radius:50%;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-weight:700;
+  color:white;
+
+  background:
+    linear-gradient(
+      135deg,
+      #2563eb 0%,
+      #1d4ed8 100%
+    );
+}
+
+.agent-training-sidebar__user strong{
+  display:block;
+
+  font-size:14px;
+  color:rgba(248,250,252,0.96);
+}
+
+.agent-training-sidebar__user span{
+  font-size:12px;
+  color:rgba(148,163,184,0.72);
+}
+
+
+/* Scroll premium interno da sidebar: aparece no hover sem empurrar texto */
+.agent-training-sidebar{
+  padding-right: 18px !important;
+}
+
+
+
+
+
+
+
+.agent-training-sidebar{
+}
+
+
+
+
+/* Scroll invisÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â­vel atÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â© hover da sidebar */
+.agent-training-sidebar{
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+.agent-training-sidebar:hover{
+  scrollbar-color: #08132e transparent;
+}
+
+.agent-training-sidebar::-webkit-scrollbar{
+  width: 4px;
+}
+
+.agent-training-sidebar::-webkit-scrollbar-track{
+  background: transparent;
+}
+
+.agent-training-sidebar::-webkit-scrollbar-thumb{
+  background: transparent;
+  border-radius: 999px;
+}
+
+.agent-training-sidebar:hover::-webkit-scrollbar-thumb{
+  background: #08132e;
+  border-radius: 999px;
+}
+
+.agent-training-sidebar:hover::-webkit-scrollbar-thumb:hover{
+  background: #08132e;
+}
+
+
+/* MantÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©m a marca fixa no topo da sidebar durante o scroll */
+.agent-training-sidebar__brand{
+  
+  
+  
+  padding-top: 4px;
+  padding-bottom: 18px;
+  margin-bottom: 18px;
+  background: linear-gradient(180deg, rgba(3,7,18,0.99) 0%, rgba(3,7,18,0.88) 78%, transparent 100%);
+}
+
+
+/* MantÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©m usuÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¡rio fixo e elegante no rodapÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â© da sidebar */
+.agent-training-sidebar__user{
+  
+  bottom: 0;
+  
+  margin-top: 26px;
+  background: linear-gradient(180deg, rgba(11,18,34,0.96) 0%, rgba(7,14,28,0.99) 100%);
+  backdrop-filter: blur(14px);
+}
+
+
+
+
+
+/* Estrutura correta: logo fixo, menu com scroll, usuÃƒÂ¡rio fixo */
+.agent-training-sidebar{
+  overflow: hidden !important;
+}
+
+.agent-training-sidebar__brand{
+  flex-shrink: 0;
+}
+
+.agent-training-sidebar__nav{
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+.agent-training-sidebar__nav:hover{
+  scrollbar-color: #08132e transparent;
+}
+
+.agent-training-sidebar__nav::-webkit-scrollbar{
+  width: 4px;
+}
+
+.agent-training-sidebar__nav::-webkit-scrollbar-track{
+  background: transparent;
+}
+
+.agent-training-sidebar__nav::-webkit-scrollbar-thumb{
+  background: transparent;
+  border-radius: 999px;
+}
+
+.agent-training-sidebar__nav:hover::-webkit-scrollbar-thumb,
+.agent-training-sidebar__nav:hover::-webkit-scrollbar-thumb:hover,
+.agent-training-sidebar__nav:hover::-webkit-scrollbar-thumb:active{
+  background: #08132e !important;
+}
+
+.agent-training-sidebar__user{
+  flex-shrink: 0;
+}
+
+
+/* Ajuste fino do scroll interno do menu da sidebar */
+.agent-training-sidebar__nav{
+  margin-left: -2px;
+  padding-left: 0;
+  padding-right: 12px;
+}
+
+.agent-training-sidebar__group-items{
+  padding-right: 2px;
+}
+
+
+/* Refinamento premium da hierarquia dos grupos da sidebar */
+.agent-training-sidebar__group-title{
+  font-size: 11px !important;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(148,163,184,0.42) !important;
+
+  margin-bottom: 14px !important;
+  padding-left: 8px;
+
+  font-weight: 700;
+}
+
+.agent-training-sidebar__group{
+  gap: 10px !important;
+}
+
+.agent-training-sidebar__nav{
+  gap: 24px !important;
+}
+
+
+/* Refina densidade visual do painel central */
+.agent-training-chat{
+  padding-top: 34px !important;
+  padding-bottom: 18px !important;
+}
+
+.agent-training-messages{
+  gap: 18px !important;
+}
+
+.agent-training-input-wrapper{
+  margin-top: 18px !important;
+}
+
+
+/* BotÃƒÂ£o do input consolidado */
+.agent-training-input__button {
+  width: 48px !important;
+  min-width: 48px !important;
+  height: 48px !important;
+  border-radius: 9px !important;
+  margin-right: -10px !important;
+  transform: translateX(50%) !important;
+}
+.agent-training-input__button:hover {
+  transform: translateX(50%) translateY(-1px) !important;
+}
+
+/* Refinamento premium: glow central mais sofisticado */
+.agent-training-chat-window::before{
+  opacity: 0.22 !important;
+  filter: blur(120px) !important;
+  transform: translate(-50%, -48%) scale(0.92) !important;
+  background:
+    radial-gradient(
+      circle,
+      rgba(37,99,235,0.14) 0%,
+      rgba(37,99,235,0.08) 34%,
+      rgba(37,99,235,0.03) 56%,
+      transparent 74%
+    ) !important;
+}
+
+
+/* Refinamento premium: profundidade do topo principal */
+.agent-training-header{
+  position: relative;
+  overflow: hidden;
+}
+
+.agent-training-header::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,0.018) 0%,
+      transparent 24%
+    );
+  opacity: 0.9;
+}
+
+.agent-training-header{
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.03),
+    0 18px 48px rgba(0,0,0,0.34);
+}
+
+
+/* Refinamento premium: brilho sutil no card central */
+.agent-training-chat{
+  position: relative;
+  overflow: hidden;
+}
+
+.agent-training-chat::before{
+  content: "";
+  position: absolute;
+  top: -140px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 720px;
+  height: 320px;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      circle,
+      rgba(37,99,235,0.10) 0%,
+      rgba(37,99,235,0.04) 38%,
+      transparent 72%
+    );
+  opacity: 0.9;
+}
+
+
+/* Refinamento premium: profundidade suave na sidebar */
+.agent-training-sidebar{
+  box-shadow:
+    inset -1px 0 0 rgba(255,255,255,0.025),
+    18px 0 42px rgba(0,0,0,0.34);
+}
+
+.agent-training-sidebar::after{
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -1px;
+  width: 1px;
+  height: 100%;
+  background:
+    linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(255,255,255,0.045) 14%,
+      rgba(255,255,255,0.025) 52%,
+      transparent 100%
+    );
+  pointer-events: none;
+}
+
+
+/* Refinamento premium: remover scroll do painel principal */
+.agent-training-main{
+  padding-bottom: 15px !important;
+  min-height: calc(100vh - 15px) !important;
+}
+
+
+/* Corre��o definitiva: remover scroll global da p�gina */
+html,
+body,
+#root{
+  height: 100%;
+  overflow: hidden !important;
+}
+
+
+/* Painel direito igual refer�ncia: sem card pai vis�vel */
+.agent-training-insight-panel{
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+
+/* Refinamento premium dos cards internos do painel direito */
+.agent-training-insight-panel__progress-box,
+.agent-training-insight-panel__tone-box,
+.agent-training-insight-panel__tip-box{
+  background:
+    linear-gradient(180deg, rgba(10,18,36,0.92), rgba(6,12,26,0.96)) !important;
+  border: 1px solid rgba(96,165,250,0.11) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.035),
+    0 18px 42px rgba(0,0,0,0.22) !important;
+  border-radius: 16px !important;
+}
+
+
+/* Alinha a coluna direita ao fim do card central mesmo com dois cards */
+.agent-training-insight-panel{
+  height: calc(100vh - 134px) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 14px !important;
+}
+
+.agent-training-insight-panel__progress-box{
+  flex: 1.05 1 0 !important;
+}
+
+.agent-training-insight-panel__tone-box{
+  flex: 0.95 1 0 !important;
+}
+
+.agent-training-insight-panel__tip-box{
+  display: none !important;
+}
+
