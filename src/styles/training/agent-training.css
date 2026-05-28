@@ -1350,7 +1350,7 @@
 
 
 .agent-training-save-button {
-  transform: translateX(290px) translateY\(-8px\) !important;
+  transform: translateX(0px) translateY(6px) !important;
 }
 
 
@@ -1973,7 +1973,7 @@ body,
 }
 
 
-/* Refinamento premium: distribuição vertical profissional da conversa */
+/* Refinamento premium: distribuiï¿½ï¿½o vertical profissional da conversa */
 .agent-training-chat-window__messages{
   justify-content: flex-start !important;
   padding-top: 22px !important;
@@ -2004,7 +2004,7 @@ body,
   padding-top: 29px !important;
 }
 
-/* Refinamento premium: scrollbar invisível da conversa */
+/* Refinamento premium: scrollbar invisï¿½vel da conversa */
 .agent-training-chat-window__messages{
   scrollbar-width: none !important;
 }
@@ -2013,7 +2013,7 @@ body,
   display:none !important;
 }
 
-/* Correção sidebar: evita corte do texto Base de Conhecimento */
+/* Correï¿½ï¿½o sidebar: evita corte do texto Base de Conhecimento */
 .agent-training-sidebar__nav-item span{
   min-width: 0 !important;
   white-space: nowrap !important;
@@ -2056,3 +2056,13 @@ body,
 
 
 
+
+/* Ajuste fino: centraliza verticalmente o bloco de tÃ­tulo do Training Studio */
+.agent-training-main-header > div:first-child {
+  transform: translateY(7px) !important;
+}
+
+/* Ajuste fino: centraliza verticalmente o bloco de tÃ­tulo do Training Studio */
+.agent-training-main-header > div:first-child {
+  transform: translateY(17px) !important;
+}
