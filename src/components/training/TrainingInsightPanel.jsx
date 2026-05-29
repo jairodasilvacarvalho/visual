@@ -1,3 +1,5 @@
+import { HeartHandshake, ShieldCheck, Crosshair, TrendingUp } from "lucide-react";
+
 export default function TrainingInsightPanel() {
   const topics = [
     { label: "Nome do produto", done: true },
@@ -45,22 +47,22 @@ export default function TrainingInsightPanel() {
 
         <div className="agent-training-insight-panel__tone-list">
           <div>
-            <span>✓</span>
+            <span><HeartHandshake size={15} strokeWidth={1.8} /></span>
             <p><strong>Empático</strong> Demonstre compreensão</p>
           </div>
 
           <div>
-            <span>◇</span>
+            <span><ShieldCheck size={15} strokeWidth={1.8} /></span>
             <p><strong>Confiante</strong> Passe segurança</p>
           </div>
 
           <div>
-            <span>◎</span>
+            <span><Crosshair size={15} strokeWidth={1.8} /></span>
             <p><strong>Especialista</strong> Use conhecimento técnico</p>
           </div>
 
           <div>
-            <span>↗</span>
+            <span><TrendingUp size={15} strokeWidth={1.8} /></span>
             <p><strong>Persuasivo</strong> Incentive a decisão</p>
           </div>
         </div>
