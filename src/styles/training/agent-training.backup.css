@@ -1,4 +1,4 @@
-﻿/* AI Sales - Training Studio
+/* AI Sales - Training Studio
    CSS limpo, isolado e sem regras duplicadas.
 */
 
@@ -1650,7 +1650,7 @@
 
 
 
-/* Scroll invisÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â­vel atÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â© hover da sidebar */
+/* Scroll invisÃƒÆ’Ã‚Â­vel atÃƒÆ’Ã‚Â© hover da sidebar */
 .agent-training-sidebar{
   scrollbar-width: thin;
   scrollbar-color: transparent transparent;
@@ -1683,7 +1683,7 @@
 }
 
 
-/* MantÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©m a marca fixa no topo da sidebar durante o scroll */
+/* MantÃƒÆ’Ã‚Â©m a marca fixa no topo da sidebar durante o scroll */
 .agent-training-sidebar__brand{
   
   
@@ -1695,7 +1695,7 @@
 }
 
 
-/* MantÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â©m usuÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¡rio fixo e elegante no rodapÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â© da sidebar */
+/* MantÃƒÆ’Ã‚Â©m usuÃƒÆ’Ã‚Â¡rio fixo e elegante no rodapÃƒÆ’Ã‚Â© da sidebar */
 .agent-training-sidebar__user{
   
   bottom: 0;
@@ -1709,7 +1709,7 @@
 
 
 
-/* Estrutura correta: logo fixo, menu com scroll, usuÃƒÂ¡rio fixo */
+/* Estrutura correta: logo fixo, menu com scroll, usuÃ¡rio fixo */
 .agent-training-sidebar{
   overflow: hidden !important;
 }
@@ -1805,7 +1805,7 @@
 }
 
 
-/* BotÃƒÂ£o do input consolidado */
+/* BotÃ£o do input consolidado */
 .agent-training-input__button {
   width: 48px !important;
   min-width: 48px !important;
@@ -1973,7 +1973,7 @@ body,
 }
 
 
-/* Refinamento premium: distribuiï¿½ï¿½o vertical profissional da conversa */
+/* Refinamento premium: distribui��o vertical profissional da conversa */
 .agent-training-chat-window__messages{
   justify-content: flex-start !important;
   padding-top: 22px !important;
@@ -1991,8 +1991,8 @@ body,
 
 /* Refinamento premium: conversa mais densa e equilibrada */
 .agent-training-chat-window__messages{
-  padding-top: 4px !important;
-  gap: 14px !important;
+  padding-top: 8px !important;
+  gap: 22px !important;
 }
 
 /* Refinamento premium: ancora visual da conversa */
@@ -2004,7 +2004,7 @@ body,
   padding-top: 8px !important;
 }
 
-/* Refinamento premium: scrollbar invisï¿½vel da conversa */
+/* Refinamento premium: scrollbar invis�vel da conversa */
 .agent-training-chat-window__messages{
   scrollbar-width: none !important;
 }
@@ -2013,7 +2013,7 @@ body,
   display:none !important;
 }
 
-/* Correï¿½ï¿½o sidebar: evita corte do texto Base de Conhecimento */
+/* Corre��o sidebar: evita corte do texto Base de Conhecimento */
 .agent-training-sidebar__nav-item span{
   min-width: 0 !important;
   white-space: nowrap !important;
@@ -2057,153 +2057,28 @@ body,
 
 
 
-/* =========================================================
-   Training Studio — refinamentos finais consolidados
-   ========================================================= */
+/* Ajuste fino: centraliza verticalmente o bloco de título do Training Studio */
+.agent-training-main-header > div:first-child {
+  transform: translateY(7px) !important;
+}
 
+/* Ajuste fino: centraliza verticalmente o bloco de título do Training Studio */
 .agent-training-main-header > div:first-child {
   transform: translateY(17px) !important;
 }
 
+/* Refinamento premium: une visualmente o seletor ao painel da conversa */
 .agent-training-conversation-panel {
   border-top-left-radius: 0 !important;
   border-top-right-radius: 0 !important;
 }
 
+/* Refinamento premium: suaviza a faixa superior do painel de conversa */
 .agent-training-chat-window {
-  padding-top: 6px !important;
   background: linear-gradient(180deg, rgba(5, 10, 24, 0.98) 0%, rgba(2, 6, 18, 0.99) 100%) !important;
 }
 
-.agent-training-chat-window__messages {
-  gap: 18px !important;
-  scrollbar-width: none !important;
-}
-
-.agent-training-chat-window__messages::-webkit-scrollbar {
-  display: none !important;
-}
-
-.training-message {
-  margin-bottom: 0 !important;
-}
-
-.training-message--assistant {
-  padding-left: 0 !important;
-}
-
-.training-message--user {
-  padding-right: 0 !important;
-}
-
-.training-message__row {
-  gap: 10px !important;
-}
-
-.training-message--assistant .training-message__bubble {
-  width: fit-content !important;
-  max-width: 560px !important;
-  padding: 12px 15px !important;
-  border-radius: 10px !important;
-  background: linear-gradient(180deg, rgba(13,22,44,0.72), rgba(7,14,30,0.82)) !important;
-  border: 1px solid rgba(90,143,224,0.07) !important;
-  box-shadow: 0 8px 22px rgba(2,6,23,0.22), inset 0 1px 0 rgba(255,255,255,0.025) !important;
-}
-
-.agent-training-insight-panel__progress-box {
-  flex: 0 0 365px !important;
-  height: 365px !important;
-  min-height: 365px !important;
-  max-height: 365px !important;
-  padding-bottom: 10px !important;
-}
-
-.agent-training-insight-panel__progress-box h3 {
-  padding-top: 8px !important;
-  margin-bottom: 22px !important;
-  font-weight: 600 !important;
-}
-
-.agent-training-insight-panel__progress-box > p {
-  margin: 0 0 12px !important;
-  font-size: 12px !important;
-  color: rgba(203,213,225,0.82) !important;
-}
-
-.agent-training-insight-panel__progress-ring {
-  width: 80px !important;
-  height: 80px !important;
-  margin: 0 auto 10px !important;
-}
-
-.agent-training-insight-panel__progress-ring::before {
-  inset: 4px !important;
-}
-
-.agent-training-insight-panel__divider {
-  margin: 10px 0 6px !important;
-}
-
-.agent-training-insight-panel__topics-title {
-  margin-bottom: 10px !important;
-  font-weight: 600 !important;
-}
-
-.agent-training-insight-panel__topics-list {
-  gap: 8px !important;
-  padding-bottom: 10px !important;
-}
-
-.agent-training-insight-panel__topic {
-  gap: 8px !important;
-}
-
-.agent-training-insight-panel__topic p {
-  line-height: 1.15 !important;
-}
-
-.agent-training-insight-panel__topic span {
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  width: 14px !important;
-  height: 14px !important;
-  background: transparent !important;
-}
-
-.agent-training-insight-panel__topic.is-done span {
-  background: transparent !important;
-  border: 1px solid #22c55e !important;
-  box-shadow: 0 0 8px rgba(34,197,94,0.24) !important;
-}
-
-.agent-training-insight-panel__topic.is-done span::after {
-  content: "" !important;
-  width: 5px !important;
-  height: 8px !important;
-  border-right: 1.5px solid #22c55e !important;
-  border-bottom: 1.5px solid #22c55e !important;
-  transform: rotate(45deg) translateY(-1px) !important;
-}
-
-.agent-training-insight-panel__topic.is-pending span {
-  border: 1px solid rgba(100,116,139,0.72) !important;
-  background: transparent !important;
-}
-
-.agent-training-insight-panel__tone-box {
-  flex: 1 1 auto !important;
-  min-height: 260px !important;
-  height: auto !important;
-  overflow: visible !important;
-  padding-bottom: 18px !important;
-}
-
-.agent-training-insight-panel__tone-list {
-  gap: 8px !important;
-  padding-bottom: 16px !important;
-}
-
+/* Refinamento premium: organiza Referências de Tom em título e descrição */
 .agent-training-insight-panel__tone-list strong {
   display: block !important;
   margin-bottom: 2px !important;
@@ -2219,22 +2094,145 @@ body,
   line-height: 1.32 !important;
 }
 
-.agent-training-insight-panel__tone-list > div:nth-child(1) span {
-  color: #22c55e !important;
+/* Refinamento premium: mais respiro no final do card Referências de Tom */
+.agent-training-insight-panel__tone-box {
+  padding-bottom: 17px !important;
 }
 
-.agent-training-insight-panel__tone-list > div:nth-child(2) span {
-  color: #facc15 !important;
+/* Refinamento premium: mais respiro no final do card Referências de Tom */
+.agent-training-insight-panel__tone-box {
+  padding-bottom: 17px !important;
 }
 
-.agent-training-insight-panel__tone-list > div:nth-child(3) span {
-  color: #f59e0b !important;
+/* Refinamento premium: mais respiro no final do card Referências de Tom */
+.agent-training-insight-panel__tone-box {
+  padding-bottom: 20px !important;
 }
 
-.agent-training-insight-panel__tone-list > div:nth-child(4) span {
-  color: #ec4899 !important;
+/* Refinamento premium: mais respiro no final do card Referências de Tom */
+.agent-training-insight-panel__tone-box {
+  padding-bottom: 30px !important;
+}
+
+/* Refinamento premium: aumenta discretamente a altura do card Referências de Tom */
+.agent-training-insight-panel__tone-box {
+}
+
+/* Refinamento premium: hierarquia do card Progresso */
+.agent-training-insight-panel__progress-ring{margin:0 auto 10px !important;}
+.agent-training-insight-panel__progress-box > p{margin:0 0 12px !important;}
+.agent-training-insight-panel__divider{margin:10px 0 6px !important;}
+.agent-training-insight-panel__topics-title{margin-bottom:10px !important;font-weight:600 !important;}
+
+/* Refinamento premium: destaque do progresso */
+.agent-training-insight-panel__progress-ring{width:68px !important;height:68px !important;}
+.agent-training-insight-panel__progress-box h3{margin-bottom:16px !important;font-weight:600 !important;}
+.agent-training-insight-panel__progress-box > p{font-size:12px !important;color:rgba(203,213,225,0.82) !important;}
+
+/* Refinamento premium: equil�brio entre Progresso e Tom */
+.agent-training-insight-panel__progress-box{flex:0.92 1 0 !important;}
+.agent-training-insight-panel__tone-box{flex:1.08 1 0 !important;}
+
+/* Refinamento premium: redistribui��o vis�vel do painel direito */
+.agent-training-insight-panel__progress-box{flex:0.82 1 0 !important;}
+.agent-training-insight-panel__tone-box{flex:1.18 1 0 !important;}
+
+/* Refinamento premium final: propor��o real dos cards do painel direito */
+.agent-training-insight-panel__progress-box{flex:0 0 365px !important;height:365px !important;min-height:365px !important;max-height:365px !important;}
+.agent-training-insight-panel__tone-box{flex:1 1 auto !important;min-height:260px !important;height:auto !important;overflow:hidden !important;padding-bottom:14px !important;}
+
+/* Refinamento premium: respiro inferior do card Refer�ncias de Tom */
+.agent-training-insight-panel__tone-box{padding-bottom:18px !important;}
+
+/* Refinamento premium: afasta �ltimo item da borda no card Refer�ncias de Tom */
+.agent-training-insight-panel__tone-list{padding-bottom:14px !important;}
+
+/* Corre��o premium: permite respiro real no card Refer�ncias de Tom */
+.agent-training-insight-panel__tone-box{overflow:visible !important;}
+.agent-training-insight-panel__tone-list{gap:10px !important;padding-bottom:18px !important;}
+
+/* Refinamento premium: compacta��o da lista de t�picos */
+.agent-training-insight-panel__topics-list{gap:10px !important;}
+.agent-training-insight-panel__topic{gap:8px !important;}
+.agent-training-insight-panel__topic p{line-height:1.15 !important;}
+
+/* Refinamento premium: indicadores de t�picos com check circular */
+.agent-training-insight-panel__topic span{display:inline-flex !important;align-items:center !important;justify-content:center !important;width:14px !important;height:14px !important;background:transparent !important;}
+.agent-training-insight-panel__topic.is-done span{background:transparent !important;border:1px solid #22c55e !important;box-shadow:0 0 8px rgba(34,197,94,0.24) !important;}
+.agent-training-insight-panel__topic.is-done span::after{content:'?';font-size:9px;font-weight:700;line-height:1;color:#22c55e;}
+.agent-training-insight-panel__topic.is-pending span{border:1px solid rgba(100,116,139,0.72) !important;background:transparent !important;}
+
+/* Corre��o premium: check desenhado em CSS, sem caractere */
+.agent-training-insight-panel__topic.is-done span::after{content:'' !important;width:5px !important;height:8px !important;border-right:1.5px solid #22c55e !important;border-bottom:1.5px solid #22c55e !important;transform:rotate(45deg) translateY(-1px) !important;}
+
+/* Refinamento premium: anel de progresso mais pr�ximo da refer�ncia */
+.agent-training-insight-panel__progress-ring{width:80px !important;height:80px !important;}
+.agent-training-insight-panel__progress-ring::before{inset:4px !important;}
+
+/* Refinamento premium: respiro do t�tulo do card Progresso */
+.agent-training-insight-panel__progress-box h3{padding-top:8px !important;margin-bottom:22px !important;}
+
+/* Refinamento premium: equil�brio vertical final do card Progresso */
+.agent-training-insight-panel__progress-box{padding-bottom:10px !important;}
+
+/* Refinamento premium: cores individuais dos �cones de tom */
+.agent-training-insight-panel__tone-list > div:nth-child(1) span{color:#22c55e !important;} 
+.agent-training-insight-panel__tone-list > div:nth-child(2) span{color:#facc15 !important;} 
+.agent-training-insight-panel__tone-list > div:nth-child(3) span{color:#f59e0b !important;} 
+.agent-training-insight-panel__tone-list > div:nth-child(4) span{color:#ec4899 !important;}
+
+/* Refinamento premium: respiro inferior dos cards do painel direito */
+.agent-training-insight-panel__topics-list{gap:8px !important;padding-bottom:10px !important;}
+.agent-training-insight-panel__tone-list{gap:8px !important;padding-bottom:16px !important;}
+
+/* Correção visual: remove recuos que simulavam desalinhamento com o input */
+.training-message--assistant {
+  padding-left: 0 !important;
+}
+.training-message--user {
+  padding-right: 0 !important;
 }
 
 
+/* Refinamento premium: bolha da IA mais próxima da referência */
+.training-message--assistant .training-message__bubble {
+  background: linear-gradient(180deg, rgba(13,22,44,0.92), rgba(7,14,30,0.96)) !important;
+  border: 1px solid rgba(90,143,224,0.10) !important;
+  box-shadow: 0 10px 28px rgba(2,6,23,0.30), inset 0 1px 0 rgba(255,255,255,0.035) !important;
+  padding: 12px 15px !important;
+  border-radius: 10px !important;
+}
 
+
+/* Refinamento premium: compactação da conversa */
+.agent-training-chat-window__messages{
+  gap: 18px !important;
+}
+.training-message{
+  margin-bottom: 0 !important;
+}
+.training-message__row{
+  gap: 10px !important;
+}
+
+
+/* Refinamento premium: bolha da IA mais discreta e integrada */
+.training-message--assistant .training-message__bubble {
+  background: linear-gradient(180deg, rgba(13,22,44,0.72), rgba(7,14,30,0.82)) !important;
+  border: 1px solid rgba(90,143,224,0.07) !important;
+  box-shadow: 0 8px 22px rgba(2,6,23,0.22), inset 0 1px 0 rgba(255,255,255,0.025) !important;
+}
+
+
+/* Refinamento premium: reduz largura máxima da bolha da IA */
+.training-message--assistant .training-message__bubble {
+  max-width: 560px !important;
+}
+
+
+/* Refinamento premium: bolha da IA ajustada ao conteúdo */
+.training-message--assistant .training-message__bubble {
+  width: fit-content !important;
+  max-width: 560px !important;
+}
 

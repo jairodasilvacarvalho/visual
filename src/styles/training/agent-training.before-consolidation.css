@@ -1991,8 +1991,8 @@ body,
 
 /* Refinamento premium: conversa mais densa e equilibrada */
 .agent-training-chat-window__messages{
-  padding-top: 4px !important;
-  gap: 14px !important;
+  padding-top: 8px !important;
+  gap: 22px !important;
 }
 
 /* Refinamento premium: ancora visual da conversa */
@@ -2234,7 +2234,3 @@ body,
 .agent-training-insight-panel__tone-list > div:nth-child(4) span {
   color: #ec4899 !important;
 }
-
-
-
-

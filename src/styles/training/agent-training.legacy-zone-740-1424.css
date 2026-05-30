@@ -1,0 +1,685 @@
+﻿.agent-training-input__container{
+  border: 1px solid rgba(148,163,184,0.10);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.03),
+    0 14px 34px rgba(2,6,23,0.28), inset 0 1px 0 rgba(255,255,255,0.03);
+}
+
+.agent-training-input__textarea::placeholder{
+  color: rgba(148,163,184,0.52);
+}
+
+
+.agent-training-sidebar__nav-item--active{
+  color: rgba(248,250,252,0.96) !important;
+  background: linear-gradient(90deg, rgba(37,99,235,0.26), rgba(37,99,235,0.10)) !important;
+  box-shadow: inset 1px 0 0 rgba(96,165,250,0.35);
+}
+
+
+.agent-training-input__textarea{
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  padding-left: 14px !important;
+}
+
+.agent-training-chat-window__messages{
+  width: min(736px, calc(100% - 102px)) !important;
+  margin: 0 auto !important;
+  justify-content: center !important;
+  gap: 12px !important;
+  padding-bottom: 4px !important;
+}
+
+.training-message{
+  width: 100% !important;
+  gap: 10px !important;
+  margin-bottom: 0 !important;
+}
+
+.training-message--assistant{
+  justify-content: center !important;
+}
+
+.training-message--user{
+  justify-content: flex-end !important;
+  padding-left: 42px !important;
+}
+
+.training-message--user .training-message__avatar{
+  order: 2 !important;
+  margin-left: 10px !important;
+}
+
+.training-message--assistant .training-message__bubble{
+  max-width: 620px !important;
+}
+
+.training-message--user .training-message__bubble{
+  max-width: 400px !important;
+  white-space: normal !important;
+  overflow-wrap: break-word !important;
+  word-break: normal !important;
+}
+
+.agent-training-input-wrapper,
+.agent-training-input{
+  width: min(738px, calc(100% - 100px)) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+.agent-training-side-card{
+  background: linear-gradient(180deg, rgba(10,16,30,0.94) 0%, rgba(6,10,22,0.98) 100%) !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.28) !important;
+}
+
+
+.agent-training-sidebar__item--active{
+  background: linear-gradient(90deg, rgba(29,78,216,0.10) 0%, rgba(29,78,216,0.04) 100%) !important;
+  border: 1px solid rgba(59,130,246,0.10) !important;
+}
+
+
+.agent-training-main-header{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:32px;
+  margin-bottom: 22px;
+}
+
+.agent-training-main-header h1{
+  margin:0;
+  font-size: 1.50rem;
+  font-weight: 600;
+  line-height: 1.16;
+  color:#f8fbff;
+  letter-spacing:-0.03em;
+}
+
+.agent-training-main-header p{
+  margin: 6px 0 0;
+  font-size: 0.82rem;
+  color: rgba(210,220,255,0.54);
+  line-height: 1.35;
+}
+
+.agent-training-save-button{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  height:46px;
+  padding:0 18px;
+  border:none;
+  border-radius:14px;
+  background:rgba(15,23,42,0.92);
+  color:#f4f7ff;
+  font-size:0.92rem;
+  font-weight:600;
+  cursor:pointer;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
+  border:1px solid rgba(90,143,224,0.18);
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.32),
+    inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+.agent-training-save-button:hover{
+  transform:translateY(-1px);
+  background:rgba(20,31,56,0.96);
+  border-color:rgba(90,143,224,0.34);
+}
+
+
+.agent-training-main-header{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:32px;
+  margin-bottom: 22px;
+}
+
+.agent-training-main-header h1{
+  margin:0;
+  font-size: 1.50rem;
+  font-weight: 600;
+  line-height: 1.16;
+  color:#f8fbff;
+  letter-spacing:-0.03em;
+}
+
+.agent-training-main-header p{
+  margin: 6px 0 0;
+  font-size: 0.82rem;
+  color: rgba(210,220,255,0.54);
+  line-height: 1.35;
+}
+
+.agent-training-save-button{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  height:46px;
+  padding:0 18px;
+  border:none;
+  border-radius:14px;
+  background:rgba(15,23,42,0.92);
+  color:#f4f7ff;
+  font-size:0.92rem;
+  font-weight:600;
+  cursor:pointer;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
+  border:1px solid rgba(90,143,224,0.18);
+  box-shadow:
+    0 10px 30px rgba(0,0,0,0.32),
+    inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+.agent-training-save-button:hover{
+  transform:translateY(-1px);
+  background:rgba(20,31,56,0.96);
+  border-color:rgba(90,143,224,0.34);
+}
+
+
+.agent-training-conversation-panel::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(90,143,224,0.10),
+      transparent 58%
+    );
+  opacity:0.9;
+}
+
+.agent-training-conversation-panel{
+  position:relative;
+  overflow:hidden;
+}
+
+
+.agent-training-chat-window__messages{
+    max-width: 760px !important;
+    margin: 0 auto !important;
+    padding: 18px 0 12px;
+}
+
+.agent-training-message{
+    margin-bottom: 22px;
+}
+
+.agent-training-conversation-panel{
+    padding-bottom: 4px;
+}
+
+.agent-training-main-header > div{
+  max-width: 720px !important;
+  flex: 1 !important;
+}
+
+.agent-training-save-button{
+  flex-shrink: 0 !important;
+  margin-left: auto !important;
+}
+
+.agent-training-agent-selector{
+  width:100%;
+  height:62px;
+  margin:33px 0 0;
+  padding:0 24px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  border:1px solid rgba(59,130,246,0.10);
+  border-radius:14px 14px 0 0;
+  background:rgba(7,13,28,0.58);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.025);
+}
+
+.agent-training-agent-selector span{
+  font-size:14px;
+  color:rgba(226,232,240,0.78);
+}
+
+.agent-training-agent-selector select{
+  width:280px;
+  height:40px;
+  padding:0 14px;
+  border-radius:10px;
+  border:1px solid rgba(148,163,184,0.18);
+  background:rgba(8,13,28,0.92);
+  color:#f8fafc;
+  font-size:14px;
+  outline:none;
+}
+
+
+.agent-training-reset-button{
+  margin-left:auto !important;
+  height:40px;
+  padding:0 18px;
+  border-radius:10px;
+  border:1px solid rgba(148,163,184,0.14);
+  background:rgba(15,23,42,0.72);
+  color:rgba(248,250,252,0.92);
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.035);
+}
+
+.agent-training-reset-button:hover{
+  background:rgba(20,31,56,0.86);
+  border-color:rgba(90,143,224,0.28);
+}
+
+.agent-training-reset-button{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:10px !important;
+  line-height:1 !important;
+}
+
+.agent-training-reset-button svg{
+  width:15px !important;
+  height:15px !important;
+  flex-shrink:0 !important;
+}
+
+.agent-training-input__container{
+  transition:
+    border-color 0.22s ease,
+    box-shadow 0.22s ease,
+    transform 0.22s ease;
+}
+
+.agent-training-input__container:focus-within{
+  border-color: rgba(96,165,250,0.22);
+  box-shadow:
+    0 20px 48px rgba(2,6,23,0.58),
+    0 0 0 1px rgba(59,130,246,0.08),
+    0 0 22px rgba(37,99,235,0.10);
+  transform: translateY(-1px);
+}
+
+.agent-training-input__button{
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
+}
+
+.agent-training-input__button:hover{
+  transform: translateY(-1px);
+  filter: brightness(1.04);
+}
+
+
+@keyframes trainingMessageFade {
+  from{
+    opacity: 0;
+    transform: translateY(10px) scale(0.985);
+  }
+
+  to{
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.training-message{
+  animation: trainingMessageFade 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+
+.training-message__bubble{
+  border: 1px solid rgba(255,255,255,0.04);
+  box-shadow:
+    0 10px 30px rgba(2,6,23,0.28),
+    inset 0 1px 0 rgba(255,255,255,0.03);
+  backdrop-filter: blur(10px);
+}
+
+.training-message--assistant .training-message__bubble{
+  background:
+    linear-gradient(
+      180deg,
+      rgba(14,22,40,0.92) 0%,
+      rgba(8,14,28,0.96) 100%
+    ) !important;
+}
+
+.training-message--user .training-message__bubble{
+  background:
+    linear-gradient(
+      180deg,
+      rgba(37,99,235,0.34) 0%,
+      rgba(29,78,216,0.24) 100%
+    ) !important;
+}
+
+
+.agent-training-chat-window{
+  position: relative;
+  overflow: hidden;
+}
+
+.agent-training-chat-window::before{
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(37,99,235,0.10) 0%,
+      rgba(37,99,235,0.04) 22%,
+      transparent 60%
+    );
+  filter: blur(48px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.agent-training-chat-window > *{
+  position: relative;
+  z-index: 1;
+}
+
+
+.agent-training-input{
+  transform: translateY(40px) !important;
+}
+
+
+.agent-training-chat-window__messages{
+  width: min(736px, calc(100% - 102px)) !important;
+  max-width: 760px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  align-items: stretch !important;
+}
+
+.training-message{
+  width: 100% !important;
+}
+
+.training-message--assistant{
+  justify-content: flex-start !important;
+}
+
+.training-message--user{
+  justify-content: flex-end !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* Ajuste premium: remove background azul das mensagens da IA */
+.training-message--assistant .training-message__bubble {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  padding-left: 42px !important;
+}
+
+.agent-training-main-header > div:first-child,
+.agent-training-save-button {
+  
+}
+
+.agent-training-main-title {
+  font-size: 25px !important;
+  line-height: 1.16 !important;
+}
+
+.agent-training-main-subtitle {
+  margin-top: 10px !important;
+  line-height: 1.35 !important;
+}
+
+.agent-training-conversation-panel {
+  padding-top: 8px !important;
+}
+
+.agent-training-controls {
+  margin-top: 29px !important;
+  margin-bottom: 4px !important;
+  padding-bottom: 14px !important;
+  border-bottom: 1px solid rgba(90, 143, 224, 0.08) !important;
+}
+
+.agent-training-chat-window {
+  margin-top: 12px !important;
+}
+
+.agent-training-main-header {
+  margin-bottom: 6px !important;
+}
+
+.agent-training-main-subtitle {
+  opacity: 0.78 !important;
+}
+
+.training-message--assistant .training-message__content {
+  opacity: 0.96 !important;
+  letter-spacing: -0.01em !important;
+}
+
+.agent-training-chat-window__messages {
+  padding-top: 8px !important;
+  gap: 28px !important;
+}
+
+.training-message {
+  margin-bottom: 2px !important;
+}
+
+.training-message--assistant {
+  margin-bottom: -2px !important;
+}
+
+.training-message__row {
+  align-items: flex-start !important;
+}
+
+.agent-training-chat-window {
+  justify-content: flex-start !important;
+}
+
+.agent-training-input {
+  margin-top: 14px !important;
+}
+/* Refinamento premium: suaviza glow central */
+.agent-training-chat-window::before {
+  opacity: 0.38 !important;
+  filter: blur(90px) !important;
+  transform: translate(-50%, -46%) scale(1.08) !important;
+}
+
+.agent-training-chat-window {
+  background:
+    radial-gradient(circle at top, rgba(26, 64, 140, 0.16), transparent 48%),
+    linear-gradient(180deg, rgba(5, 10, 24, 0.96) 0%, rgba(2, 6, 18, 0.985) 100%) !important;
+}
+/* Refinamento premium: remove linha de status visual */
+.agent-training-chat-window__header {
+  display: none !important;
+}
+/* Refinamento premium: alinhamento horizontal das mensagens */
+.training-message--assistant {
+  padding-left: 42px !important;
+}
+
+.training-message--user {
+  padding-right: 6px !important;
+}
+
+.training-message--user .training-message__row {
+  gap: 12px !important;
+}
+
+.training-message--assistant .training-message__row {
+  gap: 12px !important;
+}
+
+.training-message__bubble {
+  max-width: 620px !important;
+}
+/* Refinamento premium: integra input ao fluxo da conversa */
+.agent-training-input {
+  margin-top: 4px !important;
+}
+
+.agent-training-chat-window__messages {
+  padding-bottom: 6px !important;
+}
+
+.agent-training-chat-window {
+  padding-bottom: 18px !important;
+}
+/* Refinamento premium: input mais sofisticado */
+.agent-training-input__container {
+  min-height: 58px !important;
+  border-radius: 16px !important;
+  background: linear-gradient(
+    180deg,
+    rgba(9, 18, 42, 0.92) 0%,
+    rgba(5, 11, 28, 0.96) 100%
+  ) !important;
+  border: 1px solid rgba(90, 143, 224, 0.14) !important;
+}
+
+.agent-training-input__textarea {
+  padding-top: 17px !important;
+  font-size: 16px !important;
+}
+
+
+
+.agent-training-input__container {
+  border-radius: 10px !important;
+}
+
+
+
+.training-message--user .training-message__bubble {
+  border-radius: 10px !important;
+}
+
+.agent-training-save-button {
+  border-radius: 10px !important;
+}
+/* Remove visualmente o card Dica IA sem alterar JSX */
+.agent-training-insight-panel__tip-box {
+  display: none !important;
+}
+
+
+
+
+
+
+.agent-training-save-button {
+  position: absolute !important;
+  top: 14px !important;
+  right: 48px !important;
+  z-index: 20 !important;
+}
+
+
+
+.agent-training-save-button {
+  transform: translateX(0px) translateY(6px) !important;
+}
+
+
+
+.agent-training-input-wrapper {
+  max-width: 790px !important;
+}
+
+
+.agent-training-input__button {
+  width: 48px !important;
+  min-width: 48px !important;
+  height: 48px !important;
+  margin-right: -10px !important;
+}
+
+
+
+.agent-training-input-wrapper {
+  width: calc(100% - 120px) !important;
+  margin-left: 118px !important;
+  max-width: 780px !important;
+}
+
+
+
+.agent-training-input {
+  width: min(738px, calc(100% - 100px)) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  transform: translateY(40px) !important;
+}
+
+
+.agent-training-input__textarea {
+  padding-right: 18px !important;
+}
+
+
+/* Ajuste fino correto: largura do input sem mexer nas mensagens */
+.agent-training-input {
+  width: min(736px, calc(100% - 102px)) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  transform: translateY(40px) !important;
+}
+
+
+
+.agent-training-insight-panel {
+  margin-top: 86px !important;
+  height: calc(100vh - 134px) !important;
+}
+
+/* Ajuste correto: mensagens com o mesmo centro e largura do input */
+.agent-training-chat-window__messages {
+  width: min(736px, calc(100% - 102px)) !important;
+  max-width: none !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+.training-message--assistant,
+.training-message--user {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+.training-message--assistant .training-message__bubble {
+  padding-left: 0 !important;
+}
+
+/* =========================================================
+   PREMIUM ENTERPRISE SIDEBAR
