@@ -1,4 +1,4 @@
-import {
+﻿import {
   BarChart3,
   BookOpen,
   Bot,
@@ -45,7 +45,7 @@ export default function TrainingSidebar() {
     <aside className="agent-training-sidebar">
       <div className="agent-training-sidebar__brand">
         <div className="agent-training-sidebar__logo">
-          <Zap size={24} fill="currentColor" />
+          <Zap size={20} fill="currentColor" />
         </div>
 
         <strong>Training Studio IA</strong>
@@ -89,3 +89,7 @@ export default function TrainingSidebar() {
     </aside>
   );
 }
+
+
+
+

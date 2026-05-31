@@ -344,7 +344,7 @@
 .agent-training-insight-panel__progress-card strong, .agent-training-insight-panel__stage-card strong, .agent-training-insight-panel__quality-card strong, .agent-training-insight-panel__next-card strong {
   color: #f8fafc;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .agent-training-insight-panel__progress-card p, .agent-training-insight-panel__stage-card p, .agent-training-insight-panel__quality-card p, .agent-training-insight-panel__next-card p {
@@ -396,7 +396,7 @@
 .agent-training-insight-panel__overview-top strong {
   color: #f8fafc;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .agent-training-insight-panel__divider {
@@ -467,7 +467,7 @@
   justify-content:center;
   color: rgba(148, 163, 184, 0.68);
   font-size:28px;
-  font-weight: 600;
+  font-weight: 500;
   box-shadow:
     0 0 30px rgba(59,130,246,0.18),
     inset 0 0 20px rgba(59,130,246,0.12);
@@ -629,7 +629,7 @@
 
 .agent-training-insight-panel__progress-ring span{
   font-size:24px;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 
@@ -682,7 +682,7 @@
 
 .agent-training-insight-panel__tip-box strong{
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   margin-bottom: 8px;
 }
 
@@ -695,7 +695,7 @@
 
 .agent-training-insight-panel__tone-list strong{
   color: rgba(248,250,252,0.92) !important;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .agent-training-insight-panel__tone-list p{
@@ -725,7 +725,7 @@
   height: 36px;
   border-radius: 11px;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .agent-training-message{
@@ -832,7 +832,7 @@
 .agent-training-main-header h1{
   margin:0;
   font-size: 1.50rem;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.16;
   color:#f8fbff;
   letter-spacing:-0.03em;
@@ -886,7 +886,7 @@
 .agent-training-main-header h1{
   margin:0;
   font-size: 1.50rem;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.16;
   color:#f8fbff;
   letter-spacing:-0.03em;
@@ -998,7 +998,7 @@
   padding:0 14px;
   border-radius:10px;
   border:1px solid rgba(148,163,184,0.18);
-  background:rgba(8,13,28,0.92);
+  background:linear-gradient(180deg, rgba(9,18,42,0.92) 0%, rgba(5,11,28,0.96) 100%);
   color:#f8fafc;
   font-size:14px;
   outline:none;
@@ -1492,9 +1492,10 @@
 }
 
 .agent-training-sidebar__brand strong{
-  font-size: 24px;
-  font-weight: 600;
+  font-size: 19px;
+  font-weight: 500;
   line-height: 1.1;
+  white-space: nowrap;
   color: rgba(248,250,252,0.96);
 }
 
@@ -1514,7 +1515,7 @@
   padding: 0 10px;
 
   font-size:11px;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing:0.16em;
 
   color:rgba(148,163,184,0.54);
@@ -1572,17 +1573,17 @@
   background:
     linear-gradient(
       90deg,
-      rgba(37,99,235,0.22) 0%,
-      rgba(37,99,235,0.08) 100%
+      rgba(37,99,235,0.18) 0%,
+      rgba(37,99,235,0.06) 100%
     ) !important;
 
-  border:1px solid rgba(59,130,246,0.18);
+  border:1px solid rgba(59,130,246,0.13);
 
   color:#ffffff !important;
 
   box-shadow:
     inset 1px 0 0 rgba(96,165,250,0.34),
-    0 8px 28px rgba(37,99,235,0.12);
+    0 8px 24px rgba(37,99,235,0.08);
 }
 
 .agent-training-sidebar__user{
@@ -1592,7 +1593,7 @@
   align-items:center;
   gap:14px;
 
-  padding:16px;
+  padding:14px;
   border-radius:10px;
 
   background: rgba(255,255,255,0.03);
@@ -1609,7 +1610,7 @@
   align-items:center;
   justify-content:center;
 
-  font-weight: 600;
+  font-weight: 500;
   color:white;
 
   background:
@@ -1691,7 +1692,7 @@
   padding-top: 4px;
   padding-bottom: 18px;
   margin-bottom: 18px;
-  background: linear-gradient(180deg, rgba(3,7,18,0.99) 0%, rgba(3,7,18,0.88) 78%, transparent 100%);
+  background: transparent;
 }
 
 
@@ -1701,7 +1702,7 @@
   bottom: 0;
   
   margin-top: 26px;
-  background: linear-gradient(180deg, rgba(11,18,34,0.96) 0%, rgba(7,14,28,0.99) 100%);
+  background: linear-gradient(180deg, rgba(11,18,34,0.54) 0%, rgba(7,14,28,0.68) 100%);
   backdrop-filter: blur(14px);
 }
 
@@ -1773,12 +1774,12 @@
   font-size: 11px !important;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(148,163,184,0.42) !important;
+  color: rgba(148,163,184,0.36) !important;
 
   margin-bottom: 14px !important;
   padding-left: 8px;
 
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .agent-training-sidebar__group{
@@ -1786,7 +1787,7 @@
 }
 
 .agent-training-sidebar__nav{
-  gap: 24px !important;
+  gap: 20px !important;
 }
 
 
@@ -2076,7 +2077,7 @@ body,
 }
 
 .agent-training-chat-window__messages {
-  gap: 18px !important;
+  gap: 12px !important;
   scrollbar-width: none !important;
 }
 
@@ -2131,8 +2132,8 @@ body,
 }
 
 .agent-training-insight-panel__progress-ring {
-  width: 80px !important;
-  height: 80px !important;
+  width: 72px !important;
+  height: 72px !important;
   margin: 0 auto 10px !important;
 }
 
@@ -2244,3 +2245,166 @@ body,
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Campo premium para agente personalizado */
+.agent-training-custom-agent-input{
+  width:280px;
+  height:40px;
+  padding:0 14px;
+  border-radius:10px;
+  border:1px solid rgba(148,163,184,0.18);
+  background:linear-gradient(180deg, rgba(9,18,42,0.92) 0%, rgba(5,11,28,0.96) 100%);
+  color:#f8fafc;
+  font-size:14px;
+  outline:none;
+}
+
+.agent-training-custom-agent-input::placeholder{
+  color:rgba(148,163,184,0.56);
+}
+
+.agent-training-custom-agent-input:focus{
+  border-color:rgba(96,165,250,0.32);
+  box-shadow:0 0 0 1px rgba(59,130,246,0.10), 0 0 18px rgba(37,99,235,0.10);
+}
+
+/* Campo premium integrado para agente personalizado */
+.agent-training-custom-agent-field{
+  width:300px;
+  height:40px;
+  padding:4px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  border-radius:10px;
+  border:1px solid rgba(148,163,184,0.18);
+  background:linear-gradient(180deg, rgba(9,18,42,0.92) 0%, rgba(5,11,28,0.96) 100%);
+}
+
+.agent-training-custom-agent-field:focus-within{
+  border-color:rgba(96,165,250,0.32);
+  box-shadow:0 0 0 1px rgba(59,130,246,0.10), 0 0 18px rgba(37,99,235,0.10);
+}
+
+.agent-training-custom-agent-field .agent-training-custom-agent-input{
+  flex:1;
+  width:auto;
+  height:100%;
+  padding:0 10px;
+  border:0;
+  background:transparent;
+  box-shadow:none;
+}
+
+.agent-training-custom-agent-send-button{
+  width:32px;
+  min-width:32px;
+  height:32px;
+  border:0;
+  border-radius:8px;
+  display:grid;
+  place-items:center;
+  cursor:pointer;
+  background:linear-gradient(180deg, rgba(61, 110, 255, 0.88), rgba(37, 84, 220, 0.88));
+  box-shadow:
+    0 0 18px rgba(56, 97, 255, 0.22),
+    inset 0 1px 0 rgba(255,255,255,0.10);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
+}
+
+.agent-training-custom-agent-send-button:hover{
+  filter:brightness(1.04);
+  transform:translateY(-1px);
+}
+
+.agent-training-custom-agent-send-icon{
+  width:28px;
+  height:28px;
+  fill:#ffffff;
+  transform:rotate(-12deg);
+}
+
+/* Badge premium do agente personalizado */
+.agent-training-custom-agent-badge{
+  height:40px;
+  padding:0 6px 0 14px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  border-radius:10px;
+  border:1px solid rgba(90,143,224,0.16);
+  background:linear-gradient(
+    180deg,
+    rgba(9,18,42,0.92) 0%,
+    rgba(5,11,28,0.96) 100%
+  );
+}
+
+.agent-training-custom-agent-badge span{
+  color:#f8fafc;
+  font-size:14px;
+  font-weight:500;
+}
+
+.agent-training-custom-agent-edit-button{
+  width:28px;
+  height:28px;
+  border:0;
+  border-radius:8px;
+  display:grid;
+  place-items:center;
+  cursor:pointer;
+  color:rgba(226,232,240,0.78);
+  background:transparent;
+  transition:all .18s ease;
+}
+
+.agent-training-custom-agent-edit-button:hover{
+  color:#f8fafc;
+  background:rgba(59,130,246,0.12);
+}
+
+/* Padronização premium do seletor de agente */
+.agent-training-agent-selector select,
+.agent-training-custom-agent-field,
+.agent-training-custom-agent-badge{
+  width:300px !important;
+  min-width:300px !important;
+  max-width:300px !important;
+}
+
+
+
+/* Ajuste dark premium das opções do seletor de agente */
+.agent-training-agent-selector select option{
+  background:#0b1224;
+  color:#f8fafc;
+}
+
+.agent-training-agent-selector select option:checked{
+  background:#1e3a8a;
+  color:#ffffff;
+}
