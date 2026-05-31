@@ -1,4 +1,4 @@
-﻿import { useState } from "react";
+﻿import { useState, useEffect, useRef } from "react";
 import { Save, RotateCcw, Pencil, ChevronDown } from "lucide-react";
 import TrainingChatWindow from "../components/training/TrainingChatWindow";
 import TrainingInput from "../components/training/TrainingInput";
@@ -36,9 +36,25 @@ export default function AgentTraining() {
   const [customAgentType, setCustomAgentType] = useState("");
   const [confirmedCustomAgentType, setConfirmedCustomAgentType] = useState("");
   const [isAgentDropdownOpen, setIsAgentDropdownOpen] = useState(false);
+  const agentDropdownRef = useRef(null);
 
   const [messages, setMessages] = useState(INITIAL_MESSAGES);
 
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (!agentDropdownRef.current || agentDropdownRef.current.contains(event.target)) {
+        return;
+      }
+
+      setIsAgentDropdownOpen(false);
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   function handleResetConversation() {
     setMessages(INITIAL_MESSAGES);
     setInputValue("");
@@ -177,6 +193,12 @@ export default function AgentTraining() {
                     type="text"
                     value={customAgentType}
                     onChange={(event) => setCustomAgentType(event.target.value)}
+                    onBlur={() => {
+                      if (!customAgentType.trim() && !confirmedCustomAgentType) {
+                        setSelectedAgentType("clinicas");
+                        setCustomAgentType("");
+                      }
+                    }}
                     onKeyDown={(event) => {
                       if (event.key === "Enter") {
                         handleConfirmCustomAgentType();
@@ -198,15 +220,34 @@ export default function AgentTraining() {
                 </div>
               )
             ) : (
-              <select value={selectedAgentType} onChange={(event) => setSelectedAgentType(event.target.value)}>
-                <option value="clinicas">Atendente/Vendedor IA - Clínicas</option>
-                <option value="infoprodutos">Vendedor IA - Infoprodutos</option>
-                <option value="produtos-fisicos">Vendedor IA - Produtos Físicos</option>
-                <option value="servicos-locais">Atendente IA - Serviços Locais</option>
-                <option value="recuperacao">Recuperador IA - Leads e Carrinho</option>
-                <option value="pos-venda">Suporte IA - Pós-venda</option>
-                <option value="outro">Agente Personalizado</option>
-              </select>
+              <div className="agent-training-agent-dropdown" ref={agentDropdownRef}>
+                <button
+                  className="agent-training-agent-dropdown__trigger"
+                  type="button"
+                  onClick={() => setIsAgentDropdownOpen((current) => !current)}
+                >
+                  <span>{AGENT_TYPE_OPTIONS.find((option) => option.value === selectedAgentType)?.label}</span>
+                  <ChevronDown size={16} />
+                </button>
+
+                {isAgentDropdownOpen && (
+                  <div className="agent-training-agent-dropdown__menu">
+                    {AGENT_TYPE_OPTIONS.map((option) => (
+                      <button
+                        key={option.value}
+                        className={`agent-training-agent-dropdown__option ${selectedAgentType === option.value ? "agent-training-agent-dropdown__option--active" : ""}`}
+                        type="button"
+                        onClick={() => {
+                          setSelectedAgentType(option.value);
+                          setIsAgentDropdownOpen(false);
+                        }}
+                      >
+                        {option.label}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
             )}
 
             <button className="agent-training-reset-button" type="button" onClick={handleResetConversation}>
@@ -235,6 +276,14 @@ export default function AgentTraining() {
     </main>
   );
 }
+
+
+
+
+
+
+
+
 
 
 
