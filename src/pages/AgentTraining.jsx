@@ -1,5 +1,5 @@
 ﻿import { useState } from "react";
-import { Save, RotateCcw, Pencil } from "lucide-react";
+import { Save, RotateCcw, Pencil, ChevronDown } from "lucide-react";
 import TrainingChatWindow from "../components/training/TrainingChatWindow";
 import TrainingInput from "../components/training/TrainingInput";
 import TrainingProgress from "../components/training/TrainingProgress";
@@ -235,6 +235,9 @@ export default function AgentTraining() {
     </main>
   );
 }
+
+
+
 
 
 
