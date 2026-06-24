@@ -1,28 +1,56 @@
 export default function TrainingInput({
   value,
   onChange,
-  onSend
+  onSend,
+  disabled = false,
+  onBlockedInteraction
 }) {
+  function handleBlockedInteraction() {
+    if (disabled) {
+      onBlockedInteraction?.();
+      return true;
+    }
+
+    return false;
+  }
+
   return (
     <footer className="agent-training-input">
       <div className="agent-training-input__container">
         <textarea
           value={value}
-          onChange={(event) => onChange(event.target.value)}
+          onChange={(event) => {
+            if (!disabled) {
+              onChange(event.target.value);
+            }
+          }}
+          onFocus={handleBlockedInteraction}
+          onClick={handleBlockedInteraction}
+          readOnly={disabled}
           className="agent-training-input__textarea"
-          placeholder="Digite sua resposta aqui..."
+          placeholder={disabled ? "Escolha primeiro o tipo de agente..." : "Digite sua resposta aqui..."}
           onKeyDown={(event) => {
             if (event.key === "Enter" && !event.shiftKey) {
               event.preventDefault();
+
+              if (handleBlockedInteraction()) {
+                return;
+              }
+
               onSend();
             }
           }}
         />
 
         <button
-          onClick={onSend}
+          onClick={() => {
+            if (!handleBlockedInteraction()) {
+              onSend();
+            }
+          }}
           className="agent-training-input__button"
           aria-label="Enviar resposta"
+          aria-disabled={disabled}
         >
           <svg
             className="agent-training-input__button-icon"
