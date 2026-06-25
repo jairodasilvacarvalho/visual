@@ -977,7 +977,7 @@
   display:flex;
   align-items:center;
   justify-content:flex-end;
-  gap:10px;
+  gap:16px;
   margin-left:auto;
   padding-top:17px;
 }
@@ -987,14 +987,14 @@
   align-self:center;
   align-items:center;
   justify-content:center;
-  height:32px;
-  min-height:32px;
-  padding:0 10px;
+  height:36px;
+  min-height:36px;
+  padding:0 14px;
   border:1px solid rgba(34,197,94,0.34);
   border-radius:10px;
   background:rgba(22,163,74,0.12);
   color:#bbf7d0;
-  font-size:11px;
+  font-size:12px;
   font-weight:700;
   line-height:1;
   white-space:nowrap;
@@ -1005,14 +1005,14 @@
   align-self:center;
   align-items:center;
   justify-content:center;
-  height:32px;
-  min-height:32px;
-  padding:0 10px;
+  height:36px;
+  min-height:36px;
+  padding:0 14px;
   border:1px solid rgba(148,163,184,0.16);
   border-radius:10px;
   background:rgba(15,23,42,0.24);
   color:#cbd5e1;
-  font-size:11px;
+  font-size:12px;
   font-weight:700;
   line-height:1;
   cursor:pointer;
@@ -1031,19 +1031,23 @@
   color:#f8fafc;
 }
 
+.agent-training-history-button{
+  gap:5px;
+}
+
 .agent-training-production-button{
   display:inline-flex;
   align-self:center;
   align-items:center;
   justify-content:center;
-  height:32px;
-  min-height:32px;
-  padding:0 10px;
+  height:36px;
+  min-height:36px;
+  padding:0 14px;
   border:1px solid rgba(148,163,184,0.16);
   border-radius:10px;
   background:rgba(15,23,42,0.24);
   color:#cbd5e1;
-  font-size:11px;
+  font-size:12px;
   font-weight:700;
   line-height:1;
   cursor:pointer;
@@ -2829,14 +2833,17 @@ body,
 .agent-training-saved-choice__item strong{
   display:inline-flex;
   align-items:center;
+  justify-content:center;
   min-height:20px;
-  padding:0 8px;
+  padding:2px 8px;
   border:1px solid rgba(34,197,94,0.34);
   border-radius:999px;
   background:rgba(22,163,74,0.12);
   color:#bbf7d0;
   font-size:11px;
   font-weight:700;
+  line-height:1;
+  transform:translateY(3px);
   white-space:nowrap;
 }
 
@@ -2980,6 +2987,17 @@ body,
   font-size:12px;
 }
 
+.agent-training-training-modal__feedback{
+  padding:10px 12px;
+  border:1px solid rgba(148,163,184,0.14);
+  border-radius:10px;
+  background:rgba(15,23,42,0.56);
+  color:#e2e8f0;
+  font-size:12px;
+  font-weight:600;
+  line-height:1.35;
+}
+
 .agent-training-training-modal__close{
   width:30px;
   height:30px;
@@ -3012,6 +3030,35 @@ body,
 
 .agent-training-training-modal__item .agent-training-saved-choice__item{
   min-width:0;
+  width:100%;
+}
+
+.agent-training-training-modal__actions{
+  width:100%;
+  display:flex;
+  flex-wrap:nowrap;
+  align-items:stretch;
+  gap:8px;
+}
+
+.agent-training-training-modal__actions .agent-training-training-modal__action{
+  flex:1 1 0;
+  width:50%;
+  min-width:0;
+  justify-content:center;
+  align-self:stretch;
+}
+
+.agent-training-training-modal__action--danger{
+  border-color:rgba(148,163,184,0.16) !important;
+  color:#cbd5e1 !important;
+}
+
+.agent-training-training-modal__action--muted{
+  border-color:rgba(148,163,184,0.12) !important;
+  color:#94a3b8 !important;
+  filter:saturate(0.75);
+  opacity:0.58;
 }
 
 .agent-training-training-modal__list::-webkit-scrollbar{

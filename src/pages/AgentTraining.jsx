@@ -1,5 +1,5 @@
 ﻿import { useState, useEffect, useRef } from "react";
-import { Save, RotateCcw, Pencil, ChevronDown } from "lucide-react";
+import { Save, RotateCcw, Pencil, ChevronDown, History } from "lucide-react";
 import TrainingChatWindow from "../components/training/TrainingChatWindow";
 import TrainingInput from "../components/training/TrainingInput";
 import TrainingProgress from "../components/training/TrainingProgress";
@@ -97,6 +97,146 @@ function getTrainingMeta(training) {
     .join(" • ");
 }
 
+function formatVersionCreatedAt(createdAt) {
+  const createdAtDate = createdAt ? new Date(createdAt) : null;
+
+  return createdAtDate && !Number.isNaN(createdAtDate.getTime())
+    ? createdAtDate.toLocaleString("pt-BR")
+    : "";
+}
+
+function parseVersionTrainingData(trainingDataJson) {
+  if (!trainingDataJson) {
+    return {};
+  }
+
+  if (typeof trainingDataJson === "object") {
+    return trainingDataJson;
+  }
+
+  try {
+    return JSON.parse(trainingDataJson);
+  } catch {
+    return {};
+  }
+}
+
+function formatVersionValue(value) {
+  if (Array.isArray(value)) {
+    return value.filter(Boolean).map((item) => String(item).trim()).filter(Boolean).join(", ");
+  }
+
+  if (value === null || value === undefined) {
+    return "";
+  }
+
+  if (typeof value === "object") {
+    return JSON.stringify(value, null, 2);
+  }
+
+  return String(value).trim();
+}
+
+function buildVersionDetailSections(version) {
+  const data = parseVersionTrainingData(version?.training_data_json);
+  const knownTopLevelKeys = new Set(["agent", "product", "commercial", "audience", "salesBase", "metadata", "messages"]);
+  const extraFields = Object.entries(data || {})
+    .filter(([key]) => !knownTopLevelKeys.has(key))
+    .map(([key, value]) => [key, value]);
+  const sections = [
+    {
+      title: "Produto",
+      fields: [
+        ["Nome", version?.product_name || data?.product?.productName],
+        ["Categoria", data?.product?.category],
+        ["Segmento", data?.product?.segment],
+        ["Subnicho", data?.product?.subniche],
+        ["Descrição", data?.product?.description],
+        ["Página", data?.product?.pageUrl],
+        ["Link de conversão", data?.product?.checkoutLink],
+        ["Ação de conversão", data?.product?.conversionAction]
+      ]
+    },
+    {
+      title: "Comercial",
+      fields: [
+        ["Preço", data?.commercial?.price],
+        ["Oferta", data?.commercial?.offer],
+        ["Garantia", data?.commercial?.guarantee],
+        ["Entrega", data?.commercial?.delivery],
+        ["Formas de pagamento", data?.commercial?.paymentMethods],
+        ["Regras de desconto", data?.commercial?.discountRules],
+        ["Regras de negociação", data?.commercial?.negotiationRules]
+      ]
+    },
+    {
+      title: "Público",
+      fields: [
+        ["Público", data?.audience?.targetAudience],
+        ["Dores", data?.audience?.pains],
+        ["Desejos", data?.audience?.desires],
+        ["Objeções", data?.audience?.objections],
+        ["Nível de consciência", data?.audience?.awarenessLevel]
+      ]
+    },
+    {
+      title: "Base de vendas",
+      fields: [
+        ["Benefícios", data?.salesBase?.benefits],
+        ["Diferenciais", data?.salesBase?.differentials],
+        ["Provas", data?.salesBase?.proof],
+        ["FAQ", data?.salesBase?.faq],
+        ["Claims proibidas", data?.salesBase?.forbiddenClaims],
+        ["Tom de voz", data?.salesBase?.toneOfVoice]
+      ]
+    },
+    {
+      title: "Agente",
+      fields: [
+        ["Tipo", data?.agent?.agentType],
+        ["Agente personalizado", data?.agent?.customAgentType],
+        ["Objetivo", data?.agent?.objective]
+      ]
+    },
+    {
+      title: "Metadados",
+      fields: Object.entries(data?.metadata || {})
+    },
+    {
+      title: "Mensagens",
+      fields: Array.isArray(data?.messages)
+        ? data.messages.map((message, index) => [
+            `Mensagem ${index + 1}`,
+            [
+              message?.role ? `Origem: ${message.role}` : "",
+              message?.field ? `Campo: ${message.field}` : "",
+              message?.content || ""
+            ].filter(Boolean).join(" | ")
+          ])
+        : []
+    },
+    {
+      title: "Outros dados",
+      fields: extraFields
+    },
+    {
+      title: "Prompt final",
+      fields: [
+        ["Prompt", version?.final_prompt]
+      ]
+    }
+  ];
+
+  return sections
+    .map((section) => ({
+      ...section,
+      fields: section.fields
+        .map(([label, value]) => [label, formatVersionValue(value)])
+        .filter(([, value]) => value)
+    }))
+    .filter((section) => section.fields.length);
+}
+
 function isProductionTraining(training) {
   return Number(training?.active_for_production || 0) === 1;
 }
@@ -106,6 +246,7 @@ export default function AgentTraining() {
   const [inputValue, setInputValue] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [showSaveSuccess, setShowSaveSuccess] = useState(false);
   const [saveFeedback, setSaveFeedback] = useState("");
   const [selectedAgentType, setSelectedAgentType] = useState("");
   const [customAgentType, setCustomAgentType] = useState("");
@@ -117,10 +258,22 @@ export default function AgentTraining() {
   const [nextField, setNextField] = useState(null);
   const [selectedTones, setSelectedTones] = useState([]);
   const [availableTrainings, setAvailableTrainings] = useState([]);
+  const [archivedTrainings, setArchivedTrainings] = useState([]);
+  const [isViewingArchivedTrainings, setIsViewingArchivedTrainings] = useState(false);
   const [isTrainingListModalOpen, setIsTrainingListModalOpen] = useState(false);
+  const [modalFeedback, setModalFeedback] = useState("");
+  const [isVersionHistoryModalOpen, setIsVersionHistoryModalOpen] = useState(false);
+  const [trainingVersions, setTrainingVersions] = useState([]);
+  const [isLoadingTrainingVersions, setIsLoadingTrainingVersions] = useState(false);
+  const [versionHistoryFeedback, setVersionHistoryFeedback] = useState("");
+  const [isVersionDetailModalOpen, setIsVersionDetailModalOpen] = useState(false);
+  const [selectedTrainingVersion, setSelectedTrainingVersion] = useState(null);
+  const [loadingTrainingVersionId, setLoadingTrainingVersionId] = useState(null);
+  const [versionDetailFeedback, setVersionDetailFeedback] = useState("");
   const [currentTrainingId, setCurrentTrainingId] = useState(null);
   const [currentTraining, setCurrentTraining] = useState(null);
   const [selectingProductionId, setSelectingProductionId] = useState(null);
+  const [managingTrainingId, setManagingTrainingId] = useState(null);
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
   const [renameValue, setRenameValue] = useState("");
   const [isRenaming, setIsRenaming] = useState(false);
@@ -128,6 +281,7 @@ export default function AgentTraining() {
   const hasStartedRef = useRef(false);
   const currentStepRef = useRef(null);
   const trainingDataRef = useRef({});
+  const modalFeedbackTimeoutRef = useRef(null);
 
   const [messages, setMessages] = useState(INITIAL_MESSAGES);
   const isAgentTypeReady = Boolean(
@@ -175,6 +329,19 @@ export default function AgentTraining() {
     return currentUserId;
   }
 
+  function showModalFeedback(message, duration = 2600) {
+    setModalFeedback(message);
+
+    if (modalFeedbackTimeoutRef.current) {
+      window.clearTimeout(modalFeedbackTimeoutRef.current);
+    }
+
+    modalFeedbackTimeoutRef.current = window.setTimeout(() => {
+      setModalFeedback("");
+      modalFeedbackTimeoutRef.current = null;
+    }, duration);
+  }
+
   function waitForAgentType() {
     currentStepRef.current = null;
     trainingDataRef.current = {};
@@ -184,7 +351,17 @@ export default function AgentTraining() {
     setNextField(null);
     setSelectedTones([]);
     setAvailableTrainings([]);
+    setArchivedTrainings([]);
+    setIsViewingArchivedTrainings(false);
     setIsTrainingListModalOpen(false);
+    setModalFeedback("");
+    setIsVersionHistoryModalOpen(false);
+    setTrainingVersions([]);
+    setVersionHistoryFeedback("");
+    setIsVersionDetailModalOpen(false);
+    setSelectedTrainingVersion(null);
+    setLoadingTrainingVersionId(null);
+    setVersionDetailFeedback("");
     setCurrentTrainingId(null);
     setCurrentTraining(null);
     setIsRenameModalOpen(false);
@@ -195,6 +372,7 @@ export default function AgentTraining() {
   const isChoosingTraining = availableTrainings.length > 0;
   const latestTraining = availableTrainings[0] ?? null;
   const hasOtherTrainings = availableTrainings.length > 1;
+  const modalTrainings = isViewingArchivedTrainings ? archivedTrainings : availableTrainings;
   const isCurrentTrainingProduction = isProductionTraining(currentTraining);
   const currentTrainingName = currentTraining
     ? getTrainingDisplayName(currentTraining)
@@ -212,8 +390,17 @@ export default function AgentTraining() {
     setCustomAgentType("");
     setConfirmedCustomAgentType("");
     setAvailableTrainings(trainings);
+    setIsViewingArchivedTrainings(false);
     setCurrentTraining(null);
     setIsTrainingListModalOpen(false);
+    setModalFeedback("");
+    setIsVersionHistoryModalOpen(false);
+    setTrainingVersions([]);
+    setVersionHistoryFeedback("");
+    setIsVersionDetailModalOpen(false);
+    setSelectedTrainingVersion(null);
+    setLoadingTrainingVersionId(null);
+    setVersionDetailFeedback("");
     setIsRenameModalOpen(false);
     setRenameValue("");
     setMessages([{
@@ -244,7 +431,17 @@ export default function AgentTraining() {
     setCustomAgentType(restoredCustomAgentType);
     setSelectedTones([]);
     setAvailableTrainings([]);
+    setArchivedTrainings([]);
+    setIsViewingArchivedTrainings(false);
     setIsTrainingListModalOpen(false);
+    setModalFeedback("");
+    setIsVersionHistoryModalOpen(false);
+    setTrainingVersions([]);
+    setVersionHistoryFeedback("");
+    setIsVersionDetailModalOpen(false);
+    setSelectedTrainingVersion(null);
+    setLoadingTrainingVersionId(null);
+    setVersionDetailFeedback("");
     setIsRenameModalOpen(false);
     setRenameValue("");
     setCurrentTrainingId(training.id ?? null);
@@ -265,7 +462,17 @@ export default function AgentTraining() {
 
   function handleNewTraining() {
     setAvailableTrainings([]);
+    setArchivedTrainings([]);
+    setIsViewingArchivedTrainings(false);
     setIsTrainingListModalOpen(false);
+    setModalFeedback("");
+    setIsVersionHistoryModalOpen(false);
+    setTrainingVersions([]);
+    setVersionHistoryFeedback("");
+    setIsVersionDetailModalOpen(false);
+    setSelectedTrainingVersion(null);
+    setLoadingTrainingVersionId(null);
+    setVersionDetailFeedback("");
     setCurrentTrainingId(null);
     setCurrentTraining(null);
     setIsRenameModalOpen(false);
@@ -302,7 +509,17 @@ export default function AgentTraining() {
 
     try {
       setAvailableTrainings([]);
+      setArchivedTrainings([]);
+      setIsViewingArchivedTrainings(false);
       setIsTrainingListModalOpen(false);
+      setModalFeedback("");
+      setIsVersionHistoryModalOpen(false);
+      setTrainingVersions([]);
+      setVersionHistoryFeedback("");
+      setIsVersionDetailModalOpen(false);
+      setSelectedTrainingVersion(null);
+      setLoadingTrainingVersionId(null);
+      setVersionDetailFeedback("");
       setCurrentTrainingId(null);
       setCurrentTraining(null);
       setIsTyping(true);
@@ -352,7 +569,20 @@ export default function AgentTraining() {
       const compatibleTrainings = (result.trainings || []).filter(isCompatibleTraining);
 
       if (!compatibleTrainings.length) {
+        const archived = await loadArchivedTrainings();
         setAvailableTrainings([]);
+
+        if (archived.length) {
+          setIsViewingArchivedTrainings(true);
+          setIsTrainingListModalOpen(true);
+          setMessages([{
+            id: "archived-training-list-available",
+            role: "assistant",
+            content: "Você não tem treinamentos ativos. Veja os arquivados ou comece um novo treinamento."
+          }]);
+          return;
+        }
+
         waitForAgentType();
         return;
       }
@@ -369,6 +599,221 @@ export default function AgentTraining() {
       }]);
     } finally {
       setIsTyping(false);
+    }
+  }
+
+  async function loadArchivedTrainings() {
+    const userId = requireCurrentUserId();
+
+    const response = await fetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/archived`);
+    const result = await response.json();
+
+    if (!response.ok || result.success === false) {
+      throw new Error(result.message || "Erro ao buscar treinamentos arquivados.");
+    }
+
+    const compatibleTrainings = (result.trainings || []).filter(isCompatibleTraining);
+    setArchivedTrainings(compatibleTrainings);
+
+    return compatibleTrainings;
+  }
+
+  async function handleOpenArchivedTrainings() {
+    try {
+      setManagingTrainingId("archived-list");
+      setModalFeedback("");
+
+      await loadArchivedTrainings();
+      setIsViewingArchivedTrainings(true);
+      setIsTrainingListModalOpen(true);
+      showModalFeedback("Treinamentos arquivados carregados.", 1800);
+    } catch (error) {
+      setIsTrainingListModalOpen(true);
+      showModalFeedback(error.message || "Não foi possível carregar os treinamentos arquivados.");
+    } finally {
+      setManagingTrainingId(null);
+    }
+  }
+
+  async function handleOpenVersionHistory() {
+    if (!currentTrainingId || isLoadingTrainingVersions) {
+      return;
+    }
+
+    try {
+      const userId = requireCurrentUserId();
+
+      setIsVersionHistoryModalOpen(true);
+      setIsLoadingTrainingVersions(true);
+      setTrainingVersions([]);
+      setVersionHistoryFeedback("");
+
+      const response = await fetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/${currentTrainingId}/versions`);
+      const result = await response.json();
+
+      if (!response.ok || result.success === false) {
+        throw new Error(result.message || "Erro ao buscar histórico de versões.");
+      }
+
+      setTrainingVersions(result.versions || []);
+    } catch (error) {
+      setVersionHistoryFeedback(error.message || "Não foi possível carregar o histórico de versões.");
+    } finally {
+      setIsLoadingTrainingVersions(false);
+    }
+  }
+
+  async function handleOpenVersionDetail(versionId) {
+    if (!currentTrainingId || !versionId || loadingTrainingVersionId) {
+      return;
+    }
+
+    try {
+      const userId = requireCurrentUserId();
+
+      setIsVersionDetailModalOpen(true);
+      setSelectedTrainingVersion(null);
+      setVersionDetailFeedback("");
+      setLoadingTrainingVersionId(versionId);
+
+      const response = await fetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/${currentTrainingId}/versions/${versionId}`);
+      const result = await response.json();
+
+      if (!response.ok || result.success === false) {
+        throw new Error(result.message || "Erro ao buscar versão do treinamento.");
+      }
+
+      setSelectedTrainingVersion(result.version || null);
+    } catch (error) {
+      setVersionDetailFeedback(error.message || "Não foi possível carregar a versão do treinamento.");
+    } finally {
+      setLoadingTrainingVersionId(null);
+    }
+  }
+
+  function clearLoadedTrainingIfNeeded(trainingId, nextActiveTrainings) {
+    if (String(currentTrainingId) !== String(trainingId)) {
+      return;
+    }
+
+    const nextTraining = nextActiveTrainings.find((training) => String(training.id) !== String(trainingId));
+
+    if (nextTraining) {
+      handleRestoreTraining(nextTraining);
+      return;
+    }
+
+    handleNewTraining();
+  }
+
+  async function handleArchiveTraining(training) {
+    if (!training?.id || managingTrainingId) {
+      return;
+    }
+
+    if (isProductionTraining(training)) {
+      showModalFeedback("Não é possível arquivar um treinamento em produção.");
+      return;
+    }
+
+    try {
+      const userId = requireCurrentUserId();
+
+      setManagingTrainingId(training.id);
+      setModalFeedback("");
+
+      const response = await fetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/${training.id}/archive`, {
+        method: "PATCH"
+      });
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || "Erro ao arquivar treinamento.");
+      }
+
+      const nextActiveTrainings = availableTrainings.filter((item) => String(item.id) !== String(training.id));
+      setAvailableTrainings(nextActiveTrainings);
+      clearLoadedTrainingIfNeeded(training.id, nextActiveTrainings);
+      showModalFeedback("Treinamento arquivado.", 2200);
+    } catch (error) {
+      showModalFeedback(error.message || "Não foi possível arquivar o treinamento.");
+    } finally {
+      setManagingTrainingId(null);
+    }
+  }
+
+  async function handleDeleteTraining(training) {
+    if (!training?.id || managingTrainingId) {
+      return;
+    }
+
+    if (isProductionTraining(training)) {
+      showModalFeedback("Não é possível excluir um treinamento em produção.");
+      return;
+    }
+
+    try {
+      const userId = requireCurrentUserId();
+
+      setManagingTrainingId(training.id);
+      setModalFeedback("");
+
+      const response = await fetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/${training.id}`, {
+        method: "DELETE"
+      });
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || "Erro ao excluir treinamento.");
+      }
+
+      const nextActiveTrainings = availableTrainings.filter((item) => String(item.id) !== String(training.id));
+      setAvailableTrainings(nextActiveTrainings);
+      clearLoadedTrainingIfNeeded(training.id, nextActiveTrainings);
+      showModalFeedback("Treinamento excluído.", 2200);
+    } catch (error) {
+      showModalFeedback(error.message || "Não foi possível excluir o treinamento.");
+    } finally {
+      setManagingTrainingId(null);
+    }
+  }
+
+  async function handleRestoreArchivedTraining(training) {
+    if (!training?.id || managingTrainingId) {
+      return;
+    }
+
+    try {
+      const userId = requireCurrentUserId();
+
+      setManagingTrainingId(training.id);
+      setModalFeedback("");
+
+      const response = await fetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/${training.id}/restore`, {
+        method: "PATCH"
+      });
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || "Erro ao restaurar treinamento.");
+      }
+
+      setArchivedTrainings((trainings) => trainings.filter((item) => String(item.id) !== String(training.id)));
+      const activeResponse = await fetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}`);
+      const activeResult = await activeResponse.json();
+
+      if (!activeResponse.ok || activeResult.success === false) {
+        throw new Error(activeResult.message || "Erro ao recarregar treinamentos ativos.");
+      }
+
+      setAvailableTrainings((activeResult.trainings || []).filter(isCompatibleTraining));
+      setIsViewingArchivedTrainings(false);
+      setIsTrainingListModalOpen(true);
+      showModalFeedback("Treinamento restaurado.", 2200);
+    } catch (error) {
+      showModalFeedback(error.message || "Não foi possível restaurar o treinamento.");
+    } finally {
+      setManagingTrainingId(null);
     }
   }
 
@@ -492,6 +937,7 @@ export default function AgentTraining() {
       const userId = requireCurrentUserId();
 
       setIsSaving(true);
+      setShowSaveSuccess(false);
       setSaveFeedback("");
 
       const saveUrl = currentTrainingId
@@ -524,7 +970,13 @@ export default function AgentTraining() {
         });
       }
 
-      setSaveFeedback("Treinamento salvo com sucesso."); setIsSaving(false); setTimeout(() => setSaveFeedback(""), 2200);
+      setSaveFeedback("Treinamento salvo com sucesso.");
+      setShowSaveSuccess(true);
+      setIsSaving(false);
+      setTimeout(() => {
+        setSaveFeedback("");
+        setShowSaveSuccess(false);
+      }, 2200);
     } catch (error) {
       setSaveFeedback(error.message || "Não foi possível salvar o treinamento.");
     } finally {
@@ -721,6 +1173,18 @@ export default function AgentTraining() {
                 </button>
               )}
 
+              {currentTrainingId && (
+                <button
+                  className="agent-training-rename-button agent-training-history-button"
+                  type="button"
+                  onClick={handleOpenVersionHistory}
+                  disabled={isLoadingTrainingVersions}
+                >
+                  <History size={15} />
+                  {isLoadingTrainingVersions ? "Carregando..." : "Histórico"}
+                </button>
+              )}
+
               {currentTrainingId && isCurrentTrainingProduction && (
                 <span className="agent-training-production-badge">Em produção</span>
               )}
@@ -743,7 +1207,7 @@ export default function AgentTraining() {
                 disabled={isSaving || !finalAgentPrompt.trim()}
               >
                 <Save size={16} />
-                {isSaving ? "Salvando..." : saveFeedback ? "Salvo ✓" : "Salvar Treinamento"}
+                {isSaving ? "Salvando..." : showSaveSuccess ? "Salvo ✓" : "Salvar Treinamento"}
               </button>
             </div>
           </header>
@@ -894,58 +1358,326 @@ export default function AgentTraining() {
                     <button
                       className="agent-training-saved-choice__link"
                       type="button"
-                      onClick={() => setIsTrainingListModalOpen(true)}
+                      onClick={() => {
+                        setModalFeedback("");
+                        setIsViewingArchivedTrainings(false);
+                        setIsTrainingListModalOpen(true);
+                      }}
                     >
                       Outros treinamentos
                     </button>
                   )}
+
+                  <button
+                    className="agent-training-saved-choice__link"
+                    type="button"
+                    onClick={handleOpenArchivedTrainings}
+                    disabled={managingTrainingId === "archived-list"}
+                  >
+                    {managingTrainingId === "archived-list" ? "Carregando..." : "Ver arquivados"}
+                  </button>
                 </div>
               </div>
             )}
 
-            {isChoosingTraining && isTrainingListModalOpen && (
-              <div className="agent-training-training-modal" role="dialog" aria-modal="true" aria-label="Outros treinamentos">
-                <div className="agent-training-training-modal__backdrop" onClick={() => setIsTrainingListModalOpen(false)} />
+            {isTrainingListModalOpen && (
+              <div className="agent-training-training-modal" role="dialog" aria-modal="true" aria-label={isViewingArchivedTrainings ? "Treinamentos arquivados" : "Outros treinamentos"}>
+                <div
+                  className="agent-training-training-modal__backdrop"
+                  onClick={() => {
+                    setModalFeedback("");
+                    setIsTrainingListModalOpen(false);
+                  }}
+                />
 
                 <div className="agent-training-training-modal__content">
                   <div className="agent-training-training-modal__header">
                     <div>
-                      <span>Seus treinamentos</span>
-                      <small>Escolha qual treinamento deseja editar</small>
+                      <span>{isViewingArchivedTrainings ? "Treinamentos arquivados" : "Seus treinamentos"}</span>
+                      <small>{isViewingArchivedTrainings ? "Restaure um treinamento para voltar a editá-lo" : "Escolha qual treinamento deseja editar"}</small>
                     </div>
 
                     <button
                       className="agent-training-training-modal__close"
                       type="button"
-                      onClick={() => setIsTrainingListModalOpen(false)}
+                      onClick={() => {
+                        setModalFeedback("");
+                        setIsTrainingListModalOpen(false);
+                      }}
                       aria-label="Fechar lista de treinamentos"
                     >
                       ×
                     </button>
                   </div>
 
+                  {modalFeedback && (
+                    <div className="agent-training-training-modal__feedback" role="status">
+                      {modalFeedback}
+                    </div>
+                  )}
+
                 <div className="agent-training-training-modal__list">
-                  {availableTrainings.map((training) => (
+                  {isViewingArchivedTrainings && (
+                    <button
+                      className="agent-training-saved-choice__link"
+                      type="button"
+                      onClick={() => {
+                        setModalFeedback("");
+                        setIsViewingArchivedTrainings(false);
+                      }}
+                    >
+                      Ver ativos
+                    </button>
+                  )}
+
+                  {!isViewingArchivedTrainings && (
+                    <>
+                      {currentTrainingId && (
+                        <button
+                          className="agent-training-saved-choice__link"
+                          type="button"
+                          onClick={handleOpenVersionHistory}
+                          disabled={isLoadingTrainingVersions}
+                        >
+                          {isLoadingTrainingVersions ? "Carregando..." : "Histórico"}
+                        </button>
+                      )}
+
+                      <button
+                        className="agent-training-saved-choice__link"
+                        type="button"
+                        onClick={handleOpenArchivedTrainings}
+                        disabled={managingTrainingId === "archived-list"}
+                      >
+                        {managingTrainingId === "archived-list" ? "Carregando..." : "Ver arquivados"}
+                      </button>
+                    </>
+                  )}
+
+                  {!modalTrainings.length && (
+                    <div className="agent-training-saved-choice__summary">
+                      <span>{isViewingArchivedTrainings ? "Nenhum treinamento arquivado" : "Nenhum treinamento ativo"}</span>
+                    </div>
+                  )}
+
+                  {modalTrainings.map((training) => (
                     <div
                       key={training.id}
                       className="agent-training-training-modal__item"
                     >
-                      <button
-                        key={training.id}
-                        className="agent-training-saved-choice__item"
-                        type="button"
-                        onClick={() => handleRestoreTraining(training)}
-                      >
-                        <span>
-                          {getTrainingDisplayName(training)}
-                        </span>
-                        {getTrainingMeta(training) && (
-                          <small>{getTrainingMeta(training)}</small>
+                      {!isViewingArchivedTrainings && (
+                        <button
+                          key={training.id}
+                          className="agent-training-saved-choice__item"
+                          type="button"
+                          onClick={() => handleRestoreTraining(training)}
+                        >
+                          <span>
+                            {getTrainingDisplayName(training)}
+                            {isProductionTraining(training) && (
+                              <strong>Em produção</strong>
+                            )}
+                          </span>
+                          {getTrainingMeta(training) && (
+                            <small>{getTrainingMeta(training)}</small>
+                          )}
+                        </button>
+                      )}
+
+                      {isViewingArchivedTrainings && (
+                        <div className="agent-training-saved-choice__summary">
+                          <span>{getTrainingDisplayName(training)}</span>
+                          {getTrainingMeta(training) && (
+                            <small>{getTrainingMeta(training)}</small>
+                          )}
+                        </div>
+                      )}
+
+                      <div className="agent-training-saved-choice__actions agent-training-training-modal__actions">
+                        {!isViewingArchivedTrainings && (
+                          <>
+                            <button
+                              className={`agent-training-saved-choice__link agent-training-training-modal__action${isProductionTraining(training) ? " agent-training-training-modal__action--muted" : ""}`}
+                              type="button"
+                              onClick={() => handleArchiveTraining(training)}
+                              aria-disabled={isProductionTraining(training)}
+                              disabled={managingTrainingId === training.id}
+                            >
+                              {managingTrainingId === training.id ? "Arquivando..." : "Arquivar"}
+                            </button>
+
+                            <button
+                              className={`agent-training-saved-choice__link agent-training-training-modal__action agent-training-training-modal__action--danger${isProductionTraining(training) ? " agent-training-training-modal__action--muted" : ""}`}
+                              type="button"
+                              onClick={() => handleDeleteTraining(training)}
+                              aria-disabled={isProductionTraining(training)}
+                              disabled={managingTrainingId === training.id}
+                            >
+                              {managingTrainingId === training.id ? "Excluindo..." : "Excluir"}
+                            </button>
+                          </>
                         )}
-                      </button>
+
+                        {isViewingArchivedTrainings && (
+                          <button
+                            className="agent-training-saved-choice__edit"
+                            type="button"
+                            onClick={() => handleRestoreArchivedTraining(training)}
+                            disabled={managingTrainingId === training.id}
+                          >
+                            {managingTrainingId === training.id ? "Restaurando..." : "Restaurar"}
+                          </button>
+                        )}
+                      </div>
                     </div>
                   ))}
                 </div>
+                </div>
+              </div>
+            )}
+
+            {isVersionHistoryModalOpen && (
+              <div className="agent-training-training-modal" role="dialog" aria-modal="true" aria-label="Histórico de versões">
+                <div
+                  className="agent-training-training-modal__backdrop"
+                  onClick={() => {
+                    setIsVersionHistoryModalOpen(false);
+                    setVersionHistoryFeedback("");
+                  }}
+                />
+
+                <div className="agent-training-training-modal__content">
+                  <div className="agent-training-training-modal__header">
+                    <div>
+                      <span>Histórico de versões</span>
+                      <small>{currentTrainingName || "Treinamento selecionado"}</small>
+                    </div>
+
+                    <button
+                      className="agent-training-training-modal__close"
+                      type="button"
+                      onClick={() => {
+                        setIsVersionHistoryModalOpen(false);
+                        setVersionHistoryFeedback("");
+                      }}
+                      aria-label="Fechar histórico de versões"
+                    >
+                      ×
+                    </button>
+                  </div>
+
+                  {versionHistoryFeedback && (
+                    <div className="agent-training-training-modal__feedback" role="status">
+                      {versionHistoryFeedback}
+                    </div>
+                  )}
+
+                  <div className="agent-training-training-modal__list">
+                    {isLoadingTrainingVersions && (
+                      <div className="agent-training-saved-choice__summary">
+                        <span>Carregando histórico...</span>
+                      </div>
+                    )}
+
+                    {!isLoadingTrainingVersions && !trainingVersions.length && (
+                      <div className="agent-training-saved-choice__summary">
+                        <span>Nenhuma versão encontrada.</span>
+                      </div>
+                    )}
+
+                    {!isLoadingTrainingVersions && trainingVersions.map((version) => (
+                      <button
+                        key={version.id}
+                        className="agent-training-saved-choice__item"
+                        type="button"
+                        onClick={() => handleOpenVersionDetail(version.id)}
+                        disabled={loadingTrainingVersionId === version.id}
+                      >
+                        <span>{loadingTrainingVersionId === version.id ? "Carregando versão..." : `Versão ${version.version_number}`}</span>
+                        <small>{version.product_name || "Treinamento sem nome"}</small>
+                        {formatVersionCreatedAt(version.created_at) && (
+                          <small>{formatVersionCreatedAt(version.created_at)}</small>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {isVersionDetailModalOpen && (
+              <div className="agent-training-training-modal" role="dialog" aria-modal="true" aria-label="Visualizar versão do treinamento">
+                <div
+                  className="agent-training-training-modal__backdrop"
+                  onClick={() => {
+                    setIsVersionDetailModalOpen(false);
+                    setSelectedTrainingVersion(null);
+                    setVersionDetailFeedback("");
+                  }}
+                />
+
+                <div className="agent-training-training-modal__content">
+                  <div className="agent-training-training-modal__header">
+                    <div>
+                      <span>
+                        {selectedTrainingVersion
+                          ? `Versão ${selectedTrainingVersion.version_number}`
+                          : "Visualizar versão"}
+                      </span>
+                      <small>
+                        {selectedTrainingVersion?.created_at
+                          ? `Criada em ${formatVersionCreatedAt(selectedTrainingVersion.created_at)}`
+                          : "Consulta somente leitura"}
+                      </small>
+                    </div>
+
+                    <button
+                      className="agent-training-training-modal__close"
+                      type="button"
+                      onClick={() => {
+                        setIsVersionDetailModalOpen(false);
+                        setSelectedTrainingVersion(null);
+                        setVersionDetailFeedback("");
+                      }}
+                      aria-label="Fechar visualização da versão"
+                    >
+                      ×
+                    </button>
+                  </div>
+
+                  {versionDetailFeedback && (
+                    <div className="agent-training-training-modal__feedback" role="status">
+                      {versionDetailFeedback}
+                    </div>
+                  )}
+
+                  <div className="agent-training-training-modal__list">
+                    {loadingTrainingVersionId && !selectedTrainingVersion && (
+                      <div className="agent-training-saved-choice__summary">
+                        <span>Carregando versão...</span>
+                      </div>
+                    )}
+
+                    {!loadingTrainingVersionId && !selectedTrainingVersion && !versionDetailFeedback && (
+                      <div className="agent-training-saved-choice__summary">
+                        <span>Nenhuma versão selecionada.</span>
+                      </div>
+                    )}
+
+                    {selectedTrainingVersion && buildVersionDetailSections(selectedTrainingVersion).map((section) => (
+                      <div
+                        key={section.title}
+                        className="agent-training-saved-choice__summary"
+                      >
+                        <span>{section.title}</span>
+                        {section.fields.map(([label, value]) => (
+                          <small key={label}>
+                            <strong>{label}:</strong> {value}
+                          </small>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             )}
