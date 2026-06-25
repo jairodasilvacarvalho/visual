@@ -40,6 +40,19 @@ const TONE_OF_VOICE_OPTIONS = [
   "Acolhedor"
 ];
 
+const VERSION_COMPARE_FIELD_LABELS = {
+  product_name: "Nome",
+  description: "Descrição",
+  targetAudience: "Público",
+  mainBenefits: "Benefícios",
+  differentials: "Diferenciais",
+  objections: "Objeções",
+  guarantee: "Garantia",
+  price: "Preço",
+  toneOfVoice: "Tom de voz",
+  final_prompt: "Prompt final"
+};
+
 const TRAINING_PROGRESS_FIELDS = [
   "productName",
   "conversionLink",
@@ -135,6 +148,10 @@ function formatVersionValue(value) {
   }
 
   return String(value).trim();
+}
+
+function getVersionCompareFieldLabel(field) {
+  return VERSION_COMPARE_FIELD_LABELS[field] || field;
 }
 
 function buildVersionDetailSections(version) {
@@ -272,6 +289,10 @@ export default function AgentTraining() {
   const [versionDetailFeedback, setVersionDetailFeedback] = useState("");
   const [isVersionRestoreConfirmOpen, setIsVersionRestoreConfirmOpen] = useState(false);
   const [isRestoringTrainingVersion, setIsRestoringTrainingVersion] = useState(false);
+  const [isVersionCompareModalOpen, setIsVersionCompareModalOpen] = useState(false);
+  const [selectedVersionComparison, setSelectedVersionComparison] = useState(null);
+  const [isLoadingVersionComparison, setIsLoadingVersionComparison] = useState(false);
+  const [versionCompareFeedback, setVersionCompareFeedback] = useState("");
   const [currentTrainingId, setCurrentTrainingId] = useState(null);
   const [currentTraining, setCurrentTraining] = useState(null);
   const [selectingProductionId, setSelectingProductionId] = useState(null);
@@ -344,6 +365,13 @@ export default function AgentTraining() {
     }, duration);
   }
 
+  function clearVersionCompareState() {
+    setIsVersionCompareModalOpen(false);
+    setSelectedVersionComparison(null);
+    setIsLoadingVersionComparison(false);
+    setVersionCompareFeedback("");
+  }
+
   function waitForAgentType() {
     currentStepRef.current = null;
     trainingDataRef.current = {};
@@ -366,6 +394,7 @@ export default function AgentTraining() {
     setVersionDetailFeedback("");
     setIsVersionRestoreConfirmOpen(false);
     setIsRestoringTrainingVersion(false);
+    clearVersionCompareState();
     setCurrentTrainingId(null);
     setCurrentTraining(null);
     setIsRenameModalOpen(false);
@@ -407,6 +436,7 @@ export default function AgentTraining() {
     setVersionDetailFeedback("");
     setIsVersionRestoreConfirmOpen(false);
     setIsRestoringTrainingVersion(false);
+    clearVersionCompareState();
     setIsRenameModalOpen(false);
     setRenameValue("");
     setMessages([{
@@ -450,6 +480,7 @@ export default function AgentTraining() {
     setVersionDetailFeedback("");
     setIsVersionRestoreConfirmOpen(false);
     setIsRestoringTrainingVersion(false);
+    clearVersionCompareState();
     setIsRenameModalOpen(false);
     setRenameValue("");
     setCurrentTrainingId(training.id ?? null);
@@ -483,6 +514,7 @@ export default function AgentTraining() {
     setVersionDetailFeedback("");
     setIsVersionRestoreConfirmOpen(false);
     setIsRestoringTrainingVersion(false);
+    clearVersionCompareState();
     setCurrentTrainingId(null);
     setCurrentTraining(null);
     setIsRenameModalOpen(false);
@@ -532,6 +564,7 @@ export default function AgentTraining() {
       setVersionDetailFeedback("");
       setIsVersionRestoreConfirmOpen(false);
       setIsRestoringTrainingVersion(false);
+      clearVersionCompareState();
       setCurrentTrainingId(null);
       setCurrentTraining(null);
       setIsTyping(true);
@@ -691,6 +724,7 @@ export default function AgentTraining() {
       setIsVersionDetailModalOpen(true);
       setSelectedTrainingVersion(null);
       setVersionDetailFeedback("");
+      clearVersionCompareState();
       setLoadingTrainingVersionId(versionId);
 
       const response = await fetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/${currentTrainingId}/versions/${versionId}`);
@@ -744,6 +778,7 @@ export default function AgentTraining() {
       setIsVersionHistoryModalOpen(false);
       setSelectedTrainingVersion(null);
       setVersionDetailFeedback("");
+      clearVersionCompareState();
 
       try {
         await reloadTrainingVersions(userId, restoredTrainingId);
@@ -759,6 +794,43 @@ export default function AgentTraining() {
       setIsVersionDetailModalOpen(true);
     } finally {
       setIsRestoringTrainingVersion(false);
+    }
+  }
+
+  async function handleCompareVersionWithCurrent() {
+    if (
+      !currentTrainingId
+      || !selectedTrainingVersion?.id
+      || isLoadingVersionComparison
+      || isRestoringTrainingVersion
+    ) {
+      return;
+    }
+
+    try {
+      const userId = requireCurrentUserId();
+
+      setIsVersionCompareModalOpen(true);
+      setSelectedVersionComparison(null);
+      setVersionCompareFeedback("");
+      setIsLoadingVersionComparison(true);
+
+      const response = await fetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/${currentTrainingId}/versions/${selectedTrainingVersion.id}/compare`);
+      const result = await response.json();
+
+      if (!response.ok || result.success === false) {
+        throw new Error(result.message || "Erro ao comparar versão do treinamento.");
+      }
+
+      setSelectedVersionComparison({
+        current: result.current,
+        version: result.version,
+        changes: result.changes || []
+      });
+    } catch (error) {
+      setVersionCompareFeedback(error.message || "Não foi possível comparar a versão.");
+    } finally {
+      setIsLoadingVersionComparison(false);
     }
   }
 
@@ -1614,6 +1686,7 @@ export default function AgentTraining() {
                   onClick={() => {
                     setIsVersionHistoryModalOpen(false);
                     setVersionHistoryFeedback("");
+                    clearVersionCompareState();
                   }}
                 />
 
@@ -1630,6 +1703,7 @@ export default function AgentTraining() {
                       onClick={() => {
                         setIsVersionHistoryModalOpen(false);
                         setVersionHistoryFeedback("");
+                        clearVersionCompareState();
                       }}
                       aria-label="Fechar histórico de versões"
                     >
@@ -1685,6 +1759,7 @@ export default function AgentTraining() {
                     setIsVersionRestoreConfirmOpen(false);
                     setSelectedTrainingVersion(null);
                     setVersionDetailFeedback("");
+                    clearVersionCompareState();
                   }}
                 />
 
@@ -1711,6 +1786,7 @@ export default function AgentTraining() {
                         setIsVersionRestoreConfirmOpen(false);
                         setSelectedTrainingVersion(null);
                         setVersionDetailFeedback("");
+                        clearVersionCompareState();
                       }}
                       aria-label="Fechar visualização da versão"
                     >
@@ -1754,13 +1830,96 @@ export default function AgentTraining() {
 
                   <div className="agent-training-rename-modal__actions">
                     <button
+                      className="agent-training-rename-modal__secondary"
+                      type="button"
+                      onClick={handleCompareVersionWithCurrent}
+                      disabled={!selectedTrainingVersion || isRestoringTrainingVersion || isLoadingVersionComparison}
+                    >
+                      {isLoadingVersionComparison ? "Comparando..." : "Comparar com atual"}
+                    </button>
+
+                    <button
                       className="agent-training-rename-modal__primary"
                       type="button"
                       onClick={() => setIsVersionRestoreConfirmOpen(true)}
-                      disabled={!selectedTrainingVersion || isRestoringTrainingVersion}
+                      disabled={!selectedTrainingVersion || isRestoringTrainingVersion || isLoadingVersionComparison}
                     >
                       {isRestoringTrainingVersion ? "Restaurando..." : "Restaurar esta versão"}
                     </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {isVersionCompareModalOpen && (
+              <div className="agent-training-training-modal" role="dialog" aria-modal="true" aria-label="Comparar versões">
+                <div
+                  className="agent-training-training-modal__backdrop"
+                  onClick={() => {
+                    if (!isLoadingVersionComparison) {
+                      clearVersionCompareState();
+                    }
+                  }}
+                />
+
+                <div className="agent-training-training-modal__content">
+                  <div className="agent-training-training-modal__header">
+                    <div>
+                      <span>Comparar versões</span>
+                      <small>
+                        {selectedVersionComparison?.version?.version_number
+                          ? `Versão ${selectedVersionComparison.version.version_number} comparada com o treinamento atual`
+                          : selectedTrainingVersion?.version_number
+                            ? `Versão ${selectedTrainingVersion.version_number} comparada com o treinamento atual`
+                            : "Versão comparada com o treinamento atual"}
+                      </small>
+                    </div>
+
+                    <button
+                      className="agent-training-training-modal__close"
+                      type="button"
+                      onClick={clearVersionCompareState}
+                      aria-label="Fechar comparação de versões"
+                      disabled={isLoadingVersionComparison}
+                    >
+                      ×
+                    </button>
+                  </div>
+
+                  {versionCompareFeedback && (
+                    <div className="agent-training-training-modal__feedback" role="status">
+                      {versionCompareFeedback}
+                    </div>
+                  )}
+
+                  <div className="agent-training-training-modal__list">
+                    {isLoadingVersionComparison && (
+                      <div className="agent-training-saved-choice__summary">
+                        <span>Comparando versões...</span>
+                      </div>
+                    )}
+
+                    {!isLoadingVersionComparison && !selectedVersionComparison && !versionCompareFeedback && (
+                      <div className="agent-training-saved-choice__summary">
+                        <span>Nenhuma comparação carregada.</span>
+                      </div>
+                    )}
+
+                    {selectedVersionComparison?.changes?.map((change) => (
+                      <div
+                        key={change.field}
+                        className="agent-training-saved-choice__summary"
+                      >
+                        <span>{getVersionCompareFieldLabel(change.field)}</span>
+                        <small>{change.changed ? "Mudou" : "Igual"}</small>
+                        <small>
+                          <strong>Atual:</strong> {formatVersionValue(change.currentValue) || "Vazio"}
+                        </small>
+                        <small>
+                          <strong>Versão:</strong> {formatVersionValue(change.versionValue) || "Vazio"}
+                        </small>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
