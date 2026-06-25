@@ -270,6 +270,8 @@ export default function AgentTraining() {
   const [selectedTrainingVersion, setSelectedTrainingVersion] = useState(null);
   const [loadingTrainingVersionId, setLoadingTrainingVersionId] = useState(null);
   const [versionDetailFeedback, setVersionDetailFeedback] = useState("");
+  const [isVersionRestoreConfirmOpen, setIsVersionRestoreConfirmOpen] = useState(false);
+  const [isRestoringTrainingVersion, setIsRestoringTrainingVersion] = useState(false);
   const [currentTrainingId, setCurrentTrainingId] = useState(null);
   const [currentTraining, setCurrentTraining] = useState(null);
   const [selectingProductionId, setSelectingProductionId] = useState(null);
@@ -362,6 +364,8 @@ export default function AgentTraining() {
     setSelectedTrainingVersion(null);
     setLoadingTrainingVersionId(null);
     setVersionDetailFeedback("");
+    setIsVersionRestoreConfirmOpen(false);
+    setIsRestoringTrainingVersion(false);
     setCurrentTrainingId(null);
     setCurrentTraining(null);
     setIsRenameModalOpen(false);
@@ -401,6 +405,8 @@ export default function AgentTraining() {
     setSelectedTrainingVersion(null);
     setLoadingTrainingVersionId(null);
     setVersionDetailFeedback("");
+    setIsVersionRestoreConfirmOpen(false);
+    setIsRestoringTrainingVersion(false);
     setIsRenameModalOpen(false);
     setRenameValue("");
     setMessages([{
@@ -442,6 +448,8 @@ export default function AgentTraining() {
     setSelectedTrainingVersion(null);
     setLoadingTrainingVersionId(null);
     setVersionDetailFeedback("");
+    setIsVersionRestoreConfirmOpen(false);
+    setIsRestoringTrainingVersion(false);
     setIsRenameModalOpen(false);
     setRenameValue("");
     setCurrentTrainingId(training.id ?? null);
@@ -473,6 +481,8 @@ export default function AgentTraining() {
     setSelectedTrainingVersion(null);
     setLoadingTrainingVersionId(null);
     setVersionDetailFeedback("");
+    setIsVersionRestoreConfirmOpen(false);
+    setIsRestoringTrainingVersion(false);
     setCurrentTrainingId(null);
     setCurrentTraining(null);
     setIsRenameModalOpen(false);
@@ -520,6 +530,8 @@ export default function AgentTraining() {
       setSelectedTrainingVersion(null);
       setLoadingTrainingVersionId(null);
       setVersionDetailFeedback("");
+      setIsVersionRestoreConfirmOpen(false);
+      setIsRestoringTrainingVersion(false);
       setCurrentTrainingId(null);
       setCurrentTraining(null);
       setIsTyping(true);
@@ -648,19 +660,24 @@ export default function AgentTraining() {
       setTrainingVersions([]);
       setVersionHistoryFeedback("");
 
-      const response = await fetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/${currentTrainingId}/versions`);
-      const result = await response.json();
-
-      if (!response.ok || result.success === false) {
-        throw new Error(result.message || "Erro ao buscar histórico de versões.");
-      }
-
-      setTrainingVersions(result.versions || []);
+      await reloadTrainingVersions(userId, currentTrainingId);
     } catch (error) {
       setVersionHistoryFeedback(error.message || "Não foi possível carregar o histórico de versões.");
     } finally {
       setIsLoadingTrainingVersions(false);
     }
+  }
+
+  async function reloadTrainingVersions(userId, trainingId) {
+    const response = await fetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/${trainingId}/versions`);
+    const result = await response.json();
+
+    if (!response.ok || result.success === false) {
+      throw new Error(result.message || "Erro ao buscar histórico de versões.");
+    }
+
+    setTrainingVersions(result.versions || []);
+    return result.versions || [];
   }
 
   async function handleOpenVersionDetail(versionId) {
@@ -683,11 +700,65 @@ export default function AgentTraining() {
         throw new Error(result.message || "Erro ao buscar versão do treinamento.");
       }
 
-      setSelectedTrainingVersion(result.version || null);
+      setSelectedTrainingVersion(result.version ? { ...result.version, id: versionId } : null);
     } catch (error) {
       setVersionDetailFeedback(error.message || "Não foi possível carregar a versão do treinamento.");
     } finally {
       setLoadingTrainingVersionId(null);
+    }
+  }
+
+  async function handleConfirmVersionRestore() {
+    if (!currentTrainingId || !selectedTrainingVersion?.id || isRestoringTrainingVersion) {
+      return;
+    }
+
+    try {
+      const userId = requireCurrentUserId();
+
+      setIsRestoringTrainingVersion(true);
+      setVersionDetailFeedback("");
+
+      const response = await fetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/${currentTrainingId}/versions/${selectedTrainingVersion.id}/restore`, {
+        method: "POST"
+      });
+      const result = await response.json();
+
+      if (!response.ok || result.success === false) {
+        throw new Error(result.message || "Erro ao restaurar versão do treinamento.");
+      }
+
+      const trainingResponse = await fetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/${currentTrainingId}`);
+      const trainingResult = await trainingResponse.json();
+
+      if (!trainingResponse.ok || trainingResult.success === false || !trainingResult.training) {
+        throw new Error(trainingResult.message || "Erro ao recarregar treinamento restaurado.");
+      }
+
+      const restoredTrainingId = currentTrainingId;
+
+      handleRestoreTraining(trainingResult.training);
+
+      setIsVersionRestoreConfirmOpen(false);
+      setIsVersionDetailModalOpen(false);
+      setIsVersionHistoryModalOpen(false);
+      setSelectedTrainingVersion(null);
+      setVersionDetailFeedback("");
+
+      try {
+        await reloadTrainingVersions(userId, restoredTrainingId);
+      } catch (historyError) {
+        console.error("Não foi possível recarregar o histórico de versões:", historyError);
+      }
+
+      setSaveFeedback("Versão restaurada com sucesso.");
+      setTimeout(() => setSaveFeedback(""), 2600);
+    } catch (error) {
+      setVersionDetailFeedback(error.message || "Não foi possível restaurar a versão.");
+      setIsVersionRestoreConfirmOpen(false);
+      setIsVersionDetailModalOpen(true);
+    } finally {
+      setIsRestoringTrainingVersion(false);
     }
   }
 
@@ -1611,6 +1682,7 @@ export default function AgentTraining() {
                   className="agent-training-training-modal__backdrop"
                   onClick={() => {
                     setIsVersionDetailModalOpen(false);
+                    setIsVersionRestoreConfirmOpen(false);
                     setSelectedTrainingVersion(null);
                     setVersionDetailFeedback("");
                   }}
@@ -1636,6 +1708,7 @@ export default function AgentTraining() {
                       type="button"
                       onClick={() => {
                         setIsVersionDetailModalOpen(false);
+                        setIsVersionRestoreConfirmOpen(false);
                         setSelectedTrainingVersion(null);
                         setVersionDetailFeedback("");
                       }}
@@ -1677,6 +1750,73 @@ export default function AgentTraining() {
                         ))}
                       </div>
                     ))}
+                  </div>
+
+                  <div className="agent-training-rename-modal__actions">
+                    <button
+                      className="agent-training-rename-modal__primary"
+                      type="button"
+                      onClick={() => setIsVersionRestoreConfirmOpen(true)}
+                      disabled={!selectedTrainingVersion || isRestoringTrainingVersion}
+                    >
+                      {isRestoringTrainingVersion ? "Restaurando..." : "Restaurar esta versão"}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {isVersionRestoreConfirmOpen && (
+              <div className="agent-training-rename-modal" role="dialog" aria-modal="true" aria-label="Confirmar restauração de versão">
+                <div
+                  className="agent-training-rename-modal__backdrop"
+                  onClick={() => {
+                    if (!isRestoringTrainingVersion) {
+                      setIsVersionRestoreConfirmOpen(false);
+                    }
+                  }}
+                />
+
+                <div className="agent-training-rename-modal__content">
+                  <div className="agent-training-rename-modal__header">
+                    <div>
+                      <span>Restaurar versão</span>
+                      <small>
+                        Tem certeza que deseja restaurar esta versão?
+                        <br />
+                        O treinamento atual será atualizado, mas todo o histórico será preservado.
+                      </small>
+                    </div>
+
+                    <button
+                      className="agent-training-rename-modal__close"
+                      type="button"
+                      onClick={() => setIsVersionRestoreConfirmOpen(false)}
+                      aria-label="Fechar confirmação de restauração"
+                      disabled={isRestoringTrainingVersion}
+                    >
+                      ×
+                    </button>
+                  </div>
+
+                  <div className="agent-training-rename-modal__actions">
+                    <button
+                      className="agent-training-rename-modal__secondary"
+                      type="button"
+                      onClick={() => setIsVersionRestoreConfirmOpen(false)}
+                      disabled={isRestoringTrainingVersion}
+                    >
+                      Cancelar
+                    </button>
+
+                    <button
+                      className="agent-training-rename-modal__primary"
+                      type="button"
+                      onClick={handleConfirmVersionRestore}
+                      disabled={isRestoringTrainingVersion}
+                    >
+                      {isRestoringTrainingVersion ? "Restaurando..." : "Restaurar esta versão"}
+                    </button>
                   </div>
                 </div>
               </div>
