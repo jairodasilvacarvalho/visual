@@ -1,22 +1,4 @@
-const DIRECT_USER_ID_KEYS = [
-  "currentUserId",
-  "userId",
-  "aiSalesUserId"
-];
-
-const USER_OBJECT_KEYS = [
-  "currentUser",
-  "user",
-  "authUser",
-  "aiSalesUser"
-];
-
-const TOKEN_KEYS = [
-  "token",
-  "authToken",
-  "accessToken",
-  "aiSalesToken"
-];
+import { getCurrentUser, getToken } from "./authService";
 
 function readStorageValue(key) {
   if (typeof window === "undefined") {
@@ -32,33 +14,10 @@ function normalizeUserId(value) {
   return normalizedValue || null;
 }
 
-function extractUserIdFromObject(value) {
-  if (!value || typeof value !== "object") {
-    return null;
-  }
-
-  return normalizeUserId(value.userId)
-    || normalizeUserId(value.user_id)
-    || normalizeUserId(value.id)
-    || null;
-}
-
-function parseStoredJson(value) {
-  if (!value) {
-    return null;
-  }
-
-  try {
-    return JSON.parse(value);
-  } catch {
-    return null;
-  }
-}
-
 function decodeJwtPayload(token) {
   const [, payload] = String(token || "").split(".");
 
-  if (!payload) {
+  if (!payload || typeof window === "undefined") {
     return null;
   }
 
@@ -75,6 +34,17 @@ function decodeJwtPayload(token) {
   }
 }
 
+function extractUserId(value) {
+  if (!value || typeof value !== "object") {
+    return null;
+  }
+
+  return normalizeUserId(value.id)
+    || normalizeUserId(value.userId)
+    || normalizeUserId(value.user_id)
+    || normalizeUserId(value.sub);
+}
+
 export function getCurrentUserId() {
   const envUserId = normalizeUserId(import.meta.env.VITE_CURRENT_USER_ID);
 
@@ -82,31 +52,25 @@ export function getCurrentUserId() {
     return envUserId;
   }
 
-  for (const key of DIRECT_USER_ID_KEYS) {
-    const userId = normalizeUserId(readStorageValue(key));
+  const storedUserId = extractUserId(getCurrentUser());
 
-    if (userId) {
-      return userId;
-    }
+  if (storedUserId) {
+    return storedUserId;
   }
 
-  for (const key of USER_OBJECT_KEYS) {
-    const userId = extractUserIdFromObject(parseStoredJson(readStorageValue(key)));
+  const tokenUserId = extractUserId(decodeJwtPayload(getToken()));
 
-    if (userId) {
-      return userId;
-    }
+  if (tokenUserId) {
+    return tokenUserId;
   }
 
-  for (const key of TOKEN_KEYS) {
-    const payload = decodeJwtPayload(readStorageValue(key));
-    const userId = extractUserIdFromObject(payload) || normalizeUserId(payload?.sub);
+  const legacyUserId = normalizeUserId(readStorageValue("userId"))
+    || normalizeUserId(readStorageValue("aiSalesUserId"));
 
-    if (userId) {
-      return userId;
-    }
+  if (legacyUserId) {
+    return legacyUserId;
   }
 
-  // TODO: remover fallback quando autenticação real estiver implementada.
+  // TODO: remover fallback quando autenticação real estiver implementada no Trainer.
   return "1";
 }

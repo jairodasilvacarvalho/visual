@@ -1,7 +1,32 @@
-﻿import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { login } from "../services/authService";
 import "../styles/auth/login.css";
 
 export default function Login() {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [remember, setRemember] = useState(true);
+  const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    try {
+      setIsSubmitting(true);
+      setError("");
+
+      await login({ email, password, remember });
+      navigate("/");
+    } catch (submitError) {
+      setError(submitError.message || "Não foi possível entrar.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
   return (
     <div className="login-page">
       <div className="login-container">
@@ -35,13 +60,34 @@ export default function Login() {
             <span></span>
           </div>
 
-          <form className="login-form">
-            <input type="email" placeholder="Seu e-mail" className="login-input" />
-            <input type="password" placeholder="Sua senha" className="login-input" />
+          <form className="login-form" onSubmit={handleSubmit}>
+            <input
+              type="email"
+              placeholder="Seu e-mail"
+              className="login-input"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              autoComplete="email"
+              required
+            />
+            <input
+              type="password"
+              placeholder="Sua senha"
+              className="login-input"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              autoComplete="current-password"
+              required
+            />
 
             <div className="login-options-row">
               <label className="login-remember-wrapper">
-                <input type="checkbox" className="login-remember-checkbox" />
+                <input
+                  type="checkbox"
+                  className="login-remember-checkbox"
+                  checked={remember}
+                  onChange={(event) => setRemember(event.target.checked)}
+                />
                 <span className="login-remember-label">Mantenha-me conectado</span>
               </label>
 
@@ -50,8 +96,14 @@ export default function Login() {
               </a>
             </div>
 
-            <button type="submit" className="login-submit-button">
-              Entrar
+            {error && (
+              <p role="alert">
+                {error}
+              </p>
+            )}
+
+            <button type="submit" className="login-submit-button" disabled={isSubmitting}>
+              {isSubmitting ? "Entrando..." : "Entrar"}
             </button>
           </form>
 
