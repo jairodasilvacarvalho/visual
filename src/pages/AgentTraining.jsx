@@ -5,6 +5,7 @@ import TrainingInput from "../components/training/TrainingInput";
 import TrainingProgress from "../components/training/TrainingProgress";
 import TrainingSidebar from "../components/training/TrainingSidebar";
 import TrainingInsightPanel from "../components/training/TrainingInsightPanel";
+import { authenticatedFetch } from "../services/authService";
 import { getCurrentUserId } from "../services/currentUser";
 import "../styles/training/agent-training.css";
 
@@ -569,7 +570,7 @@ export default function AgentTraining() {
       setCurrentTraining(null);
       setIsTyping(true);
 
-      const response = await fetch(`${API_BASE_URL}/agent-training/start`);
+      const response = await authenticatedFetch(`${API_BASE_URL}/agent-training/start`);
       const result = await response.json();
       const data = result.data ?? result;
 
@@ -604,7 +605,7 @@ export default function AgentTraining() {
 
       setIsTyping(true);
 
-      const response = await fetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}`);
+      const response = await authenticatedFetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}`);
       const result = await response.json();
 
       if (!response.ok || result.success === false) {
@@ -650,7 +651,7 @@ export default function AgentTraining() {
   async function loadArchivedTrainings() {
     const userId = requireCurrentUserId();
 
-    const response = await fetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/archived`);
+    const response = await authenticatedFetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/archived`);
     const result = await response.json();
 
     if (!response.ok || result.success === false) {
@@ -702,7 +703,7 @@ export default function AgentTraining() {
   }
 
   async function reloadTrainingVersions(userId, trainingId) {
-    const response = await fetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/${trainingId}/versions`);
+    const response = await authenticatedFetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/${trainingId}/versions`);
     const result = await response.json();
 
     if (!response.ok || result.success === false) {
@@ -727,7 +728,7 @@ export default function AgentTraining() {
       clearVersionCompareState();
       setLoadingTrainingVersionId(versionId);
 
-      const response = await fetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/${currentTrainingId}/versions/${versionId}`);
+      const response = await authenticatedFetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/${currentTrainingId}/versions/${versionId}`);
       const result = await response.json();
 
       if (!response.ok || result.success === false) {
@@ -753,7 +754,7 @@ export default function AgentTraining() {
       setIsRestoringTrainingVersion(true);
       setVersionDetailFeedback("");
 
-      const response = await fetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/${currentTrainingId}/versions/${selectedTrainingVersion.id}/restore`, {
+      const response = await authenticatedFetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/${currentTrainingId}/versions/${selectedTrainingVersion.id}/restore`, {
         method: "POST"
       });
       const result = await response.json();
@@ -762,7 +763,7 @@ export default function AgentTraining() {
         throw new Error(result.message || "Erro ao restaurar versão do treinamento.");
       }
 
-      const trainingResponse = await fetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/${currentTrainingId}`);
+      const trainingResponse = await authenticatedFetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/${currentTrainingId}`);
       const trainingResult = await trainingResponse.json();
 
       if (!trainingResponse.ok || trainingResult.success === false || !trainingResult.training) {
@@ -815,7 +816,7 @@ export default function AgentTraining() {
       setVersionCompareFeedback("");
       setIsLoadingVersionComparison(true);
 
-      const response = await fetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/${currentTrainingId}/versions/${selectedTrainingVersion.id}/compare`);
+      const response = await authenticatedFetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/${currentTrainingId}/versions/${selectedTrainingVersion.id}/compare`);
       const result = await response.json();
 
       if (!response.ok || result.success === false) {
@@ -865,7 +866,7 @@ export default function AgentTraining() {
       setManagingTrainingId(training.id);
       setModalFeedback("");
 
-      const response = await fetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/${training.id}/archive`, {
+      const response = await authenticatedFetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/${training.id}/archive`, {
         method: "PATCH"
       });
       const result = await response.json();
@@ -901,7 +902,7 @@ export default function AgentTraining() {
       setManagingTrainingId(training.id);
       setModalFeedback("");
 
-      const response = await fetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/${training.id}`, {
+      const response = await authenticatedFetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/${training.id}`, {
         method: "DELETE"
       });
       const result = await response.json();
@@ -932,7 +933,7 @@ export default function AgentTraining() {
       setManagingTrainingId(training.id);
       setModalFeedback("");
 
-      const response = await fetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/${training.id}/restore`, {
+      const response = await authenticatedFetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/${training.id}/restore`, {
         method: "PATCH"
       });
       const result = await response.json();
@@ -942,7 +943,7 @@ export default function AgentTraining() {
       }
 
       setArchivedTrainings((trainings) => trainings.filter((item) => String(item.id) !== String(training.id)));
-      const activeResponse = await fetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}`);
+      const activeResponse = await authenticatedFetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}`);
       const activeResult = await activeResponse.json();
 
       if (!activeResponse.ok || activeResult.success === false) {
@@ -1038,7 +1039,7 @@ export default function AgentTraining() {
       setIsRenaming(true);
       setSaveFeedback("");
 
-      const response = await fetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/${currentTrainingId}/name`, {
+      const response = await authenticatedFetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/${currentTrainingId}/name`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json; charset=utf-8"
@@ -1088,7 +1089,7 @@ export default function AgentTraining() {
         : `${API_BASE_URL}/agent-training/save`;
       const saveMethod = currentTrainingId ? "PUT" : "POST";
 
-      const response = await fetch(saveUrl, {
+      const response = await authenticatedFetch(saveUrl, {
         method: saveMethod,
         headers: {
           "Content-Type": "application/json; charset=utf-8"
@@ -1137,7 +1138,7 @@ export default function AgentTraining() {
 
       setSelectingProductionId(trainingId);
 
-      const response = await fetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/${trainingId}/select-production`, {
+      const response = await authenticatedFetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/${trainingId}/select-production`, {
         method: "PUT"
       });
       const result = await response.json();
@@ -1223,7 +1224,7 @@ export default function AgentTraining() {
       const agentType = selectedAgentType === "outro"
         ? confirmedCustomAgentType || "custom"
         : selectedAgentType;
-      const response = await fetch(`${API_BASE_URL}/agent-training/answer`, {
+      const response = await authenticatedFetch(`${API_BASE_URL}/agent-training/answer`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json; charset=utf-8"
