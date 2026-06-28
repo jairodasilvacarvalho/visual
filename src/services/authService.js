@@ -1,4 +1,4 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
 const TOKEN_STORAGE_KEY = "token";
 const USER_STORAGE_KEY = "currentUser";
 const USER_ID_STORAGE_KEY = "currentUserId";

@@ -5,11 +5,8 @@ import TrainingInput from "../components/training/TrainingInput";
 import TrainingProgress from "../components/training/TrainingProgress";
 import TrainingSidebar from "../components/training/TrainingSidebar";
 import TrainingInsightPanel from "../components/training/TrainingInsightPanel";
-import { authenticatedFetch } from "../services/authService";
-import { getCurrentUserId } from "../services/currentUser";
+import { API_BASE_URL, authenticatedFetch } from "../services/authService";
 import "../styles/training/agent-training.css";
-
-const API_BASE_URL = "http://localhost:3000";
 
 const AGENT_TYPE_REQUIRED_MESSAGE = "Antes de começar, escolha acima o tipo de agente que você quer treinar.";
 const AGENT_TYPE_BLOCKED_MESSAGE = "Escolha primeiro o tipo de agente no botão acima.";
@@ -260,7 +257,6 @@ function isProductionTraining(training) {
 }
 
 export default function AgentTraining() {
-  const currentUserId = getCurrentUserId();
   const [inputValue, setInputValue] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -343,14 +339,6 @@ export default function AgentTraining() {
     setTrainingData(nextTrainingData);
     setCurrentStep(nextCurrentStep);
     setNextField(resolvedNextField);
-  }
-
-  function requireCurrentUserId() {
-    if (!currentUserId) {
-      throw new Error("Usuário atual não identificado.");
-    }
-
-    return currentUserId;
   }
 
   function showModalFeedback(message, duration = 2600) {
@@ -601,11 +589,9 @@ export default function AgentTraining() {
 
   async function loadUserTrainings() {
     try {
-      const userId = requireCurrentUserId();
-
       setIsTyping(true);
 
-      const response = await authenticatedFetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}`);
+      const response = await authenticatedFetch(`${API_BASE_URL}/agent-training`);
       const result = await response.json();
 
       if (!response.ok || result.success === false) {
@@ -649,9 +635,7 @@ export default function AgentTraining() {
   }
 
   async function loadArchivedTrainings() {
-    const userId = requireCurrentUserId();
-
-    const response = await authenticatedFetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/archived`);
+    const response = await authenticatedFetch(`${API_BASE_URL}/agent-training/archived`);
     const result = await response.json();
 
     if (!response.ok || result.success === false) {
@@ -687,14 +671,12 @@ export default function AgentTraining() {
     }
 
     try {
-      const userId = requireCurrentUserId();
-
       setIsVersionHistoryModalOpen(true);
       setIsLoadingTrainingVersions(true);
       setTrainingVersions([]);
       setVersionHistoryFeedback("");
 
-      await reloadTrainingVersions(userId, currentTrainingId);
+      await reloadTrainingVersions(currentTrainingId);
     } catch (error) {
       setVersionHistoryFeedback(error.message || "Não foi possível carregar o histórico de versões.");
     } finally {
@@ -702,8 +684,8 @@ export default function AgentTraining() {
     }
   }
 
-  async function reloadTrainingVersions(userId, trainingId) {
-    const response = await authenticatedFetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/${trainingId}/versions`);
+  async function reloadTrainingVersions(trainingId) {
+    const response = await authenticatedFetch(`${API_BASE_URL}/agent-training/${trainingId}/versions`);
     const result = await response.json();
 
     if (!response.ok || result.success === false) {
@@ -720,15 +702,13 @@ export default function AgentTraining() {
     }
 
     try {
-      const userId = requireCurrentUserId();
-
       setIsVersionDetailModalOpen(true);
       setSelectedTrainingVersion(null);
       setVersionDetailFeedback("");
       clearVersionCompareState();
       setLoadingTrainingVersionId(versionId);
 
-      const response = await authenticatedFetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/${currentTrainingId}/versions/${versionId}`);
+      const response = await authenticatedFetch(`${API_BASE_URL}/agent-training/${currentTrainingId}/versions/${versionId}`);
       const result = await response.json();
 
       if (!response.ok || result.success === false) {
@@ -749,12 +729,10 @@ export default function AgentTraining() {
     }
 
     try {
-      const userId = requireCurrentUserId();
-
       setIsRestoringTrainingVersion(true);
       setVersionDetailFeedback("");
 
-      const response = await authenticatedFetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/${currentTrainingId}/versions/${selectedTrainingVersion.id}/restore`, {
+      const response = await authenticatedFetch(`${API_BASE_URL}/agent-training/${currentTrainingId}/versions/${selectedTrainingVersion.id}/restore`, {
         method: "POST"
       });
       const result = await response.json();
@@ -763,7 +741,7 @@ export default function AgentTraining() {
         throw new Error(result.message || "Erro ao restaurar versão do treinamento.");
       }
 
-      const trainingResponse = await authenticatedFetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/${currentTrainingId}`);
+      const trainingResponse = await authenticatedFetch(`${API_BASE_URL}/agent-training/${currentTrainingId}`);
       const trainingResult = await trainingResponse.json();
 
       if (!trainingResponse.ok || trainingResult.success === false || !trainingResult.training) {
@@ -782,7 +760,7 @@ export default function AgentTraining() {
       clearVersionCompareState();
 
       try {
-        await reloadTrainingVersions(userId, restoredTrainingId);
+        await reloadTrainingVersions(restoredTrainingId);
       } catch (historyError) {
         console.error("Não foi possível recarregar o histórico de versões:", historyError);
       }
@@ -809,14 +787,12 @@ export default function AgentTraining() {
     }
 
     try {
-      const userId = requireCurrentUserId();
-
       setIsVersionCompareModalOpen(true);
       setSelectedVersionComparison(null);
       setVersionCompareFeedback("");
       setIsLoadingVersionComparison(true);
 
-      const response = await authenticatedFetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/${currentTrainingId}/versions/${selectedTrainingVersion.id}/compare`);
+      const response = await authenticatedFetch(`${API_BASE_URL}/agent-training/${currentTrainingId}/versions/${selectedTrainingVersion.id}/compare`);
       const result = await response.json();
 
       if (!response.ok || result.success === false) {
@@ -861,12 +837,10 @@ export default function AgentTraining() {
     }
 
     try {
-      const userId = requireCurrentUserId();
-
       setManagingTrainingId(training.id);
       setModalFeedback("");
 
-      const response = await authenticatedFetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/${training.id}/archive`, {
+      const response = await authenticatedFetch(`${API_BASE_URL}/agent-training/${training.id}/archive`, {
         method: "PATCH"
       });
       const result = await response.json();
@@ -897,12 +871,10 @@ export default function AgentTraining() {
     }
 
     try {
-      const userId = requireCurrentUserId();
-
       setManagingTrainingId(training.id);
       setModalFeedback("");
 
-      const response = await authenticatedFetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/${training.id}`, {
+      const response = await authenticatedFetch(`${API_BASE_URL}/agent-training/${training.id}`, {
         method: "DELETE"
       });
       const result = await response.json();
@@ -928,12 +900,10 @@ export default function AgentTraining() {
     }
 
     try {
-      const userId = requireCurrentUserId();
-
       setManagingTrainingId(training.id);
       setModalFeedback("");
 
-      const response = await authenticatedFetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/${training.id}/restore`, {
+      const response = await authenticatedFetch(`${API_BASE_URL}/agent-training/${training.id}/restore`, {
         method: "PATCH"
       });
       const result = await response.json();
@@ -943,7 +913,7 @@ export default function AgentTraining() {
       }
 
       setArchivedTrainings((trainings) => trainings.filter((item) => String(item.id) !== String(training.id)));
-      const activeResponse = await authenticatedFetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}`);
+      const activeResponse = await authenticatedFetch(`${API_BASE_URL}/agent-training`);
       const activeResult = await activeResponse.json();
 
       if (!activeResponse.ok || activeResult.success === false) {
@@ -1019,7 +989,6 @@ export default function AgentTraining() {
 
   function buildTrainingPayload() {
     return {
-      userId: requireCurrentUserId(),
       productName: currentTraining?.product_name || trainingData.product?.productName || "Treinamento do Agente de Vendas IA",
       trainingData,
       finalPrompt: finalAgentPrompt
@@ -1034,12 +1003,10 @@ export default function AgentTraining() {
     }
 
     try {
-      const userId = requireCurrentUserId();
-
       setIsRenaming(true);
       setSaveFeedback("");
 
-      const response = await authenticatedFetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/${currentTrainingId}/name`, {
+      const response = await authenticatedFetch(`${API_BASE_URL}/agent-training/${currentTrainingId}/name`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json; charset=utf-8"
@@ -1078,14 +1045,12 @@ export default function AgentTraining() {
 
   async function handleSaveTraining() {
     try {
-      const userId = requireCurrentUserId();
-
       setIsSaving(true);
       setShowSaveSuccess(false);
       setSaveFeedback("");
 
       const saveUrl = currentTrainingId
-        ? `${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/${currentTrainingId}`
+        ? `${API_BASE_URL}/agent-training/${currentTrainingId}`
         : `${API_BASE_URL}/agent-training/save`;
       const saveMethod = currentTrainingId ? "PUT" : "POST";
 
@@ -1134,11 +1099,9 @@ export default function AgentTraining() {
     }
 
     try {
-      const userId = requireCurrentUserId();
-
       setSelectingProductionId(trainingId);
 
-      const response = await authenticatedFetch(`${API_BASE_URL}/agent-training/user/${encodeURIComponent(userId)}/${trainingId}/select-production`, {
+      const response = await authenticatedFetch(`${API_BASE_URL}/agent-training/${trainingId}/select-production`, {
         method: "PUT"
       });
       const result = await response.json();
