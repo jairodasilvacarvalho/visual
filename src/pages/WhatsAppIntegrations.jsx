@@ -13,6 +13,8 @@ const EMPTY_FORM = {
   accessToken: ""
 };
 
+const MASKED_ACCESS_TOKEN = "************************************************";
+
 const WIZARD_STEPS = [
   "Informações",
   "Validar",
@@ -49,10 +51,14 @@ function getStatusLabel(status) {
 
 function getConnectionStatus(integration) {
   if (!integration || integration.status === "inactive") {
-    return "Desativado";
+    return "Desativada";
   }
 
-  if (integration.tokenStatus === "invalid" || integration.webhookStatus === "error") {
+  if (integration.tokenStatus === "invalid") {
+    return "Ativa — token inválido";
+  }
+
+  if (integration.webhookStatus === "error") {
     return "Erro";
   }
 
@@ -64,6 +70,10 @@ function getConnectionStatus(integration) {
 }
 
 function getConnectionStatusKey(integration) {
+  if (integration?.status === "active" && integration?.tokenStatus === "invalid") {
+    return "erro";
+  }
+
   return getConnectionStatus(integration)
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
@@ -81,13 +91,78 @@ function formatLastSync(value) {
 }
 
 function normalizeIntegrationPayload(form) {
-  return {
+  const payload = {
     name: form.name.trim(),
     provider: "meta",
     phoneNumberId: form.phoneNumberId.trim(),
-    displayPhoneNumber: form.displayPhoneNumber.trim(),
-    businessAccountId: form.businessAccountId.trim(),
-    accessToken: form.accessToken.trim()
+    displayPhoneNumber: form.displayPhoneNumber.trim()
+  };
+
+  if (form.businessAccountId.trim() && !form.businessAccountId.includes("@")) {
+    payload.businessAccountId = form.businessAccountId.trim();
+  }
+
+  if (form.accessToken.trim() && form.accessToken.trim() !== MASKED_ACCESS_TOKEN) {
+    payload.accessToken = form.accessToken.trim();
+  }
+
+  return payload;
+}
+
+function isNumericId(value) {
+  return /^\d+$/.test(String(value || "").trim());
+}
+
+function parseIntegrationMetadata(integration) {
+  if (!integration.metadataJson) {
+    return {};
+  }
+
+  try {
+    return JSON.parse(integration.metadataJson);
+  } catch {
+    return {};
+  }
+}
+
+function getStoredBusinessAccountId(integration) {
+  const metadata = parseIntegrationMetadata(integration);
+  const values = [
+    integration.businessAccountId,
+    integration.business_account_id,
+    integration.whatsappBusinessAccountId,
+    integration.whatsapp_business_account_id,
+    integration.wabaId,
+    integration.waba_id,
+    metadata.businessAccountId,
+    metadata.business_account_id,
+    metadata.whatsappBusinessAccountId,
+    metadata.whatsapp_business_account_id,
+    metadata.whatsapp_business_account?.id
+  ];
+
+  return values.find(isNumericId) || values.find((value) => value && !String(value).includes("@")) || "";
+}
+
+function buildFormFromIntegration(integration) {
+  return {
+    name: integration.name || "",
+    provider: integration.provider || "meta",
+    phoneNumberId: integration.phoneNumberId || "",
+    displayPhoneNumber: integration.displayPhoneNumber || "",
+    businessAccountId: getStoredBusinessAccountId(integration),
+    accessToken: MASKED_ACCESS_TOKEN
+  };
+}
+
+function mergeIntegrationPreservingBusinessAccount(currentIntegration, nextIntegration) {
+  const nextBusinessAccountId = getStoredBusinessAccountId(nextIntegration);
+  const currentBusinessAccountId = getStoredBusinessAccountId(currentIntegration || {});
+
+  return {
+    ...currentIntegration,
+    ...nextIntegration,
+    businessAccountId: nextBusinessAccountId || currentBusinessAccountId || ""
   };
 }
 
@@ -101,6 +176,7 @@ export default function WhatsAppIntegrations() {
   const [form, setForm] = useState(EMPTY_FORM);
   const [wizardStep, setWizardStep] = useState(1);
   const [validationResult, setValidationResult] = useState(null);
+  const [validationFeedback, setValidationFeedback] = useState("");
   const [webhookResult, setWebhookResult] = useState(null);
 
   const modalTitle = useMemo(
@@ -112,6 +188,12 @@ export default function WhatsAppIntegrations() {
   const isConnected = Boolean(selectedIntegration && selectedIntegration.status === "active");
   const isTokenValid = selectedIntegration?.tokenStatus === "valid";
   const isWebhookRegistered = selectedIntegration?.webhookStatus === "registered";
+  const hasValidatedToken = isTokenValid || validationResult?.integration?.tokenStatus === "valid";
+  const hasVerifiedPhoneNumber = Boolean(
+    validationResult?.metadata?.id ||
+    validationResult?.metadata?.display_phone_number ||
+    selectedIntegration?.displayPhoneNumber
+  );
 
   async function parseApiResponse(response) {
     const data = await response.json().catch(() => ({}));
@@ -123,19 +205,31 @@ export default function WhatsAppIntegrations() {
     return data;
   }
 
-  async function loadIntegrations() {
-    setIsLoading(true);
+  async function loadIntegrations(showLoading = true) {
+    if (showLoading) {
+      setIsLoading(true);
+    }
+
     setFeedback("");
 
     try {
       const response = await authenticatedFetch(`${API_BASE_URL}/whatsapp-integrations`);
       const data = await parseApiResponse(response);
+      const loadedIntegrations = Array.isArray(data.integrations) ? data.integrations : [];
+      const primaryIntegration = loadedIntegrations.find((integration) => integration.status === "active") || loadedIntegrations[0] || null;
 
-      setIntegrations(Array.isArray(data.integrations) ? data.integrations : []);
+      setIntegrations(loadedIntegrations);
+
+      if (showLoading && primaryIntegration) {
+        setEditingIntegration(primaryIntegration);
+        setForm(buildFormFromIntegration(primaryIntegration));
+      }
     } catch (error) {
       setFeedback(error.message);
     } finally {
-      setIsLoading(false);
+      if (showLoading) {
+        setIsLoading(false);
+      }
     }
   }
 
@@ -148,6 +242,7 @@ export default function WhatsAppIntegrations() {
     setForm(EMPTY_FORM);
     setFeedback("");
     setValidationResult(null);
+    setValidationFeedback("");
     setWebhookResult(null);
     setWizardStep(1);
     setIsModalOpen(true);
@@ -155,16 +250,10 @@ export default function WhatsAppIntegrations() {
 
   function openEditModal(integration) {
     setEditingIntegration(integration);
-    setForm({
-      name: integration.name || "",
-      provider: integration.provider || "meta",
-      phoneNumberId: integration.phoneNumberId || "",
-      displayPhoneNumber: integration.displayPhoneNumber || "",
-      businessAccountId: integration.businessAccountId || "",
-      accessToken: integration.accessToken || ""
-    });
+    setForm(buildFormFromIntegration(integration));
     setFeedback("");
     setValidationResult(null);
+    setValidationFeedback("");
     setWebhookResult(null);
     setWizardStep(1);
     setIsModalOpen(true);
@@ -180,6 +269,7 @@ export default function WhatsAppIntegrations() {
     setForm(EMPTY_FORM);
     setWizardStep(1);
     setValidationResult(null);
+    setValidationFeedback("");
     setWebhookResult(null);
     setFeedback("");
   }
@@ -190,21 +280,28 @@ export default function WhatsAppIntegrations() {
     }
 
     setIsModalOpen(false);
-    setEditingIntegration(null);
-    setForm(EMPTY_FORM);
+    const restoredIntegration = selectedIntegration
+      ? mergeIntegrationPreservingBusinessAccount({ businessAccountId: form.businessAccountId }, selectedIntegration)
+      : null;
+
+    setEditingIntegration(restoredIntegration);
+    setForm(restoredIntegration ? buildFormFromIntegration(restoredIntegration) : EMPTY_FORM);
     setWizardStep(1);
     setValidationResult(null);
+    setValidationFeedback("");
     setWebhookResult(null);
   }
 
   function updateFormField(field, value) {
     setForm((currentForm) => ({
       ...currentForm,
-      [field]: value
+      [field]: field === "businessAccountId" && String(value).includes("@")
+        ? currentForm.businessAccountId
+        : value
     }));
   }
 
-  async function handleSave(event) {
+  async function handleSave(event, validateAfterSave = false) {
     event.preventDefault();
     setIsSaving(true);
     setFeedback("");
@@ -224,7 +321,14 @@ export default function WhatsAppIntegrations() {
       }));
 
       if (data.integration) {
-        setEditingIntegration(data.integration);
+        setEditingIntegration((currentIntegration) => (
+          mergeIntegrationPreservingBusinessAccount(currentIntegration, data.integration)
+        ));
+      }
+
+      if (validateAfterSave && data.integration?.id) {
+        await handleValidateIntegration(data.integration.id);
+        return;
       }
 
       await loadIntegrations();
@@ -236,33 +340,90 @@ export default function WhatsAppIntegrations() {
     }
   }
 
-  async function handleValidateIntegration() {
-    if (!editingIntegration?.id) {
-      setFeedback("Salve as informações da integração antes de validar.");
-      setWizardStep(1);
+  async function handleValidateIntegration(integrationId = editingIntegration?.id) {
+    if (!integrationId) {
+      setValidationFeedback("Selecione uma integração salva antes de validar as credenciais.");
       return;
     }
 
     setIsSaving(true);
     setFeedback("");
+    setValidationFeedback("");
 
     try {
+      const validateUrl = `${API_BASE_URL}/whatsapp-integrations/${integrationId}/validate`;
+
       const data = await parseApiResponse(await authenticatedFetch(
-        `${API_BASE_URL}/whatsapp-integrations/${editingIntegration.id}/validate`,
+        validateUrl,
         { method: "POST" }
       ));
 
       if (data.integration) {
-        setEditingIntegration(data.integration);
+        setEditingIntegration((currentIntegration) => (
+          mergeIntegrationPreservingBusinessAccount(currentIntegration, data.integration)
+        ));
+        setIntegrations((currentIntegrations) => (
+          currentIntegrations.map((integration) => (
+            integration.id === data.integration.id
+              ? mergeIntegrationPreservingBusinessAccount(integration, data.integration)
+              : integration
+          ))
+        ));
       }
 
       setValidationResult(data);
+      setValidationFeedback("Credenciais válidas");
       setWebhookResult(data.webhook || null);
-      await loadIntegrations();
       setWizardStep(3);
-      window.setTimeout(() => setWizardStep(4), 250);
+      loadIntegrations(false);
     } catch (error) {
-      setFeedback(error.message);
+      setValidationResult(null);
+      setValidationFeedback(error.message);
+    } finally {
+      setIsSaving(false);
+    }
+  }
+
+  async function handleRegisterWebhook(integrationId = editingIntegration?.id || selectedIntegration?.id) {
+    if (!integrationId) {
+      setWebhookResult({
+        message: "Selecione uma integração salva antes de registrar o webhook."
+      });
+      return;
+    }
+
+    setIsSaving(true);
+    setWebhookResult(null);
+
+    try {
+      const data = await parseApiResponse(await authenticatedFetch(
+        `${API_BASE_URL}/whatsapp-integrations/${integrationId}/register-webhook`,
+        { method: "POST" }
+      ));
+
+      if (data.integration) {
+        setEditingIntegration((currentIntegration) => (
+          mergeIntegrationPreservingBusinessAccount(currentIntegration, data.integration)
+        ));
+        setIntegrations((currentIntegrations) => (
+          currentIntegrations.map((integration) => (
+            integration.id === data.integration.id
+              ? mergeIntegrationPreservingBusinessAccount(integration, data.integration)
+              : integration
+          ))
+        ));
+      }
+
+      setWebhookResult({
+        ...data.webhook,
+        message: "Webhook registrado com sucesso"
+      });
+      setWizardStep(4);
+      loadIntegrations(false);
+    } catch (error) {
+      setWebhookResult({
+        message: error.message
+      });
     } finally {
       setIsSaving(false);
     }
@@ -374,10 +535,21 @@ export default function WhatsAppIntegrations() {
             <button type="button" className="agent-training-rename-modal__secondary" onClick={() => setWizardStep(1)}>
               Voltar
             </button>
-            <button type="button" className="agent-training-rename-modal__primary" onClick={handleValidateIntegration} disabled={isSaving}>
+            <button
+              type="button"
+              className="agent-training-rename-modal__primary"
+              onClick={() => handleValidateIntegration(editingIntegration?.id || selectedIntegration?.id)}
+              disabled={isSaving}
+            >
               {isSaving ? "Validando..." : "Validar credenciais"}
             </button>
           </div>
+
+          {validationFeedback ? (
+            <div className="agent-training-training-modal__feedback" role="status">
+              {validationFeedback}
+            </div>
+          ) : null}
         </div>
       );
     }
@@ -387,7 +559,21 @@ export default function WhatsAppIntegrations() {
         <div className="whatsapp-integrations-wizard-step">
           <Webhook size={28} />
           <strong>Registrar Webhook.</strong>
-          <p>{webhookResult?.message || "Registrando Webhook."}</p>
+          <p>{webhookResult?.message || "Registre o webhook para receber eventos oficiais da Meta."}</p>
+
+          <div className="agent-training-rename-modal__actions">
+            <button type="button" className="agent-training-rename-modal__secondary" onClick={() => setWizardStep(2)}>
+              Voltar
+            </button>
+            <button
+              type="button"
+              className="agent-training-rename-modal__primary"
+              onClick={() => handleRegisterWebhook(editingIntegration?.id || selectedIntegration?.id)}
+              disabled={isSaving}
+            >
+              {isSaving ? "Registrando..." : "Registrar Webhook"}
+            </button>
+          </div>
         </div>
       );
     }
@@ -398,6 +584,7 @@ export default function WhatsAppIntegrations() {
         <strong>
           {validationResult?.success ? "Integração concluída." : "Integração concluída."}
         </strong>
+        <p>{webhookResult?.message || "Webhook registrado com sucesso"}</p>
 
         <div className="agent-training-rename-modal__actions">
           <button type="button" className="agent-training-rename-modal__primary" onClick={closeModal}>
@@ -446,7 +633,7 @@ export default function WhatsAppIntegrations() {
           {feedback ? <div className="agent-training-training-modal__feedback">{feedback}</div> : null}
 
           <div className="whatsapp-integrations-guided-layout">
-            <form className="whatsapp-integrations-connect-card" onSubmit={handleSave}>
+            <form className="whatsapp-integrations-connect-card" onSubmit={(event) => handleSave(event, true)} autoComplete="off">
               <div className="whatsapp-integrations-connect-card__header">
                 <div>
                   <span>Conectar nova conta WhatsApp</span>
@@ -460,6 +647,8 @@ export default function WhatsAppIntegrations() {
                 <label className="whatsapp-integrations-field">
                   Nome da integração
                   <input
+                    autoComplete="off"
+                    name="whatsappIntegrationName"
                     value={form.name}
                     onChange={(event) => updateFormField("name", event.target.value)}
                   />
@@ -468,6 +657,9 @@ export default function WhatsAppIntegrations() {
                 <label className="whatsapp-integrations-field">
                   Phone Number ID
                   <input
+                    autoComplete="off"
+                    inputMode="numeric"
+                    name="whatsappPhoneNumberId"
                     value={form.phoneNumberId}
                     onChange={(event) => updateFormField("phoneNumberId", event.target.value)}
                   />
@@ -476,6 +668,8 @@ export default function WhatsAppIntegrations() {
                 <label className="whatsapp-integrations-field">
                   Access Token
                   <input
+                    autoComplete="new-password"
+                    name="whatsappAccessToken"
                     type="password"
                     value={form.accessToken}
                     onChange={(event) => updateFormField("accessToken", event.target.value)}
@@ -485,6 +679,9 @@ export default function WhatsAppIntegrations() {
                 <label className="whatsapp-integrations-field">
                   Business Account ID
                   <input
+                    autoComplete="off"
+                    inputMode="numeric"
+                    name="whatsappBusinessAccountId"
                     value={form.businessAccountId}
                     onChange={(event) => updateFormField("businessAccountId", event.target.value)}
                   />
@@ -602,9 +799,11 @@ export default function WhatsAppIntegrations() {
                         <button
                           type="button"
                           className="agent-training-saved-choice__link"
-                          onClick={() => runIntegrationAction(`/whatsapp-integrations/${integration.id}/deactivate`)}
+                          onClick={() => runIntegrationAction(
+                            `/whatsapp-integrations/${integration.id}/${integration.status === "inactive" ? "activate" : "deactivate"}`
+                          )}
                         >
-                          Desativar
+                          {integration.status === "inactive" ? "Ativar" : "Desativar"}
                         </button>
                       </div>
                     </article>
@@ -624,7 +823,7 @@ export default function WhatsAppIntegrations() {
               <WhatsAppBrandIcon size={26} />
             </div>
 
-            <p>{integrations.length} integra&ccedil;&atilde;o(&otilde;es) cadastrada(s).</p>
+            <p>{integrations.length} integrações cadastradas.</p>
 
             <div className="agent-training-insight-panel__divider" />
 
@@ -675,11 +874,11 @@ export default function WhatsAppIntegrations() {
                 <span />
                 <p>Conta Meta Business</p>
               </div>
-              <div className="whatsapp-integrations-side-card__item is-pending">
+              <div className={`whatsapp-integrations-side-card__item ${hasVerifiedPhoneNumber ? "is-done" : "is-pending"}`}>
                 <span />
                 <p>Número de telefone verificado</p>
               </div>
-              <div className="whatsapp-integrations-side-card__item is-pending">
+              <div className={`whatsapp-integrations-side-card__item ${hasValidatedToken ? "is-done" : "is-pending"}`}>
                 <span />
                 <p>Token com permissões adequadas</p>
               </div>
