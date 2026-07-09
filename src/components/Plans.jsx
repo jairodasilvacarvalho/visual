@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { API_BASE_URL } from "../services/authService";
 import "../styles/institucional/institucional-plans.css";
 
 const billingOptions = [
@@ -8,8 +9,9 @@ const billingOptions = [
   { id: "2y", label: "2 anos", discount: 0.25, suffix: "por usuário/mês" },
 ];
 
-const plans = [
+const fallbackPlans = [
   {
+    id: "growth",
     name: "Básico",
     basePrice: 97,
     className: "plan-card-basic",
@@ -25,6 +27,7 @@ const plans = [
     ],
   },
   {
+    id: "pro",
     name: "Pro",
     basePrice: 197,
     className: "plan-card-pro is-featured",
@@ -41,6 +44,7 @@ const plans = [
     ],
   },
   {
+    id: "premium",
     name: "Premium",
     basePrice: 297,
     className: "plan-card-premium",
@@ -57,9 +61,79 @@ const plans = [
   },
 ];
 
+const landingPlanPresentation = {
+  growth: {
+    name: "Básico",
+    className: "plan-card-basic"
+  },
+  pro: {
+    name: "Pro",
+    className: "plan-card-pro is-featured",
+    badge: "MAIS ESCOLHIDO"
+  },
+  premium: {
+    name: "Premium",
+    className: "plan-card-premium"
+  }
+};
+
+function mapBackendPlansToLandingPlans(backendPlans = []) {
+  const backendPlansById = new Map(
+    backendPlans.map((plan) => [plan.id, plan])
+  );
+
+  const mappedPlans = fallbackPlans
+    .map((fallbackPlan) => {
+      const backendPlan = backendPlansById.get(fallbackPlan.id);
+      const presentation = landingPlanPresentation[fallbackPlan.id];
+
+      if (!backendPlan || !presentation) {
+        return null;
+      }
+
+      return {
+        ...fallbackPlan,
+        ...presentation,
+        id: backendPlan.id,
+        basePrice: backendPlan.pricing?.monthly ?? fallbackPlan.basePrice
+      };
+    })
+    .filter(Boolean);
+
+  return mappedPlans.length === fallbackPlans.length ? mappedPlans : fallbackPlans;
+}
+
 export default function Plans() {
   const [billingCycle, setBillingCycle] = useState("6m");
+  const [displayPlans, setDisplayPlans] = useState(fallbackPlans);
   const selectedBilling = billingOptions.find((option) => option.id === billingCycle) ?? billingOptions[0];
+
+  useEffect(() => {
+    let isMounted = true;
+
+    async function loadPlans() {
+      try {
+        const response = await fetch(`${API_BASE_URL}/plans`);
+        const result = await response.json().catch(() => ({}));
+
+        if (!response.ok || !Array.isArray(result.data)) {
+          return;
+        }
+
+        if (isMounted) {
+          setDisplayPlans(mapBackendPlansToLandingPlans(result.data));
+        }
+      } catch {
+        // Mantém o fallback local quando a API pública de planos estiver indisponível.
+      }
+    }
+
+    loadPlans();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const formatPrice = (price) => {
     const discountedPrice = Math.round(price * (1 - selectedBilling.discount));
@@ -91,8 +165,8 @@ export default function Plans() {
       </div>
 
       <div className="plans-grid">
-        {plans.map((plan) => (
-          <article key={plan.name} className={`plan-card ${plan.className}`}>
+        {displayPlans.map((plan) => (
+          <article key={plan.id} className={`plan-card ${plan.className}`}>
             {plan.badge && <span className="plan-badge">{plan.badge}</span>}
 
             <h4 className="plan-name">{plan.name}</h4>
