@@ -77,9 +77,33 @@ const landingPlanPresentation = {
   }
 };
 
+function isValidMonthlyPrice(price) {
+  return typeof price === "number" && Number.isFinite(price) && price >= 0;
+}
+
+function getBackendFeatureKey(feature) {
+  return String(feature).includes("WhatsApp") ? "whatsappIntegrations" : null;
+}
+
+function mapBackendFeaturesToLandingFeatures(backendFeatures, fallbackFeatures) {
+  if (!backendFeatures || typeof backendFeatures !== "object" || Array.isArray(backendFeatures)) {
+    return fallbackFeatures;
+  }
+
+  return fallbackFeatures.map(([feature, included]) => {
+    const backendFeatureKey = getBackendFeatureKey(feature);
+
+    return backendFeatureKey && typeof backendFeatures[backendFeatureKey] === "boolean"
+      ? [feature, backendFeatures[backendFeatureKey]]
+      : [feature, included];
+  });
+}
+
 function mapBackendPlansToLandingPlans(backendPlans = []) {
   const backendPlansById = new Map(
-    backendPlans.map((plan) => [plan.id, plan])
+    backendPlans
+      .filter((plan) => plan?.id)
+      .map((plan) => [plan.id, plan])
   );
 
   const mappedPlans = fallbackPlans
@@ -95,7 +119,19 @@ function mapBackendPlansToLandingPlans(backendPlans = []) {
         ...fallbackPlan,
         ...presentation,
         id: backendPlan.id,
-        basePrice: backendPlan.pricing?.monthly ?? fallbackPlan.basePrice
+        name: typeof backendPlan.name === "string" && backendPlan.name.trim()
+          ? backendPlan.name
+          : fallbackPlan.name,
+        description: typeof backendPlan.description === "string"
+          ? backendPlan.description
+          : fallbackPlan.description,
+        basePrice: isValidMonthlyPrice(backendPlan.pricing?.monthly)
+          ? backendPlan.pricing.monthly
+          : fallbackPlan.basePrice,
+        features: mapBackendFeaturesToLandingFeatures(backendPlan.features, fallbackPlan.features),
+        limits: backendPlan.limits && typeof backendPlan.limits === "object" && !Array.isArray(backendPlan.limits)
+          ? backendPlan.limits
+          : fallbackPlan.limits
       };
     })
     .filter(Boolean);
@@ -117,13 +153,18 @@ export default function Plans() {
         const result = await response.json().catch(() => ({}));
 
         if (!response.ok || !Array.isArray(result.data)) {
+          console.warn("Nao foi possivel carregar o catalogo de planos.", {
+            status: response.status,
+            response: result
+          });
           return;
         }
 
         if (isMounted) {
           setDisplayPlans(mapBackendPlansToLandingPlans(result.data));
         }
-      } catch {
+      } catch (error) {
+        console.error("Falha ao carregar o catalogo publico de planos.", error);
         // Mantém o fallback local quando a API pública de planos estiver indisponível.
       }
     }
@@ -136,7 +177,8 @@ export default function Plans() {
   }, []);
 
   const formatPrice = (price) => {
-    const discountedPrice = Math.round(price * (1 - selectedBilling.discount));
+    const safePrice = isValidMonthlyPrice(price) ? price : 0;
+    const discountedPrice = Math.round(safePrice * (1 - selectedBilling.discount));
     return `R$${discountedPrice}`;
   };
 
